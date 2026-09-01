@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f3efe7" />
+  <title>KEUS · Lighting Catalogue</title>
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="brandbar">
+      <div class="brand">KEUS</div>
+      <div class="brand-meta">Lighting Product Catalogue</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Product Library</div>
+        <h1 id="sectionTitle">Downlights</h1>
+      </div>
+      <p>
+        Explore KEUS lighting products, finishes and technical variants.
+        Catalogue content is loaded automatically from CSV files stored inside this website.
+      </p>
+    </section>
+
+    <nav class="category-tabs" id="categoryTabs" aria-label="Catalogue categories"></nav>
+
+    <section class="toolbar">
+      <div class="primary-filter">
+        <label for="productFilter">Product</label>
+        <select id="productFilter">
+          <option value="">All Products</option>
+        </select>
+      </div>
+
+      <div class="filters">
+        <div class="field search-field">
+          <label for="searchInput">Search</label>
+          <input id="searchInput" type="search" placeholder="Name, item no., stock code…" />
+        </div>
+
+        <div class="field">
+          <label for="finishFilter">Finish</label>
+          <select id="finishFilter"><option value="">All Finishes</option></select>
+        </div>
+
+        <div class="field">
+          <label for="cctFilter">CCT</label>
+          <select id="cctFilter"><option value="">All CCT</option></select>
+        </div>
+
+        <div class="field">
+          <label for="wattageFilter">Wattage</label>
+          <select id="wattageFilter"><option value="">All Wattages</option></select>
+        </div>
+      </div>
+
+      <div class="result-meta">
+        <span id="resultCount">0 products</span>
+        <button id="clearFilters" type="button">Clear Filters</button>
+      </div>
+    </section>
+
+    <section id="status" class="status">Loading catalogue…</section>
+    <section class="grid" id="grid" aria-live="polite"></section>
+
+    <footer class="footer">
+      <span>KEUS</span>
+      <span>Smart Living · Lighting Catalogue</span>
+    </footer>
+  </main>
+
+  <dialog id="productDialog" class="product-dialog">
+    <button class="dialog-close" id="dialogClose" aria-label="Close">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <script src="./assets/js/app.js" defer></script>
+</body>
+</html>
