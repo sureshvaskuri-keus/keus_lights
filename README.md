@@ -1,95 +1,88 @@
-# KEUS Static Lighting Catalogue
+# KEUS Lighting Catalogue — GitHub-ready static site
 
-This is a static website. It automatically reads CSV files stored inside the project.
+This project uses the supplied KEUS catalogue HTML design and automatically loads CSV files from the `data` folder.
 
-## Folder structure
+## Structure
 
 ```text
-keus_static_catalogue/
+keus_lighting_catalogue_github/
 ├── index.html
-├── assets/
-│   ├── css/
-│   │   └── styles.css
-│   └── js/
-│       └── app.js
-└── data/
-    ├── downlights.csv
-    ├── tracklights.csv
-    ├── profiles.csv
-    └── outdoor-lights.csv
+├── README.md
+├── .nojekyll
+├── data/
+│   ├── downlights.csv
+│   ├── tracklights.csv
+│   ├── profiles.csv
+│   └── outdoor-lights.csv
+└── assets/
+    └── images/
+        ├── downlight.svg
+        ├── tracklight.svg
+        ├── profile.svg
+        └── outdoor.svg
 ```
 
-## How it works
+## Category → CSV mapping
 
-`assets/js/app.js` maps each category tab to one CSV file:
+- Down Lights → `data/downlights.csv`
+- Track Lights → `data/tracklights.csv`
+- Profiles → `data/profiles.csv`
+- Outdoor Lights → `data/outdoor-lights.csv`
 
-- Downlights → `./data/downlights.csv`
-- Tracklights → `./data/tracklights.csv`
-- Profiles → `./data/profiles.csv`
-- Outdoor Lights → `./data/outdoor-lights.csv`
+Visitors do not upload CSV files. Clicking a tab automatically fetches the matching CSV.
 
-When a visitor clicks a category, JavaScript fetches the matching CSV, parses it in the browser, groups rows by product name, detects finishes from Stock Code, and renders the catalogue.
+## CSV columns
 
-There is NO "upload CSV" step for the visitor.
-
-## Required CSV headers
-
-Keep these column names:
+Keep these headers exactly (the code also accepts several common aliases):
 
 ```text
 Name,Item No,Vf,Imax,CCT,CRI,Cutout,Beam Angle,Wattage,Batch Code,Stock Code,IMAGE
 ```
 
-You can add or replace rows freely. Keep the file names unchanged unless you also edit `CATEGORIES` inside `assets/js/app.js`.
+## Finish codes
 
-## Finish codes recognised
+The last stock-code segment can be:
 
-```text
-W   = White
-B   = Mat Black
-CG  = Champagne Gold
-RG  = Rose Gold
-BR  = Brown
-COF = Coffee
-DGR = Dark Gray
-BB  = Ballet Blue
-CH  = Chrome
-CHB = Chrome Black
-```
+- W = White
+- B = Mat Black
+- CG = Champagne Gold
+- RG = Rose Gold
+- BR = Brown
+- COF = Coffee
+- DGR = Dark Gray
+- BB = Ballet Blue
+- CH = Chrome
+- CHB = Chrome Black
 
-The finish code should preferably be the final part of Stock Code, e.g.:
+Example: `ATP15/CHB`.
 
-```text
-ATP15/W
-ATP15/B
-ATP15/CG
-ATP15/CHB
-```
+When a product such as Altair Prime 15 is selected, the catalogue displays one card for every available finish in that product's CSV rows.
 
-## Publishing on GitHub Pages
+## Replacing dummy data
+
+Replace the contents of the CSV files but keep the same file names. You do not need to edit `index.html`.
+
+The bundled SVG images are only local placeholders for this demo. In your final CSV, put your actual hosted image URL in the `IMAGE` column.
+
+## GitHub Pages
 
 1. Create a GitHub repository.
-2. Upload the entire contents of this folder.
-3. Go to Settings → Pages.
-4. Source: Deploy from a branch.
-5. Branch: `main`.
-6. Folder: `/ (root)`.
-7. Save.
+2. Upload everything inside this folder to the repository root.
+3. Open Settings → Pages.
+4. Choose **Deploy from a branch**.
+5. Select `main` and `/ (root)`.
+6. Save.
 
-GitHub Pages will serve `index.html`.
+GitHub Pages will serve `index.html` and the browser will fetch the CSV files from the `data` folder.
 
-## Updating catalogue data later
+## Local preview
 
-Replace only the CSV you need inside `/data`.
+Do not rely on double-clicking `index.html`, because browsers can block CSV `fetch()` under `file://`.
 
-Example:
-- update downlights only → replace `data/downlights.csv`
-- no HTML or JavaScript change required
+From this folder you can run:
 
-Commit/push the change to GitHub and the website will use the new CSV automatically.
+```bash
+python -m http.server 8000
+```
 
-## Important
-
-Do not test by double-clicking `index.html` and opening it with a `file://` URL. Browsers can block `fetch()` from local files.
-
-Use GitHub Pages, VS Code Live Server, Python `http.server`, or another HTTP server.
+Then open `http://localhost:8000/`.
