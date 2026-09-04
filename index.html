@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>KEUS · Lighting Catalogue</title>
+<title>KEUS · Down Lights Catalogue</title>
 <style>
   *{box-sizing:border-box}
   :root{
@@ -24,12 +24,9 @@
   .load-row{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
   .btn{border:1px solid #aaa49b;background:transparent;color:var(--ink);border-radius:999px;padding:9px 14px;font-size:11px;transition:.18s ease}
   .btn:hover:not(:disabled){background:var(--ink);border-color:var(--ink);color:#fff}.btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}.btn.primary:hover{background:#2a2a2a}.btn:disabled{opacity:.3;cursor:default}
+  #csvInput{display:none}
   .data-strip{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}
   .status strong{color:var(--ink);font-weight:600}.hint{text-align:right}
-
-  .category-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:16px 0 4px}
-  .category-tab{min-height:44px;border:1px solid #bdb6ac;background:rgba(255,255,255,.42);color:var(--ink);padding:0 14px;border-radius:2px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;transition:.18s ease}
-  .category-tab:hover,.category-tab.active{background:var(--black);border-color:var(--black);color:#fff}
 
   .filter-shell{position:sticky;top:0;z-index:30;padding:12px 0 10px;background:rgba(242,239,233,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-bottom:18px}
   .toolbar{display:grid;grid-template-columns:minmax(260px,1.55fr) repeat(3,minmax(145px,.58fr)) auto;gap:9px}
@@ -37,7 +34,7 @@
   .field{height:42px;width:100%;border:1px solid #cfc9c0;background:rgba(255,255,255,.68);color:var(--ink);border-radius:2px;padding:0 12px;outline:none;font-size:12px}
   .field:focus{border-color:#6e675e;background:#fff}.reset-btn,.more-btn{height:42px;border-radius:2px;white-space:nowrap}
   .advanced{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;max-height:0;opacity:0;overflow:hidden;transition:max-height .24s ease,opacity .18s ease,padding .24s ease;padding-top:0}
-  .advanced.open{max-height:190px;opacity:1;padding-top:9px}
+  .advanced.open{max-height:260px;opacity:1;padding-top:9px}
   .finish-panel{padding-top:10px;display:flex;align-items:flex-start;gap:12px}
   .finish-title{flex:0 0 auto;padding-top:6px;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
   .finish-chips{display:flex;gap:7px;flex-wrap:wrap}
@@ -66,7 +63,7 @@
   .card-body{padding:16px 16px 12px}.card-kicker{margin-bottom:7px;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);min-height:12px}
   .card-title{margin:0 0 13px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;line-height:1.05}
   .spec-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line2)}.mini-spec{padding-top:10px}.mini-spec:nth-child(even){padding-left:12px;border-left:1px solid var(--line2)}
-  .mini-label{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:#999188;margin-bottom:4px}.mini-value{font-size:11px;color:#2d2925;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mini-label{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:#999188;margin-bottom:4px}.mini-value{font-size:11px;color:#2d2925;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mini-value.beam-values{white-space:normal;overflow:visible;text-overflow:clip}
   .card-finishes{display:flex;align-items:center;gap:6px;min-height:29px;margin:11px 0 0;padding-top:10px;border-top:1px solid var(--line2)}
   .card-finish-label{margin-right:2px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#9a938a}.card-swatch{width:19px;height:19px;border:1px solid transparent;border-radius:50%;padding:2px;background:transparent;display:inline-flex;align-items:center;justify-content:center}
   .card-swatch .swatch{width:13px;height:13px}.card-swatch:hover,.card-swatch.active{border-color:#111}.more-finishes{font-size:9px;color:var(--muted);margin-left:2px}
@@ -83,24 +80,38 @@
   .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.thumb{width:68px;height:68px;padding:4px;border:1px solid var(--line);background:#fff}.thumb.active{border-color:#111;box-shadow:inset 0 0 0 1px #111}.thumb img{width:100%;height:100%;object-fit:contain}.finish-note{margin-top:10px;font-size:10px;color:var(--muted)}
   .info-col{padding:34px}.detail-kicker{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}.detail-title{margin:0 0 6px;font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:42px;line-height:1}.detail-sub{font-size:11px;color:var(--muted);margin-bottom:24px}
   .spec-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}.spec-cell{min-height:76px;padding:12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.spec-label{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:#918a81;margin-bottom:6px}.spec-value{font-size:12px;line-height:1.35}
-  .variants{padding:0 34px 34px}.variants-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:4px 0 12px}.variants h3{margin:0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400}.variant-filter-note{font-size:10px;color:var(--muted);text-align:right}.table-wrap{overflow:auto;border:1px solid var(--line)}table{border-collapse:collapse;width:100%;min-width:980px;background:#fff}th,td{padding:10px 11px;border-bottom:1px solid var(--line2);border-right:1px solid var(--line2);text-align:left;white-space:nowrap}th{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#817a72;background:#f5f2ed;font-weight:600}td{font-size:10px;color:#292621}tr:last-child td{border-bottom:0}td:last-child,th:last-child{border-right:0}.stock{font-family:'Courier New',monospace;font-size:10px}.finish-cell{display:flex;align-items:center;gap:7px}.finish-cell .swatch{width:14px;height:14px}
-  @media(max-width:1120px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.toolbar{grid-template-columns:1.4fr repeat(2,1fr) auto}.toolbar .watt-main{display:none}.advanced{grid-template-columns:repeat(3,minmax(0,1fr))}.advanced.open{max-height:250px}.detail-wrap{grid-template-columns:1fr}.visual-col{border-right:0;border-bottom:1px solid var(--line)}}
-  @media(max-width:780px){.topbar-inner,.shell{padding-left:16px;padding-right:16px}.category-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding-top:12px}.category-tab{min-height:46px;font-size:10px;padding:0 8px}.hero{grid-template-columns:1fr}.hero-side{text-align:left}.load-row{justify-content:flex-start}.filter-shell{padding-top:10px}.toolbar{grid-template-columns:1fr 1fr;gap:8px}.mobile-product-label{display:block;grid-column:1/-1;order:1;margin:0 0 -2px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#4b4640}.toolbar .product-main{display:block;grid-column:1/-1;order:2;height:50px;border:2px solid #111;background:#fff;font-size:13px;font-weight:650;padding:0 14px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.toolbar .product-main:focus{border-color:#111;box-shadow:0 0 0 2px rgba(17,17,17,.08)}.toolbar .search{grid-column:1/-1;order:3}.toolbar #cctFilter{order:4}.toolbar .watt-main{display:block;order:5}.toolbar .more-btn{order:6}.more-btn,.reset-btn{width:100%}.advanced{grid-template-columns:repeat(2,minmax(0,1fr))}.advanced.open{max-height:350px}.finish-panel{flex-direction:column;gap:6px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.spec-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.info-col,.visual-col,.variants{padding:20px}.detail-title{font-size:34px}.data-strip{align-items:flex-start;flex-direction:column}.hint{text-align:left}}
-  @media(max-width:520px){.grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.mobile-product-label,.toolbar .product-main,.toolbar .search{grid-column:1/-1}.toolbar #cctFilter,.toolbar .watt-main,.toolbar .more-btn{grid-column:1/-1}.toolbar .product-main{height:52px;font-size:14px}.advanced{grid-template-columns:1fr}.advanced.open{max-height:650px}.spec-grid{grid-template-columns:1fr}.modal{padding:0}.modal-panel{margin:0;min-height:100vh}.finish-chip{font-size:9px}.catalogue-head{align-items:flex-start;flex-direction:column;gap:6px}.catalogue-count{text-align:left}}
+  .variants{padding:0 34px 34px}.variants-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:4px 0 12px}.variants h3{margin:0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400}.variant-filter-note{font-size:10px;color:var(--muted);text-align:right}.table-wrap{overflow:auto;border:1px solid var(--line)}table{border-collapse:collapse;width:100%;min-width:1500px;background:#fff}th,td{padding:10px 11px;border-bottom:1px solid var(--line2);border-right:1px solid var(--line2);text-align:left;white-space:nowrap}th{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#817a72;background:#f5f2ed;font-weight:600}td{font-size:10px;color:#292621}tr:last-child td{border-bottom:0}td:last-child,th:last-child{border-right:0}.stock{font-family:'Courier New',monospace;font-size:10px}.bis-spec-cell{white-space:normal;min-width:260px;max-width:360px;line-height:1.5;word-break:normal;overflow-wrap:anywhere}.mfg-cell{white-space:normal;min-width:320px;line-height:1.45}.mrp-cell{font-weight:600}.finish-cell{display:flex;align-items:center;gap:7px}.finish-cell .swatch{width:14px;height:14px}
+  .drop-highlight:after{content:'Drop CSV to load catalogue';position:fixed;inset:14px;z-index:999;display:flex;align-items:center;justify-content:center;border:2px dashed #fff;background:rgba(0,0,0,.8);color:#fff;font-family:Georgia,'Times New Roman',serif;font-size:32px}
+
+  @media(max-width:1120px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.toolbar{grid-template-columns:1.4fr repeat(2,1fr) auto}.toolbar .watt-main{display:none}.advanced{grid-template-columns:repeat(3,minmax(0,1fr))}.advanced.open{max-height:340px}.detail-wrap{grid-template-columns:1fr}.visual-col{border-right:0;border-bottom:1px solid var(--line)}}
+  @media(max-width:780px){.topbar-inner,.shell{padding-left:16px;padding-right:16px}.hero{grid-template-columns:1fr}.hero-side{text-align:left}.load-row{justify-content:flex-start}.filter-shell{padding-top:10px}.toolbar{grid-template-columns:1fr 1fr;gap:8px}.mobile-product-label{display:block;grid-column:1/-1;order:1;margin:0 0 -2px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#4b4640}.toolbar .product-main{display:block;grid-column:1/-1;order:2;height:50px;border:2px solid #111;background:#fff;font-size:13px;font-weight:650;padding:0 14px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.toolbar .product-main:focus{border-color:#111;box-shadow:0 0 0 2px rgba(17,17,17,.08)}.toolbar .search{grid-column:1/-1;order:3}.toolbar #cctFilter{order:4}.toolbar .watt-main{display:block;order:5}.toolbar .more-btn{order:6}.more-btn,.reset-btn{width:100%}.advanced{grid-template-columns:repeat(2,minmax(0,1fr))}.advanced.open{max-height:500px}.finish-panel{flex-direction:column;gap:6px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.spec-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.info-col,.visual-col,.variants{padding:20px}.detail-title{font-size:34px}.data-strip{align-items:flex-start;flex-direction:column}.hint{text-align:left}}
+  @media(max-width:520px){.grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.mobile-product-label,.toolbar .product-main,.toolbar .search{grid-column:1/-1}.toolbar #cctFilter,.toolbar .watt-main,.toolbar .more-btn{grid-column:1/-1}.toolbar .product-main{height:52px;font-size:14px}.advanced{grid-template-columns:1fr}.advanced.open{max-height:900px}.spec-grid{grid-template-columns:1fr}.modal{padding:0}.modal-panel{margin:0;min-height:100vh}.finish-chip{font-size:9px}.catalogue-head{align-items:flex-start;flex-direction:column;gap:6px}.catalogue-count{text-align:left}}
+
+  .category-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .category-tab{height:42px;border:1px solid #bdb6ad;background:transparent;color:var(--ink);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .category-tab:hover,.category-tab.active{background:var(--ink);border-color:var(--ink);color:#fff}
+  @media(max-width:780px){.category-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.category-tab{height:44px;font-size:10px}}
+
 </style>
 </head>
 <body>
 <header class="topbar"><div class="topbar-inner"><div class="brand">KEUS</div><div class="top-meta">Lighting · Product Catalogue</div></div></header>
 <main class="shell">
   <section class="hero">
-    <div><div class="eyebrow">Project CSV catalogue</div><h1 id="categoryTitle">Down Lights</h1></div>
+    <div><div class="eyebrow">CSV driven catalogue</div><h1 id="categoryTitle">Down Lights</h1></div>
     <div class="hero-side">
-      <p>Products, finishes and technical variants are loaded automatically from CSV files stored inside this website project. No visitor upload is required.</p>
+      <p>Every category loads from its own CSV file stored inside this static website. Product finishes and technical variants are rendered automatically.</p>
+
     </div>
   </section>
-  <div class="data-strip"><div class="status" id="status">Loading catalogue…</div><div class="hint" id="sourceHint">Source: <strong>data/downlights.csv</strong></div></div>
+  <div class="data-strip"><div class="status" id="status">Loading Downlights catalogue…</div><div class="hint">Each tab loads its own CSV from the <strong>data</strong> folder.</div></div>
 
-  <nav class="category-tabs" id="categoryTabs" aria-label="Lighting categories"></nav>
+  <nav class="category-tabs" id="categoryTabs" aria-label="Lighting categories">
+    <button class="category-tab active" type="button" data-category="downlights">Downlights</button>
+    <button class="category-tab" type="button" data-category="tracklights">Tracklights</button>
+    <button class="category-tab" type="button" data-category="profiles">Profiles</button>
+    <button class="category-tab" type="button" data-category="outdoor">Outdoor Lights</button>
+  </nav>
 
   <section class="filter-shell" aria-label="Catalogue filters">
     <div class="toolbar">
@@ -120,6 +131,10 @@
       <select class="field" id="beamFilter" data-field="beam"><option value="">All beam angles</option></select>
       <select class="field" id="batchCodeFilter" data-field="batchCode"><option value="">All batch codes</option></select>
       <select class="field" id="stockCodeFilter" data-field="stockCode"><option value="">All stock codes</option></select>
+      <select class="field" id="bisNoFilter" data-field="bisNo"><option value="">All BIS nos.</option></select>
+      <select class="field" id="bisSpecFilter" data-field="bisSpec"><option value="">All BIS SEC</option></select>
+      <select class="field" id="mrpFilter" data-field="mrp"><option value="">All MRP</option></select>
+      <select class="field" id="mfgByFilter" data-field="mfgBy"><option value="">All manufacturers</option></select>
       <button class="btn reset-btn" id="resetBtn" type="button">Reset All</button>
     </div>
     <div class="finish-panel"><div class="finish-title">Finish</div><div class="finish-chips" id="finishChips"></div></div>
@@ -145,7 +160,7 @@
     </div>
     <div class="variants">
       <div class="variants-head"><h3>Available Variants</h3><div class="variant-filter-note" id="variantFilterNote"></div></div>
-      <div class="table-wrap"><table><thead><tr><th>Finish</th><th>CCT</th><th>Vf</th><th>Imax</th><th>CRI</th><th>Cutout</th><th>Beam Angle</th><th>Wattage</th><th>Batch Code</th><th>Item No.</th><th>Stock Code</th></tr></thead><tbody id="variantBody"></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Finish</th><th>CCT</th><th>Vf</th><th>Imax</th><th>CRI</th><th>Cutout</th><th>Beam Angle</th><th>Wattage</th><th>Batch Code</th><th>Item No.</th><th>Stock Code</th><th>BIS No</th><th>BIS SEC</th><th>MRP</th><th>MFG BY</th></tr></thead><tbody id="variantBody"></tbody></table></div>
     </div>
   </div>
 </div>
@@ -153,29 +168,29 @@
 <script>
 (() => {
   'use strict';
+  const CATEGORIES={
+    downlights:{label:'Down Lights',file:'data/downlights.csv'},
+    tracklights:{label:'Track Lights',file:'data/tracklights.csv'},
+    profiles:{label:'Profiles',file:'data/profiles.csv'},
+    outdoor:{label:'Outdoor Lights',file:'data/outdoor-lights.csv'}
+  };
+  let activeCategory='downlights';
   const PAGE_SIZE=12;
-  const categories=[
-    {key:'downlights',label:'Down Lights',file:'data/downlights.csv'},
-    {key:'tracklights',label:'Track Lights',file:'data/tracklights.csv'},
-    {key:'profiles',label:'Profiles',file:'data/profiles.csv'},
-    {key:'outdoor',label:'Outdoor Lights',file:'data/outdoor-lights.csv'}
-  ];
-  let currentCategory='downlights';
   let records=[],groups=[],viewGroups=[],currentPage=0,activeGroup=null,activeFinish='',activeImage='';
-  const state={q:'',name:'',cct:'',wattage:'',itemNo:'',vf:'',imax:'',cri:'',cutout:'',beam:'',batchCode:'',stockCode:'',finish:''};
+  const state={q:'',name:'',cct:'',wattage:'',itemNo:'',vf:'',imax:'',cri:'',cutout:'',beam:'',batchCode:'',stockCode:'',bisNo:'',bisSpec:'',mrp:'',mfgBy:'',finish:''};
   const $=id=>document.getElementById(id);
-  const els={status:$('status'),categoryTitle:$('categoryTitle'),categoryTabs:$('categoryTabs'),sourceHint:$('sourceHint'),searchBox:$('searchBox'),nameFilter:$('nameFilter'),cctFilter:$('cctFilter'),wattageFilter:$('wattageFilter'),itemNoFilter:$('itemNoFilter'),vfFilter:$('vfFilter'),imaxFilter:$('imaxFilter'),criFilter:$('criFilter'),cutoutFilter:$('cutoutFilter'),beamFilter:$('beamFilter'),batchCodeFilter:$('batchCodeFilter'),stockCodeFilter:$('stockCodeFilter'),moreBtn:$('moreBtn'),advancedFilters:$('advancedFilters'),resetBtn:$('resetBtn'),finishChips:$('finishChips'),activeFilters:$('activeFilters'),grid:$('grid'),catalogueCount:$('catalogueCount'),pagination:$('pagination'),prevBtn:$('prevBtn'),nextBtn:$('nextBtn'),pageInfo:$('pageInfo'),modal:$('modal'),closeBtn:$('closeBtn'),detailImage:$('detailImage'),detailFinishOptions:$('detailFinishOptions'),thumbs:$('thumbs'),finishNote:$('finishNote'),detailKicker:$('detailKicker'),detailTitle:$('detailTitle'),detailSub:$('detailSub'),specGrid:$('specGrid'),variantBody:$('variantBody'),variantFilterNote:$('variantFilterNote')};
+  const els={csvInput:$('csvInput'),status:$('status'),searchBox:$('searchBox'),nameFilter:$('nameFilter'),cctFilter:$('cctFilter'),wattageFilter:$('wattageFilter'),itemNoFilter:$('itemNoFilter'),vfFilter:$('vfFilter'),imaxFilter:$('imaxFilter'),criFilter:$('criFilter'),cutoutFilter:$('cutoutFilter'),beamFilter:$('beamFilter'),batchCodeFilter:$('batchCodeFilter'),stockCodeFilter:$('stockCodeFilter'),bisNoFilter:$('bisNoFilter'),bisSpecFilter:$('bisSpecFilter'),mrpFilter:$('mrpFilter'),mfgByFilter:$('mfgByFilter'),moreBtn:$('moreBtn'),advancedFilters:$('advancedFilters'),resetBtn:$('resetBtn'),finishChips:$('finishChips'),activeFilters:$('activeFilters'),grid:$('grid'),catalogueCount:$('catalogueCount'),pagination:$('pagination'),prevBtn:$('prevBtn'),nextBtn:$('nextBtn'),pageInfo:$('pageInfo'),modal:$('modal'),closeBtn:$('closeBtn'),detailImage:$('detailImage'),detailFinishOptions:$('detailFinishOptions'),thumbs:$('thumbs'),finishNote:$('finishNote'),detailKicker:$('detailKicker'),detailTitle:$('detailTitle'),detailSub:$('detailSub'),specGrid:$('specGrid'),variantBody:$('variantBody'),variantFilterNote:$('variantFilterNote'),categoryTabs:$('categoryTabs'),categoryTitle:$('categoryTitle')};
 
   const headerAliases={
-    name:['name','product name','product'],itemNo:['item no','item number','itemno','item code'],vf:['vf','voltage'],imax:['imax','current','max current'],cct:['cct','colour temperature','color temperature'],cri:['cri'],cutout:['cutout','cut out','cut-out'],beam:['beam angle','beam','beamangle'],wattage:['wattage','watt','watts','power'],batchCode:['batch code','batch','batchcode'],stockCode:['stock code','stock','stockcode','sku'],image:['image','image url','image link','imageurl'],finish:['finish','colour','color','finish colour','finish color']
+    name:['name','product name','product'],itemNo:['item no','item number','itemno','item code'],vf:['vf','voltage'],imax:['imax','current','max current'],cct:['cct','colour temperature','color temperature'],cri:['cri'],cutout:['cutout','cut out','cut-out'],beam:['beam angle','beam','beamangle'],wattage:['wattage','watt','watts','power'],batchCode:['batch code','batch','batchcode'],stockCode:['stock code','stock','stockcode','sku'],bisNo:['bis no','bis number','bisno','bis registration no','bis registration number'],bisSpec:['bis sec','bissec','bis spec','bis specification','bisspec','bis standard','is standard'],mrp:['mrp','maximum retail price','retail price','price'],mfgBy:['mfg by','mfgby','manufacturer','manufactured by','manufacturing by','manufacturer name'],image:['image','image url','image link','imageurl'],finish:['finish','colour','color','finish colour','finish color']
   };
   const finishCodeMap={W:'White',B:'Mat Black',CG:'Champagne Gold',RG:'Rose Gold',BR:'Brown',COF:'Coffee',DGR:'Dark Gray',BB:'Ballet Blue',CH:'Chrome',CHB:'Chrome Black'};
   const finishOrder=['White','Mat Black','Champagne Gold','Rose Gold','Brown','Coffee','Dark Gray','Ballet Blue','Chrome','Chrome Black','Standard'];
   const finishClassMap={'White':'sw-white','Mat Black':'sw-mat-black','Champagne Gold':'sw-champagne-gold','Rose Gold':'sw-rose-gold','Brown':'sw-brown','Coffee':'sw-coffee','Dark Gray':'sw-dark-gray','Ballet Blue':'sw-ballet-blue','Chrome':'sw-chrome','Chrome Black':'sw-chrome-black','Standard':'sw-standard'};
-  const filterFields=['name','cct','wattage','itemNo','vf','imax','cri','cutout','beam','batchCode','stockCode'];
-  const filterEls={name:els.nameFilter,cct:els.cctFilter,wattage:els.wattageFilter,itemNo:els.itemNoFilter,vf:els.vfFilter,imax:els.imaxFilter,cri:els.criFilter,cutout:els.cutoutFilter,beam:els.beamFilter,batchCode:els.batchCodeFilter,stockCode:els.stockCodeFilter};
-  const filterLabels={name:'Product',cct:'CCT',wattage:'Wattage',itemNo:'Item No.',vf:'Vf',imax:'Imax',cri:'CRI',cutout:'Cutout',beam:'Beam',batchCode:'Batch',stockCode:'Stock Code',finish:'Finish'};
-  const optionLabels={name:'All products',cct:'All CCT',wattage:'All wattages',itemNo:'All item nos.',vf:'All Vf',imax:'All Imax',cri:'All CRI',cutout:'All cutouts',beam:'All beam angles',batchCode:'All batch codes',stockCode:'All stock codes'};
+  const filterFields=['name','cct','wattage','itemNo','vf','imax','cri','cutout','beam','batchCode','stockCode','bisNo','bisSpec','mrp','mfgBy'];
+  const filterEls={name:els.nameFilter,cct:els.cctFilter,wattage:els.wattageFilter,itemNo:els.itemNoFilter,vf:els.vfFilter,imax:els.imaxFilter,cri:els.criFilter,cutout:els.cutoutFilter,beam:els.beamFilter,batchCode:els.batchCodeFilter,stockCode:els.stockCodeFilter,bisNo:els.bisNoFilter,bisSpec:els.bisSpecFilter,mrp:els.mrpFilter,mfgBy:els.mfgByFilter};
+  const filterLabels={name:'Product',cct:'CCT',wattage:'Wattage',itemNo:'Item No.',vf:'Vf',imax:'Imax',cri:'CRI',cutout:'Cutout',beam:'Beam',batchCode:'Batch',stockCode:'Stock Code',bisNo:'BIS No',bisSpec:'BIS SEC',mrp:'MRP',mfgBy:'MFG BY',finish:'Finish'};
+  const optionLabels={name:'All products',cct:'All CCT',wattage:'All wattages',itemNo:'All item nos.',vf:'All Vf',imax:'All Imax',cri:'All CRI',cutout:'All cutouts',beam:'All beam angles',batchCode:'All batch codes',stockCode:'All stock codes',bisNo:'All BIS nos.',bisSpec:'All BIS SEC',mrp:'All MRP',mfgBy:'All manufacturers'};
 
   function cleanKey(s){return String(s??'').replace(/^\uFEFF/,'').trim().toLowerCase().replace(/[_-]+/g,' ').replace(/\s+/g,' ')}
   function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]))}
@@ -209,18 +224,19 @@
   function normalizeRows(rows){
     if(rows.length<2)return[];const headers=rows[0].map(h=>String(h).trim()),headerMap={};headers.forEach((h,i)=>headerMap[cleanKey(h)]=i);
     const indexOf=field=>{for(const a of headerAliases[field]||[]){const k=cleanKey(a);if(k in headerMap)return headerMap[k]}return-1};const idx={};Object.keys(headerAliases).forEach(k=>idx[k]=indexOf(k));if(idx.name<0)throw new Error('CSV must contain a “Name” column.');
-    return rows.slice(1).map((r,i)=>{const get=k=>idx[k]>=0?String(r[idx[k]]??'').trim():'';const rec={_row:i+2,name:get('name'),itemNo:get('itemNo'),vf:get('vf'),imax:get('imax'),cct:get('cct'),cri:get('cri'),cutout:get('cutout'),beam:get('beam'),wattage:get('wattage'),batchCode:get('batchCode'),stockCode:get('stockCode'),image:get('image'),finish:get('finish')};rec.finish=normalizeFinishText(rec.finish)||inferFinish(rec);return rec}).filter(r=>r.name);
+    return rows.slice(1).map((r,i)=>{const get=k=>idx[k]>=0?String(r[idx[k]]??'').trim():'';const rec={_row:i+2,name:get('name'),itemNo:get('itemNo'),vf:get('vf'),imax:get('imax'),cct:get('cct'),cri:get('cri'),cutout:get('cutout'),beam:get('beam'),wattage:get('wattage'),batchCode:get('batchCode'),stockCode:get('stockCode'),bisNo:get('bisNo'),bisSpec:get('bisSpec'),mrp:get('mrp'),mfgBy:get('mfgBy'),image:get('image'),finish:get('finish')};rec.finish=normalizeFinishText(rec.finish)||inferFinish(rec);return rec}).filter(r=>r.name);
   }
   function groupProducts(rows){const map=new Map();for(const r of rows){const k=cleanKey(r.name);if(!map.has(k))map.set(k,{name:r.name,variants:[]});map.get(k).variants.push(r)}return[...map.values()].sort((a,b)=>naturalSort(a.name,b.name))}
   function finishSort(a,b){const ia=finishOrder.indexOf(a),ib=finishOrder.indexOf(b);if(ia>=0||ib>=0)return(ia<0?999:ia)-(ib<0?999:ib);return naturalSort(a,b)}
   function summarize(values,joiner=' / '){const vals=unique(values);if(!vals.length)return'—';if(vals.length<=3)return vals.join(joiner);return vals.slice(0,2).join(joiner)+` +${vals.length-2}`}
+  function summarizeAll(values,joiner=' / '){const vals=unique(values).sort(numericSort);return vals.length?vals.join(joiner):'—'}
   function summarizeCCT(values){const vals=unique(values);if(!vals.length)return'—';const parsed=vals.map(v=>({v,n:parseInt(String(v).replace(/[^0-9]/g,''),10)}));if(parsed.every(x=>Number.isFinite(x.n))){const nums=[...new Set(parsed.map(x=>x.n))].sort((a,b)=>a-b);if(nums.length===1)return`${nums[0]}K`;return`${nums[0]}–${nums[nums.length-1]}K`}return summarize(vals)}
-  function searchMatches(r,q){if(!q)return true;const hay=[r.name,r.itemNo,r.vf,r.imax,r.cct,r.cri,r.cutout,r.beam,r.wattage,r.batchCode,r.stockCode,r.finish,r.image].join(' ').toLowerCase();return hay.includes(q)}
+  function searchMatches(r,q){if(!q)return true;const hay=[r.name,r.itemNo,r.vf,r.imax,r.cct,r.cri,r.cutout,r.beam,r.wattage,r.batchCode,r.stockCode,r.bisNo,r.bisSpec,r.mrp,r.mfgBy,r.finish,r.image].join(' ').toLowerCase();return hay.includes(q)}
   function rowMatches(r,ignore=''){if(!searchMatches(r,state.q))return false;if(ignore!=='finish'&&state.finish&&r.finish!==state.finish)return false;for(const f of filterFields){if(f===ignore)continue;if(state[f]&&r[f]!==state[f])return false}return true}
 
-  function optionSortFor(field,vals){return vals.sort(['cct','wattage','beam','cri','imax'].includes(field)?numericSort:naturalSort)}
+  function optionSortFor(field,vals){return vals.sort(['cct','wattage','beam','cri','imax','mrp'].includes(field)?numericSort:naturalSort)}
   function refreshSelectOptions(){
-    for(const field of filterFields){const select=filterEls[field];if(!select)continue;const current=state[field];const vals=optionSortFor(field,unique(records.filter(r=>rowMatches(r,field)).map(r=>r[field])));select.innerHTML=`<option value="">${escapeHtml(optionLabels[field])}</option>`+vals.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');if(current&&vals.includes(current))select.value=current;else if(current){state[field]='';select.value=''}}
+    for(const field of filterFields){const select=filterEls[field];if(!select)continue;const current=state[field];const optionSource=field==='beam'?records:records.filter(r=>rowMatches(r,field));const vals=optionSortFor(field,unique(optionSource.map(r=>r[field])));select.innerHTML=`<option value="">${escapeHtml(optionLabels[field])}</option>`+vals.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');if(current&&vals.includes(current))select.value=current;else if(current){state[field]='';select.value=''}}
   }
   function refreshFinishChips(){
     const selected=selectedProductGroup();const source=selected?rowsForSelectedProductAllFinishes(selected):records.filter(r=>rowMatches(r,'finish'));const available=unique(source.map(r=>r.finish)).sort(finishSort);if(state.finish&&!available.includes(state.finish))state.finish='';
@@ -252,24 +268,24 @@
       }).filter(x=>x.rows.length);
 
       els.catalogueCount.textContent=`${productGroup.name} · ${cards.length} finish${cards.length===1?'':'es'} · ${baseRows.length} matching variant${baseRows.length===1?'':'s'}`;
-      if(!records.length){els.grid.innerHTML=`<div class="empty"><h3>No catalogue data</h3><p>The CSV for this section is empty or could not be loaded. Check the matching file inside the data folder.</p></div>`;els.pagination.hidden=true;return}
+      if(!records.length){els.grid.innerHTML=`<div class="empty"><h3>Catalogue data unavailable</h3><p>The page reads Name, Item No, Vf, Imax, CCT, CRI, Cutout, Beam Angle, Wattage, Batch Code, Stock Code, BIS No, BIS SEC, MRP, MFG BY and IMAGE.</p><span class="btn" style="cursor:default">CSV file not found</span></div>`;els.pagination.hidden=true;return}
       if(!cards.length){els.grid.innerHTML=`<div class="empty"><h3>No matching finishes</h3><p>${escapeHtml(productGroup.name)} has no variants matching the active technical filters.</p><button class="btn" id="emptyReset" type="button">Reset All Filters</button></div>`;els.pagination.hidden=true;$('emptyReset').addEventListener('click',resetAll);return}
 
       const pages=Math.ceil(cards.length/PAGE_SIZE);currentPage=Math.min(currentPage,pages-1);const pageStart=currentPage*PAGE_SIZE;
       cards.slice(pageStart,pageStart+PAGE_SIZE).forEach(entry=>{
         const {finish,rows,rep}=entry;const img=rep&&rep.image;const card=document.createElement('article');card.className='card finish-gallery-card';
-        card.innerHTML=`<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(img)}" alt="${escapeHtml(productGroup.name)} · ${escapeHtml(finish)}" loading="lazy" decoding="async">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(productGroup.name)}</h3><div class="finish-name">${swatchHtml(finish)}<span>${escapeHtml(finish)}</span></div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div><div class="card-foot"><span>${rows.length} variant${rows.length===1?'':'s'}</span><span>View details →</span></div></div></button>`;
+        card.innerHTML=`<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(img)}" alt="${escapeHtml(productGroup.name)} · ${escapeHtml(finish)}" loading="lazy" decoding="async">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(productGroup.name)}</h3><div class="finish-name">${swatchHtml(finish)}<span>${escapeHtml(finish)}</span></div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div><div class="card-foot"><span>${rows.length} variant${rows.length===1?'':'s'}</span><span>View details →</span></div></div></button>`;
         card.querySelector('.card-open').addEventListener('click',()=>openDetail(productGroup,finish));els.grid.appendChild(card);
       });
       els.pagination.hidden=pages<=1;els.pageInfo.textContent=`Page ${currentPage+1} / ${pages}`;els.prevBtn.disabled=currentPage===0;els.nextBtn.disabled=currentPage>=pages-1;return;
     }
 
     const total=viewGroups.length;const totalMatched=viewGroups.reduce((n,g)=>n+g.matchedVariants.length,0);els.catalogueCount.textContent=`${total} product${total===1?'':'s'} · ${totalMatched} matching variant${totalMatched===1?'':'s'} · ${records.length} total`;
-    if(!records.length){els.grid.innerHTML=`<div class="empty"><h3>No catalogue data</h3><p>The CSV for this section is empty or could not be loaded. Check the matching file inside the data folder.</p></div>`;els.pagination.hidden=true;return}
+    if(!records.length){els.grid.innerHTML=`<div class="empty"><h3>Catalogue data unavailable</h3><p>The page reads Name, Item No, Vf, Imax, CCT, CRI, Cutout, Beam Angle, Wattage, Batch Code, Stock Code, BIS No, BIS SEC, MRP, MFG BY and IMAGE. Finish is resolved automatically from the stock-code suffix.</p><span class="btn" style="cursor:default">CSV file not found</span></div>`;els.pagination.hidden=true;return}
     if(!total){els.grid.innerHTML=`<div class="empty"><h3>No matching variants</h3><p>The filters work at variant level, not only product level. Remove one or more filters to widen the result.</p><button class="btn" id="emptyReset" type="button">Reset All Filters</button></div>`;els.pagination.hidden=true;$('emptyReset').addEventListener('click',resetAll);return}
     const pages=Math.ceil(total/PAGE_SIZE);currentPage=Math.min(currentPage,pages-1);const pageStart=currentPage*PAGE_SIZE;viewGroups.slice(pageStart,pageStart+PAGE_SIZE).forEach(g=>{
       const rows=g.matchedVariants,rep=representativeVariant(g),allFinishes=unique(g.variants.map(v=>v.finish)).sort(finishSort),matchedFinishes=unique(rows.map(v=>v.finish)).sort(finishSort);const card=document.createElement('article');card.className='card';const img=rep&&rep.image;
-      card.innerHTML=`${rows.length<g.variants.length?`<div class="match-tag">${rows.length} match${rows.length===1?'':'es'}</div>`:''}<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(img)}" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(g.name)}</h3><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div></div></button><div class="card-body" style="padding-top:0"><div class="card-finishes"><span class="card-finish-label">Finishes</span>${allFinishes.map(f=>`<button class="card-swatch ${state.finish===f?'active':''}" type="button" data-card-finish="${escapeHtml(f)}" title="${escapeHtml(f)}">${swatchHtml(f)}</button>`).join('')}</div><div class="card-foot"><span>${rows.length}${rows.length!==g.variants.length?` / ${g.variants.length}`:''} variant${g.variants.length===1?'':'s'}</span><span>${matchedFinishes.length} finish${matchedFinishes.length===1?'':'es'} · View →</span></div></div>`;
+      card.innerHTML=`${rows.length<g.variants.length?`<div class="match-tag">${rows.length} match${rows.length===1?'':'es'}</div>`:''}<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(img)}" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(g.name)}</h3><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div></div></button><div class="card-body" style="padding-top:0"><div class="card-finishes"><span class="card-finish-label">Finishes</span>${allFinishes.map(f=>`<button class="card-swatch ${state.finish===f?'active':''}" type="button" data-card-finish="${escapeHtml(f)}" title="${escapeHtml(f)}">${swatchHtml(f)}</button>`).join('')}</div><div class="card-foot"><span>${rows.length}${rows.length!==g.variants.length?` / ${g.variants.length}`:''} variant${g.variants.length===1?'':'s'}</span><span>${matchedFinishes.length} finish${matchedFinishes.length===1?'':'es'} · View →</span></div></div>`;
       card.querySelector('.card-open').addEventListener('click',()=>openDetail(g));card.querySelectorAll('[data-card-finish]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();state.finish=btn.dataset.cardFinish;currentPage=0;updateAll()}));els.grid.appendChild(card)
     });
     els.pagination.hidden=pages<=1;els.pageInfo.textContent=`Page ${currentPage+1} / ${pages}`;els.prevBtn.disabled=currentPage===0;els.nextBtn.disabled=currentPage>=pages-1;
@@ -278,14 +294,14 @@
   function specCell(label,value){return `<div class="spec-cell"><div class="spec-label">${escapeHtml(label)}</div><div class="spec-value">${escapeHtml(value||'—')}</div></div>`}
   function openDetail(group,preferredFinish=''){
     activeGroup=group;const rows=(state.name===group.name?rowsForSelectedProductAllFinishes(group):(group.matchedVariants.length?group.matchedVariants:group.variants));const finishes=unique(rows.map(v=>v.finish)).sort(finishSort);activeFinish=preferredFinish&&finishes.includes(preferredFinish)?preferredFinish:(state.finish&&finishes.includes(state.finish)?state.finish:(finishes.includes('White')?'White':finishes[0]||''));els.detailTitle.textContent=group.name;els.detailKicker.textContent=summarize(rows.map(v=>v.itemNo));els.detailSub.textContent=rows.length===group.variants.length?`${rows.length} technical variant${rows.length===1?'':'s'} · ${finishes.length} finish${finishes.length===1?'':'es'}`:`${rows.length} matching of ${group.variants.length} total variants · ${finishes.length} available finish${finishes.length===1?'':'es'}`;
-    els.specGrid.innerHTML=[['Vf',summarize(rows.map(v=>v.vf))],['Imax',summarize(rows.map(v=>v.imax))],['Wattage',summarize(rows.map(v=>v.wattage))],['CCT',summarizeCCT(rows.map(v=>v.cct))],['CRI',summarize(rows.map(v=>v.cri))],['Beam Angle',summarize(rows.map(v=>v.beam))],['Cutout',summarize(rows.map(v=>v.cutout))],['Batch Code',summarize(rows.map(v=>v.batchCode))],['Stock Codes',`${unique(rows.map(v=>v.stockCode)).length} available`]].map(([l,v])=>specCell(l,v)).join('');renderDetailFinishOptions(rows);renderDetailImageAndRows(rows);els.modal.classList.add('open');document.body.style.overflow='hidden'
+    els.specGrid.innerHTML=[['Vf',summarize(rows.map(v=>v.vf))],['Imax',summarize(rows.map(v=>v.imax))],['Wattage',summarize(rows.map(v=>v.wattage))],['CCT',summarizeCCT(rows.map(v=>v.cct))],['CRI',summarize(rows.map(v=>v.cri))],['Beam Angle',summarizeAll(rows.map(v=>v.beam))],['Cutout',summarize(rows.map(v=>v.cutout))],['Batch Code',summarize(rows.map(v=>v.batchCode))],['Stock Codes',`${unique(rows.map(v=>v.stockCode)).length} available`],['BIS No',summarize(rows.map(v=>v.bisNo))],['BIS SEC',summarizeAll(rows.map(v=>v.bisSpec),' · ')],['MRP',summarize(rows.map(v=>v.mrp))],['MFG BY',summarize(rows.map(v=>v.mfgBy))]].map(([l,v])=>specCell(l,v)).join('');renderDetailFinishOptions(rows);renderDetailImageAndRows(rows);els.modal.classList.add('open');document.body.style.overflow='hidden'
   }
   function renderDetailFinishOptions(rows){const finishes=unique(rows.map(v=>v.finish)).sort(finishSort);els.detailFinishOptions.innerHTML=finishes.map(f=>`<button class="finish-option ${activeFinish===f?'active':''}" type="button" data-detail-finish="${escapeHtml(f)}">${swatchHtml(f)}<span>${escapeHtml(f)}</span></button>`).join('');els.detailFinishOptions.querySelectorAll('[data-detail-finish]').forEach(btn=>btn.addEventListener('click',()=>{activeFinish=btn.dataset.detailFinish;renderDetailFinishOptions(rows);renderDetailImageAndRows(rows)}))}
   function renderDetailImageAndRows(rows){
     const finishRows=activeFinish?rows.filter(r=>r.finish===activeFinish):rows;const urls=unique(finishRows.map(v=>v.image));if(!activeImage||!urls.includes(activeImage))activeImage=urls[0]||'';els.thumbs.innerHTML='';if(activeImage){els.detailImage.src=activeImage;els.detailImage.alt=`${activeGroup.name} · ${activeFinish}`;}else{els.detailImage.removeAttribute('src');els.detailImage.alt='No product image'}
     urls.forEach(url=>{const b=document.createElement('button');b.type='button';b.className='thumb'+(url===activeImage?' active':'');b.innerHTML=`<img src="${escapeHtml(url)}" alt="${escapeHtml(activeFinish)}">`;b.addEventListener('click',()=>{activeImage=url;renderDetailImageAndRows(rows)});els.thumbs.appendChild(b)});els.finishNote.textContent=activeFinish?`Selected finish: ${activeFinish}`:'All finishes';renderVariants(finishRows)
   }
-  function renderVariants(rows){els.variantFilterNote.textContent=`${rows.length} variant${rows.length===1?'':'s'} shown${activeFinish?` · ${activeFinish}`:''}`;els.variantBody.innerHTML=rows.map(v=>`<tr><td><span class="finish-cell">${swatchHtml(v.finish)}${escapeHtml(v.finish||'—')}</span></td><td>${escapeHtml(v.cct||'—')}</td><td>${escapeHtml(v.vf||'—')}</td><td>${escapeHtml(v.imax||'—')}</td><td>${escapeHtml(v.cri||'—')}</td><td>${escapeHtml(v.cutout||'—')}</td><td>${escapeHtml(v.beam||'—')}</td><td>${escapeHtml(v.wattage||'—')}</td><td>${escapeHtml(v.batchCode||'—')}</td><td>${escapeHtml(v.itemNo||'—')}</td><td class="stock">${escapeHtml(v.stockCode||'—')}</td></tr>`).join('')}
+  function renderVariants(rows){els.variantFilterNote.textContent=`${rows.length} variant${rows.length===1?'':'s'} shown${activeFinish?` · ${activeFinish}`:''}`;els.variantBody.innerHTML=rows.map(v=>`<tr><td><span class="finish-cell">${swatchHtml(v.finish)}${escapeHtml(v.finish||'—')}</span></td><td>${escapeHtml(v.cct||'—')}</td><td>${escapeHtml(v.vf||'—')}</td><td>${escapeHtml(v.imax||'—')}</td><td>${escapeHtml(v.cri||'—')}</td><td>${escapeHtml(v.cutout||'—')}</td><td>${escapeHtml(v.beam||'—')}</td><td>${escapeHtml(v.wattage||'—')}</td><td>${escapeHtml(v.batchCode||'—')}</td><td>${escapeHtml(v.itemNo||'—')}</td><td class="stock">${escapeHtml(v.stockCode||'—')}</td><td>${escapeHtml(v.bisNo||'—')}</td><td class="bis-spec-cell">${escapeHtml(v.bisSpec||'—')}</td><td class="mrp-cell">${escapeHtml(v.mrp||'—')}</td><td class="mfg-cell">${escapeHtml(v.mfgBy||'—')}</td></tr>`).join('')}
   function closeDetail(){els.modal.classList.remove('open');document.body.style.overflow='';activeGroup=null;activeFinish='';activeImage=''}
 
   function syncStateFromUI(){state.q=els.searchBox.value.trim().toLowerCase();for(const f of filterFields)state[f]=filterEls[f].value}
@@ -293,39 +309,36 @@
   function loadCSVText(text,label='CSV file'){
     try{const rows=parseCSV(text);records=normalizeRows(rows);if(!records.length)throw new Error('No product rows were found in the CSV.');groups=groupProducts(records);Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;const finishes=unique(records.map(r=>r.finish));const unknown=finishes.filter(f=>!finishOrder.includes(f));els.status.innerHTML=`<strong>${escapeHtml(label)}</strong> · ${groups.length} products · ${records.length} variants · ${finishes.length} finishes${unknown.length?` · ${unknown.length} custom finish${unknown.length===1?'':'es'}`:''}`;updateAll()}catch(err){console.error(err);els.status.innerHTML=`<strong>Could not load CSV.</strong> ${escapeHtml(err.message||String(err))}`;records=[];groups=[];viewGroups=[];renderCatalogue()}
   }
-  function renderCategoryTabs(){
-    els.categoryTabs.innerHTML=categories.map(c=>`<button class="category-tab ${c.key===currentCategory?'active':''}" type="button" data-category="${c.key}">${escapeHtml(c.label)}</button>`).join('');
-    els.categoryTabs.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>loadCategory(btn.dataset.category)));
-  }
   async function loadCategory(key){
-    const category=categories.find(c=>c.key===key)||categories[0];
-    currentCategory=category.key;
-    renderCategoryTabs();
-    els.categoryTitle.textContent=category.label;
-    els.sourceHint.innerHTML=`Source: <strong>${escapeHtml(category.file)}</strong>`;
-    els.status.innerHTML=`Loading <strong>${escapeHtml(category.label)}</strong>…`;
+    const cfg=CATEGORIES[key];
+    if(!cfg)return;
+    activeCategory=key;
+    els.categoryTitle.textContent=cfg.label;
+    els.categoryTabs.querySelectorAll('[data-category]').forEach(btn=>btn.classList.toggle('active',btn.dataset.category===key));
+    els.status.innerHTML=`Loading <strong>${escapeHtml(cfg.label)}</strong> catalogue…`;
     records=[];groups=[];viewGroups=[];currentPage=0;
     Object.keys(state).forEach(k=>state[k]='');
     els.searchBox.value='';
-    for(const f of filterFields)filterEls[f].value='';
+    for(const f of filterFields) if(filterEls[f]) filterEls[f].value='';
     renderCatalogue();
     try{
-      const res=await fetch(encodeURI(category.file),{cache:'no-store'});
-      if(!res.ok)throw new Error(`${res.status} ${res.statusText}`);
+      const res=await fetch(encodeURI(cfg.file),{cache:'no-store'});
+      if(!res.ok) throw new Error(`${res.status} ${res.statusText}`);
       const text=await res.text();
-      loadCSVText(text,category.file);
+      loadCSVText(text,cfg.file);
     }catch(err){
       console.error(err);
-      records=[];groups=[];viewGroups=[];
-      els.status.innerHTML=`<strong>Could not load ${escapeHtml(category.file)}.</strong> Make sure the file exists in the data folder and the site is opened through GitHub Pages or another web server.`;
-      renderCatalogue();
+      els.status.innerHTML=`<strong>Could not load ${escapeHtml(cfg.file)}.</strong> Make sure this CSV exists inside the data folder.`;
+      records=[];groups=[];viewGroups=[];renderCatalogue();
     }
   }
 
+  if(els.csvInput) els.csvInput.addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>loadCSVText(reader.result,file.name);reader.onerror=()=>els.status.innerHTML='<strong>Could not read the selected CSV file.</strong>';reader.readAsText(file,'utf-8')});
   els.searchBox.addEventListener('input',()=>{syncStateFromUI();currentPage=0;updateAll()});for(const f of filterFields)filterEls[f].addEventListener('change',()=>{syncStateFromUI();currentPage=0;updateAll()});els.moreBtn.addEventListener('click',()=>{const open=els.advancedFilters.classList.toggle('open');els.moreBtn.textContent=open?'Fewer Filters':'More Filters'});els.resetBtn.addEventListener('click',resetAll);
   els.prevBtn.addEventListener('click',()=>{if(currentPage>0){currentPage--;renderCatalogue();window.scrollTo({top:0,behavior:'smooth'})}});els.nextBtn.addEventListener('click',()=>{const pages=Math.ceil(viewGroups.length/PAGE_SIZE);if(currentPage<pages-1){currentPage++;renderCatalogue();window.scrollTo({top:0,behavior:'smooth'})}});els.closeBtn.addEventListener('click',closeDetail);els.modal.addEventListener('click',e=>{if(e.target===els.modal)closeDetail()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modal.classList.contains('open'))closeDetail()});
-  renderCategoryTabs();
-  loadCategory(currentCategory);
+  window.addEventListener('dragover',e=>{e.preventDefault();document.body.classList.add('drop-highlight')});window.addEventListener('dragleave',e=>{if(e.clientX===0&&e.clientY===0)document.body.classList.remove('drop-highlight')});window.addEventListener('drop',e=>{e.preventDefault();document.body.classList.remove('drop-highlight');const file=[...(e.dataTransfer?.files||[])].find(f=>/\.csv$/i.test(f.name));if(!file)return;const reader=new FileReader();reader.onload=()=>loadCSVText(reader.result,file.name);reader.readAsText(file,'utf-8')});
+  els.categoryTabs.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>loadCategory(btn.dataset.category)));
+  renderCatalogue();loadCategory('downlights');
 })();
 </script>
 </body>
