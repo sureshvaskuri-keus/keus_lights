@@ -104,7 +104,7 @@
 
     </div>
   </section>
-  <div class="data-strip"><div class="status" id="status">Loading Downlights catalogue…</div><div class="hint">Each tab loads its own CSV from the <strong>data</strong> folder.</div></div>
+  <div class="data-strip"><div class="status" id="status">Loading Downlights catalogue…</div><div class="hint">Each tab loads its CSV directly from the same folder as <strong>index.html</strong>.</div></div>
 
   <nav class="category-tabs" id="categoryTabs" aria-label="Lighting categories">
     <button class="category-tab active" type="button" data-category="downlights">Downlights</button>
@@ -169,10 +169,10 @@
 (() => {
   'use strict';
   const CATEGORIES={
-    downlights:{label:'Down Lights',file:'data/downlights.csv'},
-    tracklights:{label:'Track Lights',file:'data/tracklights.csv'},
-    profiles:{label:'Profiles',file:'data/profiles.csv'},
-    outdoor:{label:'Outdoor Lights',file:'data/outdoor-lights.csv'}
+    downlights:{label:'Down Lights',file:'./downlights.csv'},
+    tracklights:{label:'Track Lights',file:'./tracklights.csv'},
+    profiles:{label:'Profiles',file:'./profiles.csv'},
+    outdoor:{label:'Outdoor Lights',file:'./outdoor-lights.csv'}
   };
   let activeCategory='downlights';
   const PAGE_SIZE=12;
@@ -328,7 +328,7 @@
       loadCSVText(text,cfg.file);
     }catch(err){
       console.error(err);
-      els.status.innerHTML=`<strong>Could not load ${escapeHtml(cfg.file)}.</strong> Make sure this CSV exists inside the data folder.`;
+      els.status.innerHTML=`<strong>Could not load ${escapeHtml(cfg.file)}.</strong> Make sure this CSV is uploaded beside index.html.`;
       records=[];groups=[];viewGroups=[];renderCatalogue();
     }
   }
