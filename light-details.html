@@ -76,6 +76,25 @@ td{font-size:9px}
   .profile-only .spec-grid{grid-template-columns:1fr}
   .image-box{border-radius:10px}
 }
+
+/* Every available colour stays visible in one horizontal scroll row */
+.finishes{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  padding-bottom:5px;
+  scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;
+}
+.finishes::-webkit-scrollbar{height:4px}
+.finishes::-webkit-scrollbar-thumb{background:#c8c0b5;border-radius:999px}
+.finish-btn{flex:0 0 auto!important}
+@media(max-width:780px){
+  .finishes{scrollbar-width:none!important}
+  .finishes::-webkit-scrollbar{display:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -126,7 +145,7 @@ function normalizeFinishText(v){const x=clean(v).replace(/\bdefault\b/g,'').trim
 function inferFinish(r){const code=String(r.stockCode||'').trim().toUpperCase();const suffix=code.split('/').filter(Boolean).pop()||'';if(finishCodeMap[suffix])return finishCodeMap[suffix];const img=decodeURIComponent(sourceImageUrl(r.image)).toLowerCase().replace(/_/g,'-');const t=[[/chrome[- ]?black/,'Chrome Black'],[/champagne[- ]?gold|champeing[- ]?gold/,'Champagne Gold'],[/rose[- ]?gold/,'Rose Gold'],[/ballet[- ]?blue/,'Ballet Blue'],[/dark[- ]?gr(?:a|e)y/,'Dark Gray'],[/coffee|cofee/,'Coffee'],[/brown/,'Brown'],[/chrome|crome/,'Chrome'],[/mat[- ]?black|matte[- ]?black|black|balck/,'Mat Black'],[/white/,'White']];for(const [re,l] of t)if(re.test(img))return l;return 'Standard'}
 function normalize(rows){if(rows.length<2)return[];const h=rows[0].map(String),map={};h.forEach((x,i)=>map[clean(x)]=i);const idx={};for(const f in aliases){idx[f]=-1;for(const a of aliases[f]){if(clean(a) in map){idx[f]=map[clean(a)];break}}}const get=(r,k)=>idx[k]>=0?String(r[idx[k]]??'').trim():'';return rows.slice(1).map(r=>{const o={};for(const k in idx)o[k]=get(r,k);o.finish=normalizeFinishText(o.finish)||inferFinish(o);return o}).filter(r=>r.name)}
 function swatch(f){return `<span class="swatch ${finishClasses[f]||'sw-standard'}"></span>`}
-function spec(l,v){return `<div class="spec"><div class="spec-label">${esc(l)}</div><div class="spec-value">${esc(v||'—')}</div></div>`}
+function spec(l,v){const id=l==='Stock Code'?' id="selectedStockCode"':'';return `<div class="spec"><div class="spec-label">${esc(l)}</div><div class="spec-value"${id}>${esc(v||'—')}</div></div>`}
 function summary(vals,join=' / '){const a=unique(vals);return a.length?a.join(join):'—'}
 
 const params=new URLSearchParams(location.search);
@@ -165,9 +184,11 @@ function render(rows){
   const finishes=unique(rows.map(r=>r.finish));
   if(!selectedFinish||!finishes.includes(selectedFinish))selectedFinish=finishes.includes('White')?'White':(finishes[0]||'');
   const selectedRows=isProfile?rows:(rows.filter(r=>r.finish===selectedFinish).length?rows.filter(r=>r.finish===selectedFinish):rows);
+  const selectedVariant=selectedRows.find(r=>r.image)||selectedRows[0]||rows[0];
   const images=unique(selectedRows.map(r=>r.image));
-  const main=images[0]||'';
-  const mrp=summary(rows.map(r=>r.mrp));
+  const main=(selectedVariant&&selectedVariant.image)||images[0]||'';
+  const mrp=selectedVariant&&selectedVariant.mrp?selectedVariant.mrp:'—';
+  const selectedStockCode=selectedVariant&&selectedVariant.stockCode?selectedVariant.stockCode:'—';
   const description=summary(rows.map(r=>r.newDescription),' ');
   let specs='';
   if(isProfile){
@@ -177,7 +198,7 @@ function render(rows){
     ].map(([l,v])=>spec(l,v)).join('');
   }else{
     specs=[
-      ['Stock Code',summary(selectedRows.map(r=>r.stockCode))],
+      ['Stock Code',selectedStockCode],
       ['Item No.',summary(selectedRows.map(r=>r.itemNo))],
       ['Wattage',summary(selectedRows.map(r=>r.wattage))],
       ['CCT',summary(selectedRows.map(r=>r.cct))],
@@ -205,7 +226,7 @@ function render(rows){
     <div class="info">
       <div class="kicker">${esc(isProfile?'Profile':'Lighting Product')}</div>
       <h1>${esc(name)}</h1>
-      <div class="price">${isProfile?'':`MRP ${esc(mrp)}`}</div>
+      <div class="price" id="selectedRate">${isProfile?'':`MRP ${esc(mrp)}`}</div>
       ${description!=='—'?`<p class="description">${esc(description)}</p>`:''}
       <div class="spec-grid">${specs}</div>
     </div>
@@ -225,6 +246,13 @@ function render(rows){
     if(im){
       im.dataset.fallback=imageFallback(btn.dataset.img);
       im.src=optimized(btn.dataset.img,1200);
+    }
+    const row=selectedRows.find(r=>r.image===btn.dataset.img);
+    if(row){
+      const stock=$('selectedStockCode');
+      const rate=$('selectedRate');
+      if(stock)stock.textContent=row.stockCode||'—';
+      if(rate&&!isProfile)rate.textContent=row.mrp?`MRP ${row.mrp}`:'MRP —';
     }
   }));
 

@@ -1,30 +1,27 @@
-# KEUS Lighting Catalogue — Profile Loading Fix
+# KEUS Lighting Catalogue — Selected Colour Logic
 
-This package contains the latest responsive catalogue and corrected Profiles implementation.
+## Fixed behaviour
 
-## Important fixes
+1. Stock Code
+- Details page shows only the stock code for the selected colour.
+- Changing colour updates the stock code.
+- If a colour has multiple image variants, selecting the image thumbnail also updates the exact stock code.
 
-- Uses the latest 60-row Profiles CSV with:
-  `Name, Stock Code, Cutout, New Description, Image`
-- Profiles data is loaded from `data/profiles.csv`.
-- Profile images try the optimized WebP URL first.
-- If the WebP/CDN request fails, the browser automatically falls back to the original ImgBB image.
-- `light-details.html` has the same image fallback.
-- CSV loading also tries the repository root as a fallback if the `data/` path is accidentally deployed differently.
-- Profiles do not calculate or display meaningless finish data.
+2. Rate / MRP
+- Landing-page cards show only the MRP for the colour currently displayed.
+- Default is White when White exists; otherwise the first available finish.
+- Clicking Rose Gold, Champagne Gold, etc. updates only that card's image and MRP.
+- Details page shows only the MRP for the selected colour.
 
-## Structure
+3. Colour scrolling
+- No +4 / +N indicator.
+- All available colour swatches are rendered.
+- Colours scroll horizontally on product cards.
+- Colours scroll horizontally on the product-details page.
+- Touch scrolling works on mobile.
 
-```text
-/
-├── index.html
-├── light-details.html
-├── .nojekyll
-├── README.md
-├── data/
-│   ├── downlights.csv
-│   ├── tracklights.csv
-│   ├── profiles.csv
-│   └── outdoor-lights.csv
-└── scripts/
-```
+4. Existing fixes retained
+- Changing one product colour does not change other products.
+- Profiles use the simplified layout.
+- Mobile has no pagination.
+- WebP image delivery has original ImgBB fallback.
