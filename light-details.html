@@ -106,6 +106,244 @@ td{font-size:9px}
   }
 }
 
+
+/* =========================================================
+   MOBILE PRODUCT DETAILS — RESPONSIVE FIX
+   ========================================================= */
+html,body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+.layout,.visual,.info,.variants,.table-wrap,.image-box,.spec-grid{
+  min-width:0;
+  max-width:100%;
+}
+.spec-value{
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+@media(max-width:780px){
+  body{overflow-x:hidden;background:#f4f0e9}
+
+  .top{position:sticky;top:0;z-index:40}
+  .top-inner{
+    width:100%;
+    max-width:100%;
+    min-height:56px;
+    padding:0 10px;
+    gap:8px;
+  }
+  .brand{
+    flex:0 0 auto;
+    font-size:13px;
+    letter-spacing:.28em;
+  }
+  .sep,.top-title{display:none}
+  .back{
+    margin-left:auto;
+    max-width:64%;
+    min-height:34px;
+    padding:6px 9px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size:8.5px;
+  }
+
+  .shell{
+    width:100%;
+    max-width:100%;
+    padding:9px 8px 26px;
+    overflow:hidden;
+  }
+  .breadcrumb{
+    width:100%;
+    margin:2px 2px 8px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size:7.5px;
+    line-height:1.35;
+  }
+
+  .layout{
+    display:block;
+    width:100%;
+    border-radius:11px;
+    overflow:hidden;
+  }
+  .visual{
+    width:100%;
+    padding:10px;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .image-box{
+    width:100%;
+    aspect-ratio:1/1;
+    border-radius:9px;
+    overflow:hidden;
+  }
+  .image-box img{
+    width:88%;
+    height:88%;
+    max-width:100%;
+    object-fit:contain;
+  }
+
+  .thumbs{
+    width:100%;
+    display:flex;
+    flex-wrap:nowrap;
+    gap:6px;
+    margin-top:7px;
+    padding-bottom:2px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .thumbs::-webkit-scrollbar{display:none}
+  .thumb{
+    flex:0 0 52px;
+    width:52px;
+    height:52px;
+    padding:3px;
+    border-radius:7px;
+  }
+
+  .finish-wrap{
+    width:100%;
+    margin-top:9px!important;
+    overflow:hidden;
+  }
+  .label{
+    margin-bottom:5px!important;
+    font-size:6.5px!important;
+  }
+  .finishes{
+    width:100%;
+    max-width:100%;
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    gap:5px!important;
+    padding-bottom:3px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scrollbar-width:none!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  .finishes::-webkit-scrollbar{display:none!important}
+  .finish-btn{
+    flex:0 0 auto!important;
+    min-height:29px!important;
+    padding:4px 7px 4px 4px!important;
+    gap:4px!important;
+    font-size:7px!important;
+    white-space:nowrap;
+  }
+  .finish-btn .swatch{
+    width:15px!important;
+    height:15px!important;
+  }
+
+  .info{
+    width:100%;
+    padding:15px 11px 14px;
+    overflow:hidden;
+  }
+  .kicker{
+    margin-bottom:6px;
+    font-size:7px;
+  }
+  h1{
+    max-width:100%;
+    font-family:Inter,Arial,sans-serif;
+    font-size:23px;
+    line-height:1.08;
+    font-weight:750;
+    letter-spacing:-.02em;
+    overflow-wrap:anywhere;
+  }
+  .price{
+    margin:8px 0 13px;
+    font-size:14px;
+  }
+  .description{
+    max-width:100%;
+    margin-bottom:13px;
+    font-size:10px;
+    line-height:1.5;
+  }
+
+  .spec-grid{
+    width:100%;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .spec{
+    min-width:0;
+    min-height:58px;
+    padding:8px;
+  }
+  .spec-label{
+    margin-bottom:4px;
+    font-size:6px;
+    letter-spacing:.10em;
+  }
+  .spec-value{
+    font-size:8.5px;
+    line-height:1.3;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
+
+  .variants{
+    width:100%;
+    max-width:100%;
+    margin-top:12px;
+    overflow:hidden;
+  }
+  .variants h2{
+    margin:0 2px 7px;
+    font-family:Inter,Arial,sans-serif;
+    font-size:14px;
+    font-weight:700;
+  }
+  .table-wrap{
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    border-radius:8px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
+  table{
+    width:max-content;
+    min-width:900px;
+  }
+  th,td{
+    padding:7px 8px;
+    font-size:7.5px;
+  }
+  th{font-size:6.5px}
+
+  .profile-only .spec-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:360px){
+  .shell{padding-left:6px;padding-right:6px}
+  .visual{padding:8px}
+  .info{padding:13px 9px 12px}
+  h1{font-size:21px}
+  .spec-grid{grid-template-columns:1fr}
+  .back{max-width:58%;font-size:8px}
+}
+
 </style>
 </head>
 <body>
@@ -154,7 +392,7 @@ function normalizeFinishText(v){const x=clean(v).replace(/\bdefault\b/g,'').trim
 function inferFinish(r){const code=String(r.stockCode||'').trim().toUpperCase();const suffix=code.split('/').filter(Boolean).pop()||'';if(finishCodeMap[suffix])return finishCodeMap[suffix];const img=decodeURIComponent(sourceImageUrl(r.image)).toLowerCase().replace(/_/g,'-');const t=[[/chrome[- ]?black/,'Chrome Black'],[/champagne[- ]?gold|champeing[- ]?gold/,'Champagne Gold'],[/rose[- ]?gold/,'Rose Gold'],[/ballet[- ]?blue/,'Ballet Blue'],[/dark[- ]?gr(?:a|e)y/,'Dark Gray'],[/coffee|cofee/,'Coffee'],[/brown/,'Brown'],[/chrome|crome/,'Chrome'],[/mat[- ]?black|matte[- ]?black|black|balck/,'Mat Black'],[/white/,'White']];for(const [re,l] of t)if(re.test(img))return l;return 'Standard'}
 function normalize(rows){if(rows.length<2)return[];const h=rows[0].map(String),map={};h.forEach((x,i)=>map[clean(x)]=i);const idx={};for(const f in aliases){idx[f]=-1;for(const a of aliases[f]){if(clean(a) in map){idx[f]=map[clean(a)];break}}}const get=(r,k)=>idx[k]>=0?String(r[idx[k]]??'').trim():'';return rows.slice(1).map(r=>{const o={};for(const k in idx)o[k]=get(r,k);o.finish=normalizeFinishText(o.finish)||inferFinish(o);return o}).filter(r=>r.name)}
 function swatch(f){return `<span class="swatch ${finishClasses[f]||'sw-standard'}"></span>`}
-function spec(l,v){return `<div class="spec"><div class="spec-label">${esc(l)}</div><div class="spec-value">${esc(v||'—')}</div></div>`}
+function spec(l,v){const id=l==='Stock Code'?' id="selectedStockCode"':'';return `<div class="spec"><div class="spec-label">${esc(l)}</div><div class="spec-value"${id}>${esc(v||'—')}</div></div>`}
 function summary(vals,join=' / '){const a=unique(vals);return a.length?a.join(join):'—'}
 
 const params=new URLSearchParams(location.search);
@@ -183,9 +421,11 @@ function render(rows){
   const finishes=unique(rows.map(r=>r.finish));
   if(!selectedFinish||!finishes.includes(selectedFinish))selectedFinish=finishes.includes('White')?'White':(finishes[0]||'');
   const selectedRows=isProfile?rows:(rows.filter(r=>r.finish===selectedFinish).length?rows.filter(r=>r.finish===selectedFinish):rows);
+  const selectedVariant=selectedRows.find(r=>r.image)||selectedRows[0]||rows[0];
   const images=unique(selectedRows.map(r=>r.image));
-  const main=images[0]||'';
-  const mrp=summary(rows.map(r=>r.mrp));
+  const main=(selectedVariant&&selectedVariant.image)||images[0]||'';
+  const mrp=selectedVariant&&selectedVariant.mrp?selectedVariant.mrp:'—';
+  const selectedStockCode=selectedVariant&&selectedVariant.stockCode?selectedVariant.stockCode:'—';
   const description=summary(rows.map(r=>r.newDescription),' ');
   let specs='';
   if(isProfile){
@@ -195,7 +435,7 @@ function render(rows){
     ].map(([l,v])=>spec(l,v)).join('');
   }else{
     specs=[
-      ['Stock Code',summary(selectedRows.map(r=>r.stockCode))],
+      ['Stock Code',selectedStockCode],
       ['Item No.',summary(selectedRows.map(r=>r.itemNo))],
       ['Wattage',summary(selectedRows.map(r=>r.wattage))],
       ['CCT',summary(selectedRows.map(r=>r.cct))],
@@ -223,7 +463,7 @@ function render(rows){
     <div class="info">
       <div class="kicker">${esc(isProfile?'Profile':'Lighting Product')}</div>
       <h1>${esc(name)}</h1>
-      <div class="price">${isProfile?'':`MRP ${esc(mrp)}`}</div>
+      <div class="price" id="selectedRate">${isProfile?'':`MRP ${esc(mrp)}`}</div>
       ${description!=='—'?`<p class="description">${esc(description)}</p>`:''}
       <div class="spec-grid">${specs}</div>
     </div>
@@ -241,6 +481,14 @@ function render(rows){
     btn.classList.add('active');
     const im=$('mainImage');
     if(im)im.src=optimized(btn.dataset.img,1200);
+
+    const row=selectedRows.find(r=>r.image===btn.dataset.img);
+    if(row){
+      const stock=$('selectedStockCode');
+      const rate=$('selectedRate');
+      if(stock)stock.textContent=row.stockCode||'—';
+      if(rate&&!isProfile)rate.textContent=row.mrp?`MRP ${row.mrp}`:'MRP —';
+    }
   }));
 
   document.querySelectorAll('[data-finish]').forEach(btn=>btn.addEventListener('click',()=>{

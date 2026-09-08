@@ -25,3 +25,13 @@ The All Products control is a custom KEUS-styled dropdown. Product cards retain 
 - Swiping left/right on the product image changes the finish.
 - The matching dot highlights immediately.
 - Only that product's image and MRP change.
+
+
+## Stock code + mobile details fix
+
+- Details page shows one stock code only for the currently selected finish/colour.
+- Changing the finish re-renders the selected stock code dynamically.
+- If the selected finish has multiple image variants, choosing a thumbnail updates the exact stock code and MRP for that image variant.
+- Mobile details layout now prevents page-wide horizontal overflow.
+- Product image, finish chips, thumbnails, specification grid and variant table are contained responsively.
+- Variant table scrolls inside its own container on mobile.
