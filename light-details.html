@@ -95,6 +95,303 @@ td{font-size:9px}
   .finishes::-webkit-scrollbar{display:none!important}
 }
 
+
+/* =========================================================
+   MOBILE DETAIL PAGE — RESPONSIVE FIX
+   ========================================================= */
+html,body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+.layout,.visual,.info,.variants,.table-wrap,.image-box{
+  min-width:0;
+  max-width:100%;
+}
+.image-box img,
+.thumb img{
+  max-width:100%;
+}
+.spec-value{
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+@media(max-width:780px){
+  body{
+    background:#f6f2ec;
+    overflow-x:hidden;
+  }
+
+  .top{
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .top-inner{
+    width:100%;
+    max-width:100%;
+    min-height:58px;
+    padding:0 12px;
+    gap:8px;
+  }
+  .brand{
+    flex:0 0 auto;
+    font-size:14px;
+    letter-spacing:.30em;
+  }
+  .sep,.top-title{
+    display:none;
+  }
+  .back{
+    margin-left:auto;
+    max-width:62%;
+    min-height:36px;
+    padding:7px 10px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size:9px;
+  }
+
+  .shell{
+    width:100%;
+    max-width:100%;
+    padding:10px 10px 28px;
+    overflow:hidden;
+  }
+  .breadcrumb{
+    width:100%;
+    margin:2px 2px 10px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size:8px;
+    line-height:1.4;
+  }
+
+  .layout{
+    width:100%;
+    display:block;
+    border:1px solid #e2dcd3;
+    border-radius:12px;
+    overflow:hidden;
+    background:var(--paper);
+  }
+
+  .visual{
+    width:100%;
+    padding:12px;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .image-box{
+    width:100%;
+    aspect-ratio:1/1;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .image-box img{
+    width:88%;
+    height:88%;
+    object-fit:contain;
+  }
+
+  .thumbs{
+    width:100%;
+    display:flex;
+    flex-wrap:nowrap;
+    gap:7px;
+    margin-top:8px;
+    padding-bottom:3px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .thumbs::-webkit-scrollbar{display:none}
+  .thumb{
+    flex:0 0 56px;
+    width:56px;
+    height:56px;
+    padding:3px;
+    border-radius:7px;
+  }
+
+  .finish-wrap{
+    width:100%;
+    margin-top:14px;
+    overflow:hidden;
+  }
+  .label{
+    margin-bottom:7px;
+    font-size:7px;
+    letter-spacing:.12em;
+  }
+  .finishes{
+    width:100%;
+    max-width:100%;
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    gap:7px;
+    padding:0 0 4px;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scrollbar-width:none!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  .finishes::-webkit-scrollbar{display:none!important}
+  .finish-btn{
+    flex:0 0 auto!important;
+    min-height:36px;
+    padding:5px 10px 5px 5px;
+    font-size:8px;
+    white-space:nowrap;
+  }
+  .finish-btn .swatch{
+    width:20px;
+    height:20px;
+  }
+
+  .info{
+    width:100%;
+    padding:18px 13px 16px;
+    overflow:hidden;
+  }
+  .kicker{
+    margin-bottom:7px;
+    font-size:7px;
+  }
+  h1{
+    max-width:100%;
+    margin:0;
+    font-family:Inter,Arial,sans-serif;
+    font-size:26px;
+    line-height:1.08;
+    font-weight:750;
+    letter-spacing:-.025em;
+    overflow-wrap:anywhere;
+  }
+  .price{
+    margin:9px 0 16px;
+    font-size:15px;
+  }
+  .description{
+    max-width:100%;
+    margin-bottom:16px;
+    font-size:11px;
+    line-height:1.55;
+  }
+
+  .spec-grid{
+    width:100%;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .spec{
+    min-width:0;
+    min-height:62px;
+    padding:9px;
+  }
+  .spec-label{
+    font-size:6.5px;
+    margin-bottom:5px;
+  }
+  .spec-value{
+    font-size:9.5px;
+    line-height:1.35;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
+
+  .variants{
+    width:100%;
+    max-width:100%;
+    margin-top:14px;
+    overflow:hidden;
+  }
+  .variants h2{
+    margin:0 2px 8px;
+    font-family:Inter,Arial,sans-serif;
+    font-size:15px;
+    font-weight:700;
+  }
+  .table-wrap{
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    border-radius:9px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
+  table{
+    width:max-content;
+    min-width:900px;
+  }
+  th,td{
+    padding:8px 9px;
+    font-size:8px;
+  }
+  th{
+    position:sticky;
+    top:0;
+    z-index:1;
+    font-size:7px;
+  }
+
+  .profile-only .spec-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:390px){
+  .top-inner{padding:0 9px}
+  .back{
+    max-width:58%;
+    padding-left:8px;
+    padding-right:8px;
+  }
+  .shell{padding-left:8px;padding-right:8px}
+  .visual{padding:10px}
+  .info{padding:16px 11px 14px}
+  h1{font-size:23px}
+  .price{font-size:14px}
+  .spec{padding:8px}
+  .spec-value{font-size:9px}
+}
+
+@media(max-width:340px){
+  .spec-grid{
+    grid-template-columns:1fr;
+  }
+  .back{
+    max-width:55%;
+    font-size:8px;
+  }
+}
+
+
+@media(max-width:780px){
+  .finish-wrap{margin-top:10px!important}
+  .label{
+    margin-bottom:5px!important;
+    font-size:6.5px!important;
+  }
+  .finishes{gap:5px!important}
+  .finish-btn{
+    min-height:30px!important;
+    padding:4px 8px 4px 4px!important;
+    gap:5px!important;
+    font-size:7.5px!important;
+  }
+  .finish-btn .swatch{
+    width:16px!important;
+    height:16px!important;
+  }
+}
+
 </style>
 </head>
 <body>

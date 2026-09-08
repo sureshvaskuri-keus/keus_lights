@@ -2,5 +2,5 @@
 cd /d "%~dp0"
 python optimize_csv_images.py
 echo.
-echo Finished optimizing CSV image URLs in ..\data
+echo Finished.
 pause
