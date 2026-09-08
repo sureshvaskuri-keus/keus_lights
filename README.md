@@ -1,58 +1,18 @@
-# KEUS Lighting Catalogue — Selected Colour Logic
+# KEUS Lighting Catalogue
 
-## Fixed behaviour
+Updated UI accent uses #5b524a / #403a35 / #c6beb6. Product finish colours are not changed.
 
-1. Stock Code
-- Details page shows only the stock code for the selected colour.
-- Changing colour updates the stock code.
-- If a colour has multiple image variants, selecting the image thumbnail also updates the exact stock code.
-
-2. Rate / MRP
-- Landing-page cards show only the MRP for the colour currently displayed.
-- Default is White when White exists; otherwise the first available finish.
-- Clicking Rose Gold, Champagne Gold, etc. updates only that card's image and MRP.
-- Details page shows only the MRP for the selected colour.
-
-3. Colour scrolling
-- No +4 / +N indicator.
-- All available colour swatches are rendered.
-- Colours scroll horizontally on product cards.
-- Colours scroll horizontally on the product-details page.
-- Touch scrolling works on mobile.
-
-4. Existing fixes retained
-- Changing one product colour does not change other products.
-- Profiles use the simplified layout.
-- Mobile has no pagination.
-- WebP image delivery has original ImgBB fallback.
+The All Products control is a custom KEUS-styled dropdown. Product cards retain CSV order; the dropdown remains alphabetical. Each light series card shows its total variant count at the top-right.
 
 
-## Mobile details responsive fix
+## Mobile compact + swipe update
 
-- Prevents horizontal page overflow.
-- Product image scales correctly to phone width.
-- Finish colours use touch-enabled horizontal scrolling.
-- Image thumbnails use horizontal scrolling.
-- Header and Back button fit narrow screens.
-- Stock codes and long technical values wrap safely.
-- Technical specification grid adapts from 2 columns to 1 column on very narrow phones.
-- Variant table is contained inside its own horizontal scroller instead of stretching the page.
-
-
-## Compact mobile UI update
-
-- Category tabs are smaller, lighter and more compact.
-- Finish filter chips are smaller on mobile.
-- Product finish indicators are compact dots.
-- Swipe left/right on a product image on mobile to cycle through available finishes.
-- The active finish dot highlights automatically after swiping.
-- Image and MRP update only for the product being swiped.
-- The Profiles CSV remains included at `data/profiles.csv`.
-
-
-## Product ordering + dropdown
-
-- Product cards preserve the exact first-appearance order from each CSV file.
-- Product cards are not alphabetically sorted.
-- The `All Products` dropdown is alphabetically sorted.
-- The selector uses a compact KEUS-style treatment with warm white, restrained gold accents, rounded corners and tighter spacing.
+- 4 category tabs are smaller, with smaller icons, tighter spacing and a cleaner pill shape.
+- The finish filter section is reduced in height.
+- Finish chips and colour circles are smaller.
+- Product colour indicators are compact dots.
+- On mobile, swiping left/right on a product image changes that product’s finish.
+- The corresponding colour dot highlights automatically.
+- Only that product’s image and MRP change.
+- Detail-page finish chips are slightly smaller.
+- `profiles.csv` remains included correctly inside `data/`.

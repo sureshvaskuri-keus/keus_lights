@@ -387,9 +387,9 @@
    KEUS MOBILE COMMERCE UX — reference-inspired, KEUS palette
    ========================================================= */
 :root{
-  --keus-gold:#b28746;
-  --keus-gold-dark:#8f6932;
-  --keus-gold-soft:#e3d1b2;
+  --keus-gold:#5b524a;
+  --keus-gold-dark:#403a35;
+  --keus-gold-soft:#c6beb6;
   --keus-cream:#f6f2ec;
   --keus-paper:#fffdfa;
   --keus-ink:#0c0c0c;
@@ -500,7 +500,7 @@
     background:var(--keus-gold);
     color:#fff;
     border-color:var(--keus-gold);
-    box-shadow:0 5px 14px rgba(178,135,70,.20);
+    box-shadow:0 5px 14px rgba(91,82,74,.20);
   }
   .cat-icon{width:19px;height:19px}
 
@@ -959,10 +959,10 @@ body.profiles-mode .profile-card .card-title{
   gap:6px;
   min-height:32px;
   padding:0 12px;
-  border:1px solid var(--keus-gold,#b28746);
+  border:1px solid var(--keus-gold,#5b524a);
   border-radius:999px;
   background:transparent;
-  color:var(--keus-gold-dark,#8f6932);
+  color:var(--keus-gold-dark,#403a35);
   font-size:9px;
   font-weight:700;
 }
@@ -1002,31 +1002,66 @@ body.profiles-mode .profile-card .card-title{
 }
 
 
-/* Selected-colour behaviour: show every available finish in a horizontal scroller */
-.card-finishes{
-  display:flex!important;
-  flex-wrap:nowrap!important;
-  overflow-x:auto!important;
-  overflow-y:hidden!important;
-  scrollbar-width:thin;
-  -webkit-overflow-scrolling:touch;
-}
-.card-finishes::-webkit-scrollbar{height:4px}
-.card-finishes::-webkit-scrollbar-thumb{background:#c8c0b5;border-radius:999px}
-.card-swatch{flex:0 0 auto!important}
-.more-finishes{display:none!important}
+/* =========================================================
+   KEUS TAUPE UI — #5b524a ACCENT ONLY
+   Product finish colours remain unchanged.
+   ========================================================= */
+.native-product-select{position:absolute!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important}
+.keus-product-select{position:relative;min-width:0;z-index:91}
+.keus-product-trigger{width:100%;height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 14px;border:1px solid #c6beb6;border-radius:12px;background:#fbfaf7;color:#070404;font-size:11px;font-weight:700;text-align:left;box-shadow:0 3px 12px rgba(7,4,4,.035)}
+.keus-product-trigger:hover,.keus-product-select.open .keus-product-trigger{border-color:#5b524a;background:#fff}
+.keus-product-chevron{width:8px;height:8px;border-right:1.5px solid #5b524a;border-bottom:1.5px solid #5b524a;transform:rotate(45deg) translateY(-2px);transition:transform .18s ease;flex:0 0 auto}
+.keus-product-select.open .keus-product-chevron{transform:rotate(225deg) translate(-1px,-1px)}
+.keus-product-menu{position:absolute;left:0;right:0;top:calc(100% + 7px);max-height:min(480px,65vh);overflow-y:auto;background:#fbfaf7;border:1px solid #c6beb6;border-radius:16px;box-shadow:0 22px 55px rgba(7,4,4,.18);padding:6px;z-index:999;scrollbar-width:thin;scrollbar-color:#5b524a #eeeae5}
+.keus-product-option{width:100%;min-height:46px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;border-bottom:1px solid #e8e3de;border-radius:9px;background:transparent;color:#070404;font-size:12px;font-weight:500;text-align:left}
+.keus-product-option:last-child{border-bottom:0}
+.keus-product-option:hover{background:#eeeae5;color:#070404}
+.keus-product-option.active{background:#5b524a;color:#fff;font-weight:700}
+.keus-product-option i{width:18px;height:18px;border:1.5px solid #5b524a;border-radius:50%;position:relative;flex:0 0 auto}
+.keus-product-option.active i{border-color:#fff}
+.keus-product-option.active i:after{content:"";position:absolute;inset:4px;border-radius:50%;background:#fff}
+.series-variant-badge{position:absolute;top:8px;right:8px;z-index:4;padding:5px 8px;border-radius:999px;background:rgba(91,82,74,.92);color:#fff;font-size:7px;font-weight:750;letter-spacing:.05em;text-transform:uppercase;box-shadow:0 3px 10px rgba(7,4,4,.10);pointer-events:none}
+.match-tag{left:8px!important;right:auto!important;background:rgba(7,4,4,.84)!important}
+
+/* UI accent replacements using the KEUS taupe family */
+.product-main,.toolbar .product-main{border-color:#c6beb6!important}
+.mobile-product-label{color:#5b524a!important}
+.card-price{color:#403a35!important}
+.view-detail-cta,.profile-details-btn{border-color:#5b524a!important;color:#403a35!important}
+.category-tab.active,.category-tab.active:hover{background:#5b524a!important;border-color:#5b524a!important;box-shadow:0 4px 12px rgba(91,82,74,.18)!important}
+.finish-chip.active{border-color:#5b524a!important;box-shadow:inset 0 0 0 1px #5b524a!important}
+.card-swatch.active{border-color:#5b524a!important;box-shadow:0 0 0 1px rgba(91,82,74,.18)!important}
+.brand:after{background:#5b524a!important}
+.top-meta i{background:#5b524a!important}
+.top-meta span:first-child{color:#c6beb6!important}
+
 @media(max-width:780px){
-  .card-finishes{scrollbar-width:none!important}
-  .card-finishes::-webkit-scrollbar{display:none!important}
+  .keus-product-select{grid-column:1/-1!important;order:2!important}
+  .keus-product-trigger{height:36px;border-radius:11px;padding:0 12px;font-size:9px;background:#fbfaf7}
+  .keus-product-menu{position:fixed;left:12px;right:12px;top:90px;max-height:72vh;border-radius:18px;padding:6px;background:#fbfaf7;box-shadow:0 28px 70px rgba(7,4,4,.28)}
+  .keus-product-option{min-height:43px;padding:0 11px;font-size:11px;border-radius:9px}
+  .keus-product-option i{width:17px;height:17px}
+  .series-variant-badge{top:6px;right:6px;padding:4px 6px;font-size:6px}
+  .match-tag{top:6px!important;left:6px!important}
 }
 
 
 /* =========================================================
-   COMPACT MOBILE CATEGORY + FINISH UI
+   COMPACT MOBILE REFINEMENTS
    ========================================================= */
-@media(max-width:780px){
+.card-finishes{
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  flex-wrap:nowrap!important;
+  scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;
+}
+.card-finishes::-webkit-scrollbar{height:4px}
+.card-finishes::-webkit-scrollbar-thumb{background:#c6beb6;border-radius:999px}
+.card-swatch{flex:0 0 auto!important}
+.more-finishes{display:none!important}
 
-  /* Four top category tabs — smaller and cleaner */
+@media(max-width:780px){
   .category-tabs{
     gap:5px!important;
     padding:9px 10px 8px!important;
@@ -1045,11 +1080,7 @@ body.profiles-mode .profile-card .card-title{
     width:14px!important;
     height:14px!important;
   }
-  .category-tab.active{
-    box-shadow:0 3px 10px rgba(178,135,70,.14)!important;
-  }
 
-  /* Smaller overall finish section */
   .finish-panel{
     margin:7px 0 0!important;
     padding:7px 0 0!important;
@@ -1074,13 +1105,17 @@ body.profiles-mode .profile-card .card-title{
     height:17px!important;
   }
 
-  /* Product colour indicators — compact dots */
+  .card-image{
+    touch-action:pan-y;
+  }
   .card-finishes{
     min-height:21px!important;
     margin-top:5px!important;
     padding-top:5px!important;
     gap:2px!important;
+    scrollbar-width:none!important;
   }
+  .card-finishes::-webkit-scrollbar{display:none!important}
   .card-swatch{
     width:14px!important;
     height:14px!important;
@@ -1092,13 +1127,8 @@ body.profiles-mode .profile-card .card-title{
     height:9px!important;
   }
   .card-swatch.active{
-    border-color:var(--keus-gold)!important;
-    box-shadow:0 0 0 1px rgba(178,135,70,.20)!important;
-  }
-
-  /* Give the user a subtle swipe cue without adding bulky text */
-  .card-image{
-    touch-action:pan-y;
+    border-color:#5b524a!important;
+    box-shadow:0 0 0 1px rgba(91,82,74,.20)!important;
   }
 }
 
@@ -1125,81 +1155,6 @@ body.profiles-mode .profile-card .card-title{
   .finish-chip .swatch{
     width:15px!important;
     height:15px!important;
-  }
-}
-
-
-/* =========================================================
-   KEUS PRODUCT SELECTOR — polished "All Products" dropdown
-   ========================================================= */
-.product-main{
-  appearance:none;
-  -webkit-appearance:none;
-  min-height:44px;
-  padding:0 44px 0 15px!important;
-  border:1px solid #d7d0c6!important;
-  border-radius:14px!important;
-  background:
-    linear-gradient(45deg,transparent 50%,#8f6932 50%) calc(100% - 20px) 50%/5px 5px no-repeat,
-    linear-gradient(135deg,#8f6932 50%,transparent 50%) calc(100% - 15px) 50%/5px 5px no-repeat,
-    linear-gradient(to right,rgba(178,135,70,.10),rgba(178,135,70,0)) 0 0/46px 100% no-repeat,
-    #fffdfa!important;
-  color:#181512!important;
-  font-family:Inter,Arial,sans-serif!important;
-  font-size:11px!important;
-  font-weight:700!important;
-  letter-spacing:.01em!important;
-  box-shadow:0 5px 16px rgba(35,28,20,.045)!important;
-  transition:border-color .18s ease,box-shadow .18s ease!important;
-}
-.product-main:hover{
-  border-color:#bfae91!important;
-}
-.product-main:focus{
-  outline:none!important;
-  border-color:#b28746!important;
-  box-shadow:0 0 0 3px rgba(178,135,70,.10),0 6px 18px rgba(35,28,20,.05)!important;
-}
-.product-main option{
-  background:#fffdfa;
-  color:#191714;
-  font-family:Inter,Arial,sans-serif;
-  font-size:12px;
-}
-.mobile-product-label{
-  color:#8f6932!important;
-  font-size:7px!important;
-  font-weight:750!important;
-  letter-spacing:.14em!important;
-  text-transform:uppercase!important;
-}
-@media(max-width:780px){
-  .toolbar .product-main{
-    height:38px!important;
-    min-height:38px!important;
-    padding:0 38px 0 12px!important;
-    border-radius:12px!important;
-    font-size:9.5px!important;
-    background:
-      linear-gradient(45deg,transparent 50%,#8f6932 50%) calc(100% - 18px) 50%/4px 4px no-repeat,
-      linear-gradient(135deg,#8f6932 50%,transparent 50%) calc(100% - 14px) 50%/4px 4px no-repeat,
-      linear-gradient(to right,rgba(178,135,70,.10),rgba(178,135,70,0)) 0 0/38px 100% no-repeat,
-      #fffdfa!important;
-    box-shadow:0 3px 10px rgba(35,28,20,.035)!important;
-  }
-  .mobile-product-label{
-    display:block!important;
-    margin:0 0 -1px 3px!important;
-    font-size:6.5px!important;
-    color:#8f6932!important;
-  }
-}
-@media(max-width:390px){
-  .toolbar .product-main{
-    height:36px!important;
-    min-height:36px!important;
-    font-size:9px!important;
-    border-radius:11px!important;
   }
 }
 
@@ -1256,7 +1211,13 @@ body.profiles-mode .profile-card .card-title{
     <div class="toolbar">
       <input class="field search" id="searchBox" type="search" placeholder="Search product, item no., stock code or specification…" />
       <div class="mobile-product-label">Select Product</div>
-      <select class="field product-main" id="nameFilter" data-field="name"><option value="">All products</option></select>
+      <select class="field product-main native-product-select" id="nameFilter" data-field="name" aria-hidden="true" tabindex="-1"><option value="">All products</option></select>
+      <div class="keus-product-select" id="keusProductSelect">
+        <button class="keus-product-trigger" id="keusProductTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <span id="keusProductTriggerText">All products</span><span class="keus-product-chevron" aria-hidden="true"></span>
+        </button>
+        <div class="keus-product-menu" id="keusProductMenu" role="listbox" aria-label="All products" hidden></div>
+      </div>
       <select class="field" id="cctFilter" data-field="cct"><option value="">All CCT</option></select>
       <select class="field watt-main" id="wattageFilter" data-field="wattage"><option value="">All wattages</option></select>
       <button class="btn more-btn" id="moreBtn" type="button">More Filters</button>
@@ -1346,16 +1307,6 @@ body.profiles-mode .profile-card .card-title{
     }catch(_){}
     return raw;
   }
-  function imageFallbackUrl(value){
-    return sourceImageUrl(value);
-  }
-  function imageErrorFallback(img){
-    const fallback=img?.dataset?.fallback||'';
-    if(fallback && img.src!==fallback){
-      img.dataset.fallback='';
-      img.src=fallback;
-    }
-  }
 
   const CATEGORIES={
     downlights:{label:'Down Lights',file:'./data/downlights.csv'},
@@ -1427,12 +1378,42 @@ body.profiles-mode .profile-card .card-title{
   function searchMatches(r,q){if(!q)return true;const hay=[r.name,r.itemNo,r.vf,r.imax,r.cct,r.cri,r.cutout,r.beam,r.wattage,r.batchCode,r.stockCode,r.bisNo,r.bisSpec,r.mrp,r.mfgBy,r.newDescription,r.finish,r.image].join(' ').toLowerCase();return hay.includes(q)}
   function rowMatches(r,ignore=''){if(!searchMatches(r,state.q))return false;if(ignore!=='finish'&&state.finish&&r.finish!==state.finish)return false;for(const f of filterFields){if(f===ignore)continue;if(state[f]&&r[f]!==state[f])return false}return true}
 
-  function optionSortFor(field,vals){
-    if(field==='name') return vals.sort(naturalSort);
-    return vals.sort(['cct','wattage','beam','cri','imax','mrp'].includes(field)?numericSort:naturalSort);
+  function optionSortFor(field,vals){return vals.sort(['cct','wattage','beam','cri','imax','mrp'].includes(field)?numericSort:naturalSort)}
+
+  function syncKeusProductMenu(){
+    const menu=$('keusProductMenu'),trigger=$('keusProductTrigger'),label=$('keusProductTriggerText');
+    if(!menu||!trigger||!label)return;
+    const options=[...els.nameFilter.options];
+    const selected=els.nameFilter.value||'';
+    label.textContent=selected||'All products';
+    menu.innerHTML=options.map(opt=>{
+      const value=opt.value||'';
+      const active=value===selected;
+      return `<button class="keus-product-option ${active?'active':''}" type="button" role="option" aria-selected="${active}" data-product-value="${escapeHtml(value)}"><span>${escapeHtml(opt.textContent)}</span><i aria-hidden="true"></i></button>`;
+    }).join('');
+    menu.querySelectorAll('[data-product-value]').forEach(btn=>btn.addEventListener('click',()=>{
+      els.nameFilter.value=btn.dataset.productValue;
+      state.name=els.nameFilter.value;
+      currentPage=0;
+      closeKeusProductMenu();
+      updateAll();
+    }));
+  }
+  function openKeusProductMenu(){
+    const wrap=$('keusProductSelect'),menu=$('keusProductMenu'),trigger=$('keusProductTrigger');
+    if(!wrap||!menu||!trigger)return;
+    menu.hidden=false;wrap.classList.add('open');trigger.setAttribute('aria-expanded','true');
+    const active=menu.querySelector('.keus-product-option.active');
+    if(active)setTimeout(()=>active.scrollIntoView({block:'nearest'}),0);
+  }
+  function closeKeusProductMenu(){
+    const wrap=$('keusProductSelect'),menu=$('keusProductMenu'),trigger=$('keusProductTrigger');
+    if(!wrap||!menu||!trigger)return;
+    menu.hidden=true;wrap.classList.remove('open');trigger.setAttribute('aria-expanded','false');
   }
   function refreshSelectOptions(){
     for(const field of filterFields){const select=filterEls[field];if(!select)continue;const current=state[field];const optionSource=field==='beam'?records:records.filter(r=>rowMatches(r,field));const vals=optionSortFor(field,unique(optionSource.map(r=>r[field])));select.innerHTML=`<option value="">${escapeHtml(optionLabels[field])}</option>`+vals.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');if(current&&vals.includes(current))select.value=current;else if(current){state[field]='';select.value=''}}
+    syncKeusProductMenu();
   }
   function refreshFinishChips(){
     if(activeCategory==='profiles'){
@@ -1472,7 +1453,6 @@ body.profiles-mode .profile-card .card-title{
     const visual=representativeVariant(group,group.variants,finish);
     const img=card.querySelector('.card-image img');
     if(img&&visual&&visual.image){
-      img.dataset.fallback=imageFallbackUrl(visual.image);
       img.src=optimizeImageUrl(visual.image,520);
       img.alt=`${group.name} · ${finish}`;
     }
@@ -1498,29 +1478,25 @@ body.profiles-mode .profile-card .card-title{
     let startX=0,startY=0;
     imageArea.addEventListener('touchstart',e=>{
       const t=e.touches&&e.touches[0];
-      if(!t)return;
+      if(!t) return;
       startX=t.clientX;
       startY=t.clientY;
     },{passive:true});
 
     imageArea.addEventListener('touchend',e=>{
-      if(!window.matchMedia('(max-width:780px)').matches)return;
+      if(!window.matchMedia('(max-width:780px)').matches) return;
       const t=e.changedTouches&&e.changedTouches[0];
-      if(!t)return;
+      if(!t) return;
 
       const dx=t.clientX-startX;
       const dy=t.clientY-startY;
-
-      // Ignore vertical page scrolling and very small accidental movement.
-      if(Math.abs(dx)<34 || Math.abs(dx)<=Math.abs(dy))return;
+      if(Math.abs(dx)<34 || Math.abs(dx)<=Math.abs(dy)) return;
 
       const current=cardFinishSelections.get(cardFinishKey(group))||state.finish||finishes[0];
-      let i=finishes.indexOf(current);
-      if(i<0)i=0;
-
-      // Swipe left -> next finish; swipe right -> previous finish.
-      i=dx<0 ? (i+1)%finishes.length : (i-1+finishes.length)%finishes.length;
-      changeOnlyThisCardFinish(card,group,finishes[i]);
+      let idx=finishes.indexOf(current);
+      if(idx<0) idx=0;
+      idx = dx<0 ? (idx+1)%finishes.length : (idx-1+finishes.length)%finishes.length;
+      changeOnlyThisCardFinish(card,group,finishes[idx]);
     },{passive:true});
   }
   function renderProfileCatalogue(){
@@ -1550,7 +1526,7 @@ body.profiles-mode .profile-card .card-title{
       const img=rep&&rep.image;
       const description=unique(rows.map(v=>v.newDescription)).join(' ')||'—';
       card.innerHTML=`<button class="card-open" type="button">
-        <div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" data-fallback="${escapeHtml(imageFallbackUrl(img))}" onerror="imageErrorFallback(this)" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div>
+        <div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div>
         <div class="card-body">
           <div class="card-kicker">${escapeHtml(summarizeAll(rows.map(v=>v.stockCode)))}</div>
           <h3 class="card-title">${escapeHtml(g.name)}</h3>
@@ -1600,7 +1576,7 @@ body.profiles-mode .profile-card .card-title{
       const pages=Math.ceil(cards.length/getPageSize());currentPage=Math.min(currentPage,pages-1);const pageStart=currentPage*getPageSize();
       cards.slice(pageStart,pageStart+getPageSize()).forEach(entry=>{
         const {finish,rows,rep}=entry;const img=rep&&rep.image;const card=document.createElement('article');card.className='card finish-gallery-card';
-        card.innerHTML=`<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" data-fallback="${escapeHtml(imageFallbackUrl(img))}" onerror="imageErrorFallback(this)" alt="${escapeHtml(productGroup.name)} · ${escapeHtml(finish)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(productGroup.name)}</h3><div class="card-price">${rep&&rep.mrp?`MRP ${escapeHtml(rep.mrp)}`:'Price on request'}</div><div class="finish-name">${swatchHtml(finish)}<span>${escapeHtml(finish)}</span></div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div><div class="card-foot"><span>${rows.length} variant${rows.length===1?'':'s'}</span><span class="view-detail-cta">View Details <b>→</b></span></div></div></button>`;
+        card.innerHTML=`<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" alt="${escapeHtml(productGroup.name)} · ${escapeHtml(finish)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(productGroup.name)}</h3><div class="card-price">${rep&&rep.mrp?`MRP ${escapeHtml(rep.mrp)}`:'Price on request'}</div><div class="finish-name">${swatchHtml(finish)}<span>${escapeHtml(finish)}</span></div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div><div class="card-foot"><span>${rows.length} variant${rows.length===1?'':'s'}</span><span class="view-detail-cta">View Details <b>→</b></span></div></div></button>`;
         card.querySelector('.card-open').addEventListener('click',()=>goToDetail(productGroup,finish));els.grid.appendChild(card);
       });
       els.pagination.hidden=pages<=1;els.pageInfo.textContent=`Page ${currentPage+1} / ${pages}`;els.prevBtn.disabled=currentPage===0;els.nextBtn.disabled=currentPage>=pages-1;return;
@@ -1611,7 +1587,7 @@ body.profiles-mode .profile-card .card-title{
     if(!total){els.grid.innerHTML=`<div class="empty"><h3>No matching variants</h3><p>The filters work at variant level, not only product level. Remove one or more filters to widen the result.</p><button class="btn" id="emptyReset" type="button">Reset All Filters</button></div>`;els.pagination.hidden=true;$('emptyReset').addEventListener('click',resetAll);return}
     const pages=Math.ceil(total/getPageSize());currentPage=Math.min(currentPage,pages-1);const pageStart=currentPage*getPageSize();viewGroups.slice(pageStart,pageStart+getPageSize()).forEach(g=>{
       const rows=g.matchedVariants,allFinishes=unique(g.variants.map(v=>v.finish)).sort(finishSort),matchedFinishes=unique(rows.map(v=>v.finish)).sort(finishSort);const card=document.createElement('article');card.className='card';const localFinish=cardFinishSelections.get(cardFinishKey(g))||state.finish||'';const rep=representativeVariant(g,g.variants,localFinish);const img=rep&&rep.image;
-      card.innerHTML=`${rows.length<g.variants.length?`<div class="match-tag">${rows.length} match${rows.length===1?'':'es'}</div>`:''}<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" data-fallback="${escapeHtml(imageFallbackUrl(img))}" onerror="imageErrorFallback(this)" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(g.name)}</h3><div class="card-price" data-card-rate>${rep&&rep.mrp?`MRP ${escapeHtml(rep.mrp)}`:'Price on request'}</div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div></div></button><div class="card-body" style="padding-top:0"><div class="card-finishes"><span class="card-finish-label">Finishes</span>${allFinishes.map(f=>`<button class="card-swatch ${localFinish===f?'active':''}" type="button" data-card-finish="${escapeHtml(f)}" title="${escapeHtml(f)}">${swatchHtml(f)}</button>`).join('')}</div><div class="card-foot"><span>${rows.length}${rows.length!==g.variants.length?` / ${g.variants.length}`:''} variant${g.variants.length===1?'':'s'}</span><button class="view-detail-cta" type="button">View Details <b>→</b></button></div></div>`;
+      card.innerHTML=`<div class="series-variant-badge">${g.variants.length} variant${g.variants.length===1?'':'s'}</div>${rows.length<g.variants.length?`<div class="match-tag">${rows.length} match${rows.length===1?'':'es'}</div>`:''}<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(g.name)}</h3><div class="card-price" data-card-rate>${rep&&rep.mrp?`MRP ${escapeHtml(rep.mrp)}`:'Price on request'}</div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div></div></button><div class="card-body" style="padding-top:0"><div class="card-finishes"><span class="card-finish-label">Finishes</span>${allFinishes.map(f=>`<button class="card-swatch ${localFinish===f?'active':''}" type="button" data-card-finish="${escapeHtml(f)}" title="${escapeHtml(f)}">${swatchHtml(f)}</button>`).join('')}</div><div class="card-foot"><span>${rows.length}${rows.length!==g.variants.length?` / ${g.variants.length}`:''} variant${g.variants.length===1?'':'s'}</span><button class="view-detail-cta" type="button">View Details <b>→</b></button></div></div>`;
       card.querySelector('.card-open').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelector('.view-detail-cta').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelectorAll('[data-card-finish]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();changeOnlyThisCardFinish(card,g,btn.dataset.cardFinish)}));bindMobileFinishSwipe(card,g,allFinishes);els.grid.appendChild(card)
     });
     els.pagination.hidden=pages<=1;els.pageInfo.textContent=`Page ${currentPage+1} / ${pages}`;els.prevBtn.disabled=currentPage===0;els.nextBtn.disabled=currentPage>=pages-1;
@@ -1650,22 +1626,13 @@ body.profiles-mode .profile-card .card-title{
     for(const f of filterFields) if(filterEls[f]) filterEls[f].value='';
     renderCatalogue();
     try{
-      const candidates=[cfg.file,cfg.file.replace('./data/','./')];
-      let text='',loadedFrom='',lastError=null;
-      for(const file of candidates){
-        try{
-          const res=await fetch(encodeURI(file),{cache:'no-store'});
-          if(!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-          text=await res.text();
-          loadedFrom=file;
-          break;
-        }catch(err){lastError=err}
-      }
-      if(!text) throw lastError||new Error('CSV file could not be loaded.');
-      loadCSVText(text,loadedFrom);
+      const res=await fetch(encodeURI(cfg.file),{cache:'no-store'});
+      if(!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      const text=await res.text();
+      loadCSVText(text,cfg.file);
     }catch(err){
       console.error(err);
-      els.status.innerHTML=`<strong>Could not load ${escapeHtml(cfg.file)}.</strong> Check that the CSV exists inside the data folder.`;
+      els.status.innerHTML=`<strong>Could not load ${escapeHtml(cfg.file)}.</strong> Make sure this CSV exists inside the data folder.`;
       records=[];groups=[];viewGroups=[];renderCatalogue();
     }
   }
@@ -1679,6 +1646,11 @@ body.profiles-mode .profile-card .card-title{
   });
   window.addEventListener('dragover',e=>{e.preventDefault();document.body.classList.add('drop-highlight')});window.addEventListener('dragleave',e=>{if(e.clientX===0&&e.clientY===0)document.body.classList.remove('drop-highlight')});window.addEventListener('drop',e=>{e.preventDefault();document.body.classList.remove('drop-highlight');const file=[...(e.dataTransfer?.files||[])].find(f=>/\.csv$/i.test(f.name));if(!file)return;const reader=new FileReader();reader.onload=()=>loadCSVText(reader.result,file.name);reader.readAsText(file,'utf-8')});
   els.categoryTabs.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>loadCategory(btn.dataset.category)));
+  const productTrigger=$('keusProductTrigger');
+  if(productTrigger)productTrigger.addEventListener('click',e=>{e.stopPropagation();const menu=$('keusProductMenu');if(menu&&menu.hidden)openKeusProductMenu();else closeKeusProductMenu()});
+  document.addEventListener('click',e=>{const wrap=$('keusProductSelect');if(wrap&&!wrap.contains(e.target))closeKeusProductMenu()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeKeusProductMenu()});
+
   const headerSearchBtn=$('headerSearchBtn');
   if(headerSearchBtn) headerSearchBtn.addEventListener('click',()=>{
     els.searchBox.scrollIntoView({behavior:'smooth',block:'center'});

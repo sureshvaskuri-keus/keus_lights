@@ -8,7 +8,7 @@
 *{box-sizing:border-box}
 :root{
   --bg:#f4f0e9;--paper:#fffdfa;--ink:#111;--muted:#746e66;--line:#ddd6cc;
-  --gold:#b28746;--gold-dark:#8f6932;--black:#090909;
+  --gold:#5b524a;--gold-dark:#403a35;--black:#090909;
 }
 html,body{margin:0;min-height:100%;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
 button{font:inherit;cursor:pointer}
@@ -77,310 +77,24 @@ td{font-size:9px}
   .image-box{border-radius:10px}
 }
 
-/* Every available colour stays visible in one horizontal scroll row */
-.finishes{
-  display:flex!important;
-  flex-wrap:nowrap!important;
-  overflow-x:auto!important;
-  overflow-y:hidden!important;
-  padding-bottom:5px;
-  scrollbar-width:thin;
-  -webkit-overflow-scrolling:touch;
-}
-.finishes::-webkit-scrollbar{height:4px}
-.finishes::-webkit-scrollbar-thumb{background:#c8c0b5;border-radius:999px}
-.finish-btn{flex:0 0 auto!important}
-@media(max-width:780px){
-  .finishes{scrollbar-width:none!important}
-  .finishes::-webkit-scrollbar{display:none!important}
-}
-
-
-/* =========================================================
-   MOBILE DETAIL PAGE — RESPONSIVE FIX
-   ========================================================= */
-html,body{
-  width:100%;
-  max-width:100%;
-  overflow-x:hidden;
-}
-.layout,.visual,.info,.variants,.table-wrap,.image-box{
-  min-width:0;
-  max-width:100%;
-}
-.image-box img,
-.thumb img{
-  max-width:100%;
-}
-.spec-value{
-  overflow-wrap:anywhere;
-  word-break:break-word;
-}
-
-@media(max-width:780px){
-  body{
-    background:#f6f2ec;
-    overflow-x:hidden;
-  }
-
-  .top{
-    position:sticky;
-    top:0;
-    z-index:50;
-  }
-  .top-inner{
-    width:100%;
-    max-width:100%;
-    min-height:58px;
-    padding:0 12px;
-    gap:8px;
-  }
-  .brand{
-    flex:0 0 auto;
-    font-size:14px;
-    letter-spacing:.30em;
-  }
-  .sep,.top-title{
-    display:none;
-  }
-  .back{
-    margin-left:auto;
-    max-width:62%;
-    min-height:36px;
-    padding:7px 10px;
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    font-size:9px;
-  }
-
-  .shell{
-    width:100%;
-    max-width:100%;
-    padding:10px 10px 28px;
-    overflow:hidden;
-  }
-  .breadcrumb{
-    width:100%;
-    margin:2px 2px 10px;
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    font-size:8px;
-    line-height:1.4;
-  }
-
-  .layout{
-    width:100%;
-    display:block;
-    border:1px solid #e2dcd3;
-    border-radius:12px;
-    overflow:hidden;
-    background:var(--paper);
-  }
-
-  .visual{
-    width:100%;
-    padding:12px;
-    border-right:0;
-    border-bottom:1px solid var(--line);
-    overflow:hidden;
-  }
-  .image-box{
-    width:100%;
-    aspect-ratio:1/1;
-    border-radius:10px;
-    overflow:hidden;
-  }
-  .image-box img{
-    width:88%;
-    height:88%;
-    object-fit:contain;
-  }
-
-  .thumbs{
-    width:100%;
-    display:flex;
-    flex-wrap:nowrap;
-    gap:7px;
-    margin-top:8px;
-    padding-bottom:3px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
-  }
-  .thumbs::-webkit-scrollbar{display:none}
-  .thumb{
-    flex:0 0 56px;
-    width:56px;
-    height:56px;
-    padding:3px;
-    border-radius:7px;
-  }
-
-  .finish-wrap{
-    width:100%;
-    margin-top:14px;
-    overflow:hidden;
-  }
-  .label{
-    margin-bottom:7px;
-    font-size:7px;
-    letter-spacing:.12em;
-  }
-  .finishes{
-    width:100%;
-    max-width:100%;
-    display:flex!important;
-    flex-wrap:nowrap!important;
-    gap:7px;
-    padding:0 0 4px;
-    overflow-x:auto!important;
-    overflow-y:hidden!important;
-    scrollbar-width:none!important;
-    -webkit-overflow-scrolling:touch;
-  }
-  .finishes::-webkit-scrollbar{display:none!important}
-  .finish-btn{
-    flex:0 0 auto!important;
-    min-height:36px;
-    padding:5px 10px 5px 5px;
-    font-size:8px;
-    white-space:nowrap;
-  }
-  .finish-btn .swatch{
-    width:20px;
-    height:20px;
-  }
-
-  .info{
-    width:100%;
-    padding:18px 13px 16px;
-    overflow:hidden;
-  }
-  .kicker{
-    margin-bottom:7px;
-    font-size:7px;
-  }
-  h1{
-    max-width:100%;
-    margin:0;
-    font-family:Inter,Arial,sans-serif;
-    font-size:26px;
-    line-height:1.08;
-    font-weight:750;
-    letter-spacing:-.025em;
-    overflow-wrap:anywhere;
-  }
-  .price{
-    margin:9px 0 16px;
-    font-size:15px;
-  }
-  .description{
-    max-width:100%;
-    margin-bottom:16px;
-    font-size:11px;
-    line-height:1.55;
-  }
-
-  .spec-grid{
-    width:100%;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-  .spec{
-    min-width:0;
-    min-height:62px;
-    padding:9px;
-  }
-  .spec-label{
-    font-size:6.5px;
-    margin-bottom:5px;
-  }
-  .spec-value{
-    font-size:9.5px;
-    line-height:1.35;
-    white-space:normal;
-    overflow-wrap:anywhere;
-    word-break:break-word;
-  }
-
-  .variants{
-    width:100%;
-    max-width:100%;
-    margin-top:14px;
-    overflow:hidden;
-  }
-  .variants h2{
-    margin:0 2px 8px;
-    font-family:Inter,Arial,sans-serif;
-    font-size:15px;
-    font-weight:700;
-  }
-  .table-wrap{
-    width:100%;
-    max-width:100%;
-    overflow-x:auto;
-    overflow-y:hidden;
-    border-radius:9px;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:thin;
-  }
-  table{
-    width:max-content;
-    min-width:900px;
-  }
-  th,td{
-    padding:8px 9px;
-    font-size:8px;
-  }
-  th{
-    position:sticky;
-    top:0;
-    z-index:1;
-    font-size:7px;
-  }
-
-  .profile-only .spec-grid{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:390px){
-  .top-inner{padding:0 9px}
-  .back{
-    max-width:58%;
-    padding-left:8px;
-    padding-right:8px;
-  }
-  .shell{padding-left:8px;padding-right:8px}
-  .visual{padding:10px}
-  .info{padding:16px 11px 14px}
-  h1{font-size:23px}
-  .price{font-size:14px}
-  .spec{padding:8px}
-  .spec-value{font-size:9px}
-}
-
-@media(max-width:340px){
-  .spec-grid{
-    grid-template-columns:1fr;
-  }
-  .back{
-    max-width:55%;
-    font-size:8px;
-  }
-}
-
-
 @media(max-width:780px){
   .finish-wrap{margin-top:10px!important}
   .label{
     margin-bottom:5px!important;
     font-size:6.5px!important;
   }
-  .finishes{gap:5px!important}
+  .finishes{
+    gap:5px!important;
+    flex-wrap:nowrap!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    padding-bottom:4px!important;
+    scrollbar-width:none!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  .finishes::-webkit-scrollbar{display:none!important}
   .finish-btn{
+    flex:0 0 auto!important;
     min-height:30px!important;
     padding:4px 8px 4px 4px!important;
     gap:5px!important;
@@ -435,14 +149,12 @@ const unique=a=>[...new Set(a.map(v=>String(v??'').trim()).filter(Boolean))];
 function delimiter(text){const first=text.replace(/^\uFEFF/,'').split(/\r?\n/).find(x=>x.trim())||'';let q=false,c={',':0,';':0,'\t':0};for(let i=0;i<first.length;i++){const ch=first[i];if(ch==='"'){if(q&&first[i+1]==='"'){i++;continue}q=!q;continue}if(!q&&ch in c)c[ch]++}return Object.entries(c).sort((a,b)=>b[1]-a[1])[0][0]}
 function parseCSV(text){text=String(text??'').replace(/^\uFEFF/,'');const d=delimiter(text),rows=[];let row=[],cell='',q=false;for(let i=0;i<text.length;i++){const ch=text[i];if(q){if(ch==='"'&&text[i+1]==='"'){cell+='"';i++}else if(ch==='"')q=false;else cell+=ch}else{if(ch==='"')q=true;else if(ch===d){row.push(cell);cell=''}else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell=''}else if(ch!=='\r')cell+=ch}}if(cell.length||row.length){row.push(cell);rows.push(row)}return rows.filter(r=>r.some(v=>String(v).trim()))}
 function sourceImageUrl(value){const raw=String(value||'').trim();if(!raw)return '';try{const u=new URL(raw,location.href);if(u.hostname==='wsrv.nl'||u.hostname==='images.weserv.nl'){let src=u.searchParams.get('url')||'';if(src&&!/^https?:\/\//i.test(src))src='https://'+src;return src||raw}}catch(_){}return raw}
-function optimized(value,w=0){const raw=String(value||'').trim();if(!raw)return '';try{const u=new URL(raw,location.href);if(u.hostname==='wsrv.nl'||u.hostname==='images.weserv.nl'){u.protocol='https:';u.hostname='wsrv.nl';u.searchParams.set('output','webp');u.searchParams.set('q','78');if(w)u.searchParams.set('w',String(w));return u.toString()}if(u.hostname==='i.ibb.co'||u.hostname==='ibb.co'||u.hostname==='www.ibb.co'){const p=new URL('https://wsrv.nl/');p.searchParams.set('url',u.href);p.searchParams.set('output','webp');p.searchParams.set('q','78');if(w)p.searchParams.set('w',String(w));return p.toString()}}catch(_){}return raw}
-function imageFallback(value){return sourceImageUrl(value)}
-function imageErrorFallback(img){const f=img?.dataset?.fallback||'';if(f&&img.src!==f){img.dataset.fallback='';img.src=f}}
+function optimized(value,w=0){const raw=String(value||'').trim();if(!raw)return '';try{const u=new URL(raw,location.href);if(u.hostname==='wsrv.nl'||u.hostname==='images.weserv.nl'){u.protocol='https:';u.hostname='wsrv.nl';u.searchParams.set('output','webp');u.searchParams.set('q','78');if(w)u.searchParams.set('w',String(w));return u.toString()}if(u.hostname==='i.ibb.co'||u.hostname==='ibb.co'){const p=new URL('https://wsrv.nl/');p.searchParams.set('url',u.href);p.searchParams.set('output','webp');p.searchParams.set('q','78');if(w)p.searchParams.set('w',String(w));return p.toString()}}catch(_){}return raw}
 function normalizeFinishText(v){const x=clean(v).replace(/\bdefault\b/g,'').trim();const m={white:'White',w:'White',black:'Mat Black','mat black':'Mat Black','matte black':'Mat Black',b:'Mat Black','champagne gold':'Champagne Gold','champeing gold':'Champagne Gold',cg:'Champagne Gold','rose gold':'Rose Gold',rg:'Rose Gold',brown:'Brown',br:'Brown',coffee:'Coffee',cof:'Coffee','dark gray':'Dark Gray','dark grey':'Dark Gray',dgr:'Dark Gray','ballet blue':'Ballet Blue',bb:'Ballet Blue',chrome:'Chrome',ch:'Chrome','chrome black':'Chrome Black',chb:'Chrome Black'};return m[x]||String(v||'').trim()}
 function inferFinish(r){const code=String(r.stockCode||'').trim().toUpperCase();const suffix=code.split('/').filter(Boolean).pop()||'';if(finishCodeMap[suffix])return finishCodeMap[suffix];const img=decodeURIComponent(sourceImageUrl(r.image)).toLowerCase().replace(/_/g,'-');const t=[[/chrome[- ]?black/,'Chrome Black'],[/champagne[- ]?gold|champeing[- ]?gold/,'Champagne Gold'],[/rose[- ]?gold/,'Rose Gold'],[/ballet[- ]?blue/,'Ballet Blue'],[/dark[- ]?gr(?:a|e)y/,'Dark Gray'],[/coffee|cofee/,'Coffee'],[/brown/,'Brown'],[/chrome|crome/,'Chrome'],[/mat[- ]?black|matte[- ]?black|black|balck/,'Mat Black'],[/white/,'White']];for(const [re,l] of t)if(re.test(img))return l;return 'Standard'}
 function normalize(rows){if(rows.length<2)return[];const h=rows[0].map(String),map={};h.forEach((x,i)=>map[clean(x)]=i);const idx={};for(const f in aliases){idx[f]=-1;for(const a of aliases[f]){if(clean(a) in map){idx[f]=map[clean(a)];break}}}const get=(r,k)=>idx[k]>=0?String(r[idx[k]]??'').trim():'';return rows.slice(1).map(r=>{const o={};for(const k in idx)o[k]=get(r,k);o.finish=normalizeFinishText(o.finish)||inferFinish(o);return o}).filter(r=>r.name)}
 function swatch(f){return `<span class="swatch ${finishClasses[f]||'sw-standard'}"></span>`}
-function spec(l,v){const id=l==='Stock Code'?' id="selectedStockCode"':'';return `<div class="spec"><div class="spec-label">${esc(l)}</div><div class="spec-value"${id}>${esc(v||'—')}</div></div>`}
+function spec(l,v){return `<div class="spec"><div class="spec-label">${esc(l)}</div><div class="spec-value">${esc(v||'—')}</div></div>`}
 function summary(vals,join=' / '){const a=unique(vals);return a.length?a.join(join):'—'}
 
 const params=new URLSearchParams(location.search);
@@ -453,18 +165,8 @@ const cfg=CATEGORIES[category]||CATEGORIES.downlights;
 $('breadcrumb').textContent=`${cfg.label} · ${product||'Product Details'}`;
 $('backBtn').addEventListener('click',()=>history.length>1?history.back():location.href='index.html');
 
-(async()=>{
-  const candidates=[cfg.file,cfg.file.replace('./data/','./')];
-  let lastError=null;
-  for(const file of candidates){
-    try{
-      const r=await fetch(encodeURI(file),{cache:'no-store'});
-      if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);
-      return await r.text();
-    }catch(err){lastError=err}
-  }
-  throw lastError||new Error('CSV file could not be loaded.');
-})()
+fetch(encodeURI(cfg.file),{cache:'no-store'})
+.then(r=>{if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.text()})
 .then(text=>{
   const all=normalize(parseCSV(text));
   const rows=all.filter(r=>clean(r.name)===clean(product));
@@ -481,11 +183,9 @@ function render(rows){
   const finishes=unique(rows.map(r=>r.finish));
   if(!selectedFinish||!finishes.includes(selectedFinish))selectedFinish=finishes.includes('White')?'White':(finishes[0]||'');
   const selectedRows=isProfile?rows:(rows.filter(r=>r.finish===selectedFinish).length?rows.filter(r=>r.finish===selectedFinish):rows);
-  const selectedVariant=selectedRows.find(r=>r.image)||selectedRows[0]||rows[0];
   const images=unique(selectedRows.map(r=>r.image));
-  const main=(selectedVariant&&selectedVariant.image)||images[0]||'';
-  const mrp=selectedVariant&&selectedVariant.mrp?selectedVariant.mrp:'—';
-  const selectedStockCode=selectedVariant&&selectedVariant.stockCode?selectedVariant.stockCode:'—';
+  const main=images[0]||'';
+  const mrp=summary(rows.map(r=>r.mrp));
   const description=summary(rows.map(r=>r.newDescription),' ');
   let specs='';
   if(isProfile){
@@ -495,7 +195,7 @@ function render(rows){
     ].map(([l,v])=>spec(l,v)).join('');
   }else{
     specs=[
-      ['Stock Code',selectedStockCode],
+      ['Stock Code',summary(selectedRows.map(r=>r.stockCode))],
       ['Item No.',summary(selectedRows.map(r=>r.itemNo))],
       ['Wattage',summary(selectedRows.map(r=>r.wattage))],
       ['CCT',summary(selectedRows.map(r=>r.cct))],
@@ -513,8 +213,8 @@ function render(rows){
 
   $('app').innerHTML=`<section class="layout ${isProfile?'profile-only':''}">
     <div class="visual">
-      <div class="image-box">${main?`<img id="mainImage" src="${esc(optimized(main,1200))}" data-fallback="${esc(imageFallback(main))}" onerror="imageErrorFallback(this)" alt="${esc(name)}">`:'<span>No image</span>'}</div>
-      <div class="thumbs" id="thumbs">${images.map((u,i)=>`<button class="thumb ${i===0?'active':''}" type="button" data-img="${esc(u)}"><img src="${esc(optimized(u,160))}" data-fallback="${esc(imageFallback(u))}" onerror="imageErrorFallback(this)" alt=""></button>`).join('')}</div>
+      <div class="image-box">${main?`<img id="mainImage" src="${esc(optimized(main,1200))}" alt="${esc(name)}">`:'<span>No image</span>'}</div>
+      <div class="thumbs" id="thumbs">${images.map((u,i)=>`<button class="thumb ${i===0?'active':''}" type="button" data-img="${esc(u)}"><img src="${esc(optimized(u,160))}" alt=""></button>`).join('')}</div>
       <div class="finish-wrap">
         <div class="label">Available Finishes</div>
         <div class="finishes" id="finishes">${finishes.map(f=>`<button class="finish-btn ${f===selectedFinish?'active':''}" type="button" data-finish="${esc(f)}">${swatch(f)}<span>${esc(f)}</span></button>`).join('')}</div>
@@ -523,7 +223,7 @@ function render(rows){
     <div class="info">
       <div class="kicker">${esc(isProfile?'Profile':'Lighting Product')}</div>
       <h1>${esc(name)}</h1>
-      <div class="price" id="selectedRate">${isProfile?'':`MRP ${esc(mrp)}`}</div>
+      <div class="price">${isProfile?'':`MRP ${esc(mrp)}`}</div>
       ${description!=='—'?`<p class="description">${esc(description)}</p>`:''}
       <div class="spec-grid">${specs}</div>
     </div>
@@ -540,17 +240,7 @@ function render(rows){
     document.querySelectorAll('[data-img]').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const im=$('mainImage');
-    if(im){
-      im.dataset.fallback=imageFallback(btn.dataset.img);
-      im.src=optimized(btn.dataset.img,1200);
-    }
-    const row=selectedRows.find(r=>r.image===btn.dataset.img);
-    if(row){
-      const stock=$('selectedStockCode');
-      const rate=$('selectedRate');
-      if(stock)stock.textContent=row.stockCode||'—';
-      if(rate&&!isProfile)rate.textContent=row.mrp?`MRP ${row.mrp}`:'MRP —';
-    }
+    if(im)im.src=optimized(btn.dataset.img,1200);
   }));
 
   document.querySelectorAll('[data-finish]').forEach(btn=>btn.addEventListener('click',()=>{
