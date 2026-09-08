@@ -1158,6 +1158,41 @@ body.profiles-mode .profile-card .card-title{
   }
 }
 
+
+/* =========================================================
+   MOBILE PRODUCT FINISH DOTS — SHOW ALL
+   ========================================================= */
+@media(max-width:780px){
+  .card-finishes{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    flex-wrap:wrap!important;
+    overflow:visible!important;
+    min-height:18px!important;
+    margin-top:5px!important;
+    padding-top:5px!important;
+    gap:2px!important;
+  }
+  .card-swatch{
+    flex:0 0 12px!important;
+    width:12px!important;
+    height:12px!important;
+    padding:1px!important;
+    border:1px solid transparent!important;
+    border-radius:50%!important;
+  }
+  .card-swatch .swatch{
+    width:8px!important;
+    height:8px!important;
+  }
+  .card-swatch.active{
+    border-color:#5b524a!important;
+    box-shadow:0 0 0 1px rgba(91,82,74,.24)!important;
+    transform:scale(1.08);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1466,9 +1501,7 @@ body.profiles-mode .profile-card .card-title{
       if(active) activeDot=btn;
     });
 
-    if(activeDot && window.matchMedia('(max-width:780px)').matches){
-      activeDot.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-    }
+    // All finish dots stay visible on mobile; active state is enough.
   }
 
   function bindMobileFinishSwipe(card,group,finishes){

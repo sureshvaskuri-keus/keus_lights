@@ -16,3 +16,12 @@ The All Products control is a custom KEUS-styled dropdown. Product cards retain 
 - Only that product’s image and MRP change.
 - Detail-page finish chips are slightly smaller.
 - `profiles.csv` remains included correctly inside `data/`.
+
+
+## All colour dots visible on mobile
+
+- Every available product finish dot is shown under the product card.
+- No finish dots are hidden behind horizontal scrolling or a `+N` indicator.
+- Swiping left/right on the product image changes the finish.
+- The matching dot highlights immediately.
+- Only that product's image and MRP change.
