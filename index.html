@@ -387,9 +387,9 @@
    KEUS MOBILE COMMERCE UX — reference-inspired, KEUS palette
    ========================================================= */
 :root{
-  --keus-gold:#5b524a;
-  --keus-gold-dark:#5b524a;
-  --keus-gold-soft:#c6beb6;
+  --keus-gold:#b28746;
+  --keus-gold-dark:#8f6932;
+  --keus-gold-soft:#e3d1b2;
   --keus-cream:#f6f2ec;
   --keus-paper:#fffdfa;
   --keus-ink:#0c0c0c;
@@ -959,10 +959,10 @@ body.profiles-mode .profile-card .card-title{
   gap:6px;
   min-height:32px;
   padding:0 12px;
-  border:1px solid var(--keus-gold,#5b524a);
+  border:1px solid var(--keus-gold,#b28746);
   border-radius:999px;
   background:transparent;
-  color:var(--keus-gold-dark,#5b524a);
+  color:var(--keus-gold-dark,#8f6932);
   font-size:9px;
   font-weight:700;
 }
@@ -1140,8 +1140,8 @@ body.profiles-mode .profile-card .card-title{
   border:1px solid #d7d0c6!important;
   border-radius:14px!important;
   background:
-    linear-gradient(45deg,transparent 50%,#5b524a 50%) calc(100% - 20px) 50%/5px 5px no-repeat,
-    linear-gradient(135deg,#5b524a 50%,transparent 50%) calc(100% - 15px) 50%/5px 5px no-repeat,
+    linear-gradient(45deg,transparent 50%,#8f6932 50%) calc(100% - 20px) 50%/5px 5px no-repeat,
+    linear-gradient(135deg,#8f6932 50%,transparent 50%) calc(100% - 15px) 50%/5px 5px no-repeat,
     linear-gradient(to right,rgba(178,135,70,.10),rgba(178,135,70,0)) 0 0/46px 100% no-repeat,
     #fffdfa!important;
   color:#181512!important;
@@ -1153,11 +1153,11 @@ body.profiles-mode .profile-card .card-title{
   transition:border-color .18s ease,box-shadow .18s ease!important;
 }
 .product-main:hover{
-  border-color:#5b524a!important;
+  border-color:#bfae91!important;
 }
 .product-main:focus{
   outline:none!important;
-  border-color:#5b524a!important;
+  border-color:#b28746!important;
   box-shadow:0 0 0 3px rgba(178,135,70,.10),0 6px 18px rgba(35,28,20,.05)!important;
 }
 .product-main option{
@@ -1167,7 +1167,7 @@ body.profiles-mode .profile-card .card-title{
   font-size:12px;
 }
 .mobile-product-label{
-  color:#5b524a!important;
+  color:#8f6932!important;
   font-size:7px!important;
   font-weight:750!important;
   letter-spacing:.14em!important;
@@ -1181,8 +1181,8 @@ body.profiles-mode .profile-card .card-title{
     border-radius:12px!important;
     font-size:9.5px!important;
     background:
-      linear-gradient(45deg,transparent 50%,#5b524a 50%) calc(100% - 18px) 50%/4px 4px no-repeat,
-      linear-gradient(135deg,#5b524a 50%,transparent 50%) calc(100% - 14px) 50%/4px 4px no-repeat,
+      linear-gradient(45deg,transparent 50%,#8f6932 50%) calc(100% - 18px) 50%/4px 4px no-repeat,
+      linear-gradient(135deg,#8f6932 50%,transparent 50%) calc(100% - 14px) 50%/4px 4px no-repeat,
       linear-gradient(to right,rgba(178,135,70,.10),rgba(178,135,70,0)) 0 0/38px 100% no-repeat,
       #fffdfa!important;
     box-shadow:0 3px 10px rgba(35,28,20,.035)!important;
@@ -1191,7 +1191,7 @@ body.profiles-mode .profile-card .card-title{
     display:block!important;
     margin:0 0 -1px 3px!important;
     font-size:6.5px!important;
-    color:#5b524a!important;
+    color:#8f6932!important;
   }
 }
 @media(max-width:390px){
@@ -1201,273 +1201,6 @@ body.profiles-mode .profile-card .card-title{
     font-size:9px!important;
     border-radius:11px!important;
   }
-}
-
-
-/* =========================================================
-   KEUS BLACK PRODUCT DROPDOWN
-   Reference: compact charcoal menu, white type, quiet border
-   ========================================================= */
-.keus-product-picker{
-  position:relative;
-  min-width:0;
-  z-index:95;
-}
-.keus-native-product-select{
-  position:absolute!important;
-  width:1px!important;
-  height:1px!important;
-  opacity:0!important;
-  pointer-events:none!important;
-  left:-9999px!important;
-}
-
-.keus-picker-trigger{
-  width:100%;
-  height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:0 14px;
-  border:1px solid #2f2f2f;
-  border-radius:10px;
-  background:#1f1f1f;
-  color:#fff;
-  font-family:Inter,Arial,sans-serif;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.005em;
-  text-align:left;
-  box-shadow:none;
-  transition:border-color .16s ease,background .16s ease;
-}
-.keus-picker-trigger:hover,
-.keus-product-picker.open .keus-picker-trigger{
-  background:#242424;
-  border-color:#514a40;
-}
-.keus-picker-trigger:focus-visible{
-  outline:2px solid rgba(178,135,70,.48);
-  outline-offset:2px;
-}
-.keus-picker-trigger>span:first-child{
-  min-width:0;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.keus-picker-arrow{
-  width:7px;
-  height:7px;
-  flex:0 0 auto;
-  border-right:1.4px solid #5b524a;
-  border-bottom:1.4px solid #5b524a;
-  transform:rotate(45deg) translateY(-2px);
-  transition:transform .16s ease;
-}
-.keus-product-picker.open .keus-picker-arrow{
-  transform:rotate(225deg) translate(-1px,-1px);
-}
-
-.keus-picker-menu{
-  position:absolute;
-  top:calc(100% + 6px);
-  left:0;
-  width:100%;
-  min-width:190px;
-  max-height:330px;
-  padding:6px;
-  overflow-y:auto;
-  overflow-x:hidden;
-  border:1px solid #393939;
-  border-radius:11px;
-  background:#242424;
-  box-shadow:0 16px 36px rgba(0,0,0,.24);
-  scrollbar-width:thin;
-  scrollbar-color:#555 transparent;
-}
-.keus-picker-menu[hidden]{display:none!important}
-.keus-picker-menu::-webkit-scrollbar{width:4px}
-.keus-picker-menu::-webkit-scrollbar-thumb{
-  background:#555;
-  border-radius:999px;
-}
-
-.keus-picker-option{
-  width:100%;
-  min-height:31px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:6px 9px;
-  margin:0;
-  border:1px solid transparent;
-  border-radius:6px;
-  background:transparent;
-  color:#f3f3f3;
-  font-family:Inter,Arial,sans-serif;
-  font-size:9.5px;
-  font-weight:520;
-  line-height:1.25;
-  text-align:left;
-  transition:background .12s ease,border-color .12s ease;
-}
-.keus-picker-option:hover{
-  background:#2e2e2e;
-}
-.keus-picker-option.active{
-  border-color:rgba(255,255,255,.58);
-  background:#292929;
-}
-.keus-picker-label{
-  min-width:0;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.keus-picker-active-dot{
-  width:5px;
-  height:5px;
-  flex:0 0 auto;
-  border-radius:50%;
-  background:transparent;
-}
-.keus-picker-option.active .keus-picker-active-dot{
-  background:#5b524a;
-}
-
-/* Ensure custom picker occupies the same toolbar slot as Product */
-.toolbar .keus-product-picker{
-  min-width:0;
-}
-
-@media(max-width:780px){
-  .toolbar .keus-product-picker{
-    grid-column:1/-1!important;
-    order:2!important;
-  }
-  .keus-picker-trigger{
-    height:36px;
-    padding:0 11px;
-    border-radius:9px;
-    font-size:9px;
-  }
-  .keus-picker-menu{
-    top:calc(100% + 5px);
-    max-height:290px;
-    border-radius:10px;
-    padding:5px;
-  }
-  .keus-picker-option{
-    min-height:29px;
-    padding:5px 8px;
-    border-radius:5px;
-    font-size:8.5px;
-  }
-  .keus-picker-arrow{
-    width:6px;
-    height:6px;
-  }
-}
-
-@media(max-width:390px){
-  .keus-picker-trigger{
-    height:34px;
-    font-size:8.5px;
-  }
-  .keus-picker-option{
-    font-size:8px;
-  }
-}
-
-
-/* =========================================================
-   KEUS ACCENT UPDATE ONLY
-   Preserve previous white / warm-light surfaces.
-   Replace former gold accent with #5b524a.
-   ========================================================= */
-:root{
-  --keus-gold:#5b524a;
-  --keus-gold-dark:#5b524a;
-  --keus-gold-soft:#c6beb6;
-}
-
-/* Keep previous light/white catalogue surfaces intact */
-body{background:#f6f2ec!important}
-.filter-shell{background:#f6f2ec!important}
-.card{background:#fffdfa!important}
-.card-image{background:#fff!important}
-.finish-chip{background:#fff!important}
-.toolbar .search,
-.toolbar #cctFilter,
-.toolbar .watt-main,
-.toolbar .more-btn,
-.advanced .field{
-  background:#fff!important;
-}
-
-/* Taupe accent replaces previous gold */
-.brand:after,
-.top-meta i{
-  background:#5b524a!important;
-}
-.category-tab.active,
-.category-tab.active:hover{
-  background:#5b524a!important;
-  border-color:#5b524a!important;
-  color:#fff!important;
-  box-shadow:0 4px 12px rgba(91,82,74,.18)!important;
-}
-.finish-chip.active{
-  border-color:#5b524a!important;
-  box-shadow:inset 0 0 0 1px #5b524a!important;
-}
-.card-price,
-.view-detail-cta,
-.profile-details-btn{
-  color:#5b524a!important;
-}
-.view-detail-cta,
-.profile-details-btn{
-  border-color:#5b524a!important;
-}
-.card-swatch.active{
-  border-color:#5b524a!important;
-  box-shadow:0 0 0 1px rgba(91,82,74,.18)!important;
-}
-
-/* Custom black/brown product dropdown */
-.keus-picker-trigger{
-  background:#1f1f1f!important;
-  color:#fff!important;
-  border-color:#5b524a!important;
-}
-.keus-picker-trigger:hover,
-.keus-product-picker.open .keus-picker-trigger{
-  background:#242424!important;
-  border-color:#5b524a!important;
-}
-.keus-picker-arrow{
-  border-color:#5b524a!important;
-}
-.keus-picker-menu{
-  background:#242424!important;
-  border-color:#5b524a!important;
-}
-.keus-picker-option{
-  color:#f3f3f3!important;
-}
-.keus-picker-option:hover{
-  background:#2e2e2e!important;
-}
-.keus-picker-option.active{
-  background:#292929!important;
-  border-color:#fff!important;
-}
-.keus-picker-option.active .keus-picker-active-dot{
-  background:#5b524a!important;
 }
 
 </style>
@@ -1523,16 +1256,7 @@ body{background:#f6f2ec!important}
     <div class="toolbar">
       <input class="field search" id="searchBox" type="search" placeholder="Search product, item no., stock code or specification…" />
       <div class="mobile-product-label">Select Product</div>
-      <div class="keus-product-picker" id="productPicker">
-        <select class="field product-main keus-native-product-select" id="nameFilter" data-field="name" aria-hidden="true" tabindex="-1">
-          <option value="">All products</option>
-        </select>
-        <button class="keus-picker-trigger" id="productPickerTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-          <span id="productPickerValue">All Products</span>
-          <span class="keus-picker-arrow" aria-hidden="true"></span>
-        </button>
-        <div class="keus-picker-menu" id="productPickerMenu" role="listbox" hidden></div>
-      </div>
+      <select class="field product-main" id="nameFilter" data-field="name"><option value="">All products</option></select>
       <select class="field" id="cctFilter" data-field="cct"><option value="">All CCT</option></select>
       <select class="field watt-main" id="wattageFilter" data-field="wattage"><option value="">All wattages</option></select>
       <button class="btn more-btn" id="moreBtn" type="button">More Filters</button>
@@ -1648,7 +1372,7 @@ body{background:#f6f2ec!important}
   const cardFinishSelections=new Map();
   const state={q:'',name:'',cct:'',wattage:'',itemNo:'',vf:'',imax:'',cri:'',cutout:'',beam:'',batchCode:'',stockCode:'',bisNo:'',bisSpec:'',mrp:'',mfgBy:'',finish:''};
   const $=id=>document.getElementById(id);
-  const els={csvInput:$('csvInput'),status:$('status'),searchBox:$('searchBox'),nameFilter:$('nameFilter'),cctFilter:$('cctFilter'),wattageFilter:$('wattageFilter'),itemNoFilter:$('itemNoFilter'),vfFilter:$('vfFilter'),imaxFilter:$('imaxFilter'),criFilter:$('criFilter'),cutoutFilter:$('cutoutFilter'),beamFilter:$('beamFilter'),batchCodeFilter:$('batchCodeFilter'),stockCodeFilter:$('stockCodeFilter'),bisNoFilter:$('bisNoFilter'),bisSpecFilter:$('bisSpecFilter'),mrpFilter:$('mrpFilter'),mfgByFilter:$('mfgByFilter'),moreBtn:$('moreBtn'),advancedFilters:$('advancedFilters'),resetBtn:$('resetBtn'),finishChips:$('finishChips'),activeFilters:$('activeFilters'),grid:$('grid'),catalogueCount:$('catalogueCount'),pagination:$('pagination'),prevBtn:$('prevBtn'),nextBtn:$('nextBtn'),pageInfo:$('pageInfo'),modal:$('modal'),closeBtn:$('closeBtn'),detailImage:$('detailImage'),detailFinishOptions:$('detailFinishOptions'),thumbs:$('thumbs'),finishNote:$('finishNote'),detailKicker:$('detailKicker'),detailTitle:$('detailTitle'),detailSub:$('detailSub'),specGrid:$('specGrid'),variantBody:$('variantBody'),variantFilterNote:$('variantFilterNote'),categoryTabs:$('categoryTabs'),categoryTitle:$('categoryTitle'),productPicker:$('productPicker'),productPickerTrigger:$('productPickerTrigger'),productPickerValue:$('productPickerValue'),productPickerMenu:$('productPickerMenu')};
+  const els={csvInput:$('csvInput'),status:$('status'),searchBox:$('searchBox'),nameFilter:$('nameFilter'),cctFilter:$('cctFilter'),wattageFilter:$('wattageFilter'),itemNoFilter:$('itemNoFilter'),vfFilter:$('vfFilter'),imaxFilter:$('imaxFilter'),criFilter:$('criFilter'),cutoutFilter:$('cutoutFilter'),beamFilter:$('beamFilter'),batchCodeFilter:$('batchCodeFilter'),stockCodeFilter:$('stockCodeFilter'),bisNoFilter:$('bisNoFilter'),bisSpecFilter:$('bisSpecFilter'),mrpFilter:$('mrpFilter'),mfgByFilter:$('mfgByFilter'),moreBtn:$('moreBtn'),advancedFilters:$('advancedFilters'),resetBtn:$('resetBtn'),finishChips:$('finishChips'),activeFilters:$('activeFilters'),grid:$('grid'),catalogueCount:$('catalogueCount'),pagination:$('pagination'),prevBtn:$('prevBtn'),nextBtn:$('nextBtn'),pageInfo:$('pageInfo'),modal:$('modal'),closeBtn:$('closeBtn'),detailImage:$('detailImage'),detailFinishOptions:$('detailFinishOptions'),thumbs:$('thumbs'),finishNote:$('finishNote'),detailKicker:$('detailKicker'),detailTitle:$('detailTitle'),detailSub:$('detailSub'),specGrid:$('specGrid'),variantBody:$('variantBody'),variantFilterNote:$('variantFilterNote'),categoryTabs:$('categoryTabs'),categoryTitle:$('categoryTitle')};
 
   const headerAliases={
     name:['name','product name','product'],itemNo:['item no','item number','itemno','item code'],vf:['vf','voltage'],imax:['imax','current','max current'],cct:['cct','colour temperature','color temperature'],cri:['cri'],cutout:['cutout','cut out','cut-out'],beam:['beam angle','beam','beamangle'],wattage:['wattage','watt','watts','power'],batchCode:['batch code','batch','batchcode'],stockCode:['stock code','stock','stockcode','sku'],bisNo:['bis no','bis number','bisno','bis registration no','bis registration number'],bisSpec:['bis sec','bissec','bis spec','bis specification','bisspec','bis standard','is standard'],mrp:['mrp','maximum retail price','retail price','price'],mfgBy:['mfg by','mfgby','manufacturer','manufactured by','manufacturing by','manufacturer name'],newDescription:['new description','newdescription','description','product description'],image:['image','image url','image link','imageurl'],finish:['finish','colour','color','finish colour','finish color']
@@ -1707,63 +1431,8 @@ body{background:#f6f2ec!important}
     if(field==='name') return vals.sort(naturalSort);
     return vals.sort(['cct','wattage','beam','cri','imax','mrp'].includes(field)?numericSort:naturalSort);
   }
-
-  function closeProductPicker(){
-    if(!els.productPickerMenu)return;
-    els.productPickerMenu.hidden=true;
-    els.productPicker?.classList.remove('open');
-    els.productPickerTrigger?.setAttribute('aria-expanded','false');
-  }
-
-  function renderProductPicker(){
-    if(!els.nameFilter || !els.productPickerMenu)return;
-
-    const current=els.nameFilter.value||'';
-    if(els.productPickerValue){
-      els.productPickerValue.textContent=current||'All Products';
-    }
-
-    const options=[...els.nameFilter.options];
-    els.productPickerMenu.innerHTML=options.map((opt,i)=>{
-      const value=opt.value||'';
-      const label=value||'All Products';
-      const active=current===value;
-      return `<button class="keus-picker-option ${active?'active':''}" type="button" role="option" aria-selected="${active?'true':'false'}" data-picker-value="${escapeHtml(value)}">
-        <span class="keus-picker-label">${escapeHtml(label)}</span>
-        <span class="keus-picker-active-dot" aria-hidden="true"></span>
-      </button>`;
-    }).join('');
-
-    els.productPickerMenu.querySelectorAll('[data-picker-value]').forEach(btn=>{
-      btn.addEventListener('click',e=>{
-        e.stopPropagation();
-        const value=btn.dataset.pickerValue||'';
-        els.nameFilter.value=value;
-        if(els.productPickerValue)els.productPickerValue.textContent=value||'All Products';
-        closeProductPicker();
-        els.nameFilter.dispatchEvent(new Event('change',{bubbles:true}));
-      });
-    });
-  }
-
-  function toggleProductPicker(){
-    if(!els.productPickerMenu)return;
-    const willOpen=els.productPickerMenu.hidden;
-    if(willOpen){
-      renderProductPicker();
-      els.productPickerMenu.hidden=false;
-      els.productPicker?.classList.add('open');
-      els.productPickerTrigger?.setAttribute('aria-expanded','true');
-
-      const active=els.productPickerMenu.querySelector('.keus-picker-option.active');
-      if(active)setTimeout(()=>active.scrollIntoView({block:'nearest'}),0);
-    }else{
-      closeProductPicker();
-    }
-  }
-
   function refreshSelectOptions(){
-    for(const field of filterFields){const select=filterEls[field];if(!select)continue;const current=state[field];const optionSource=field==='beam'?records:records.filter(r=>rowMatches(r,field));const vals=optionSortFor(field,unique(optionSource.map(r=>r[field])));select.innerHTML=`<option value="">${escapeHtml(optionLabels[field])}</option>`+vals.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');if(current&&vals.includes(current))select.value=current;else if(current){state[field]='';select.value=''};if(field==='name')renderProductPicker()}
+    for(const field of filterFields){const select=filterEls[field];if(!select)continue;const current=state[field];const optionSource=field==='beam'?records:records.filter(r=>rowMatches(r,field));const vals=optionSortFor(field,unique(optionSource.map(r=>r[field])));select.innerHTML=`<option value="">${escapeHtml(optionLabels[field])}</option>`+vals.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');if(current&&vals.includes(current))select.value=current;else if(current){state[field]='';select.value=''}}
   }
   function refreshFinishChips(){
     if(activeCategory==='profiles'){
@@ -2010,27 +1679,6 @@ body{background:#f6f2ec!important}
   });
   window.addEventListener('dragover',e=>{e.preventDefault();document.body.classList.add('drop-highlight')});window.addEventListener('dragleave',e=>{if(e.clientX===0&&e.clientY===0)document.body.classList.remove('drop-highlight')});window.addEventListener('drop',e=>{e.preventDefault();document.body.classList.remove('drop-highlight');const file=[...(e.dataTransfer?.files||[])].find(f=>/\.csv$/i.test(f.name));if(!file)return;const reader=new FileReader();reader.onload=()=>loadCSVText(reader.result,file.name);reader.readAsText(file,'utf-8')});
   els.categoryTabs.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>loadCategory(btn.dataset.category)));
-
-  if(els.productPickerTrigger){
-    els.productPickerTrigger.addEventListener('click',e=>{
-      e.stopPropagation();
-      toggleProductPicker();
-    });
-  }
-
-  document.addEventListener('click',e=>{
-    if(els.productPicker && !els.productPicker.contains(e.target)){
-      closeProductPicker();
-    }
-  });
-
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Escape' && els.productPicker?.classList.contains('open')){
-      closeProductPicker();
-      els.productPickerTrigger?.focus();
-    }
-  });
-
   const headerSearchBtn=$('headerSearchBtn');
   if(headerSearchBtn) headerSearchBtn.addEventListener('click',()=>{
     els.searchBox.scrollIntoView({behavior:'smooth',block:'center'});
