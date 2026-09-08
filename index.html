@@ -1020,189 +1020,6 @@ body.profiles-mode .profile-card .card-title{
   .card-finishes::-webkit-scrollbar{display:none!important}
 }
 
-
-/* =========================================================
-   COMPACT MOBILE CATEGORY + FINISH UI
-   ========================================================= */
-@media(max-width:780px){
-
-  /* Four top category tabs — smaller and cleaner */
-  .category-tabs{
-    gap:5px!important;
-    padding:9px 10px 8px!important;
-  }
-  .category-tab{
-    height:34px!important;
-    padding:0 10px!important;
-    gap:5px!important;
-    border-radius:999px!important;
-    font-size:8px!important;
-    font-weight:650!important;
-    letter-spacing:.025em!important;
-    box-shadow:0 2px 7px rgba(26,20,14,.025)!important;
-  }
-  .category-tab .cat-icon{
-    width:14px!important;
-    height:14px!important;
-  }
-  .category-tab.active{
-    box-shadow:0 3px 10px rgba(178,135,70,.14)!important;
-  }
-
-  /* Smaller overall finish section */
-  .finish-panel{
-    margin:7px 0 0!important;
-    padding:7px 0 0!important;
-  }
-  .finish-title{
-    gap:7px!important;
-    padding:0 0 6px!important;
-    font-size:7px!important;
-    letter-spacing:.10em!important;
-  }
-  .finish-chips{
-    gap:5px!important;
-  }
-  .finish-chip{
-    height:29px!important;
-    padding:0 9px 0 5px!important;
-    gap:5px!important;
-    font-size:7.5px!important;
-  }
-  .finish-chip .swatch{
-    width:17px!important;
-    height:17px!important;
-  }
-
-  /* Product colour indicators — compact dots */
-  .card-finishes{
-    min-height:21px!important;
-    margin-top:5px!important;
-    padding-top:5px!important;
-    gap:2px!important;
-  }
-  .card-swatch{
-    width:14px!important;
-    height:14px!important;
-    padding:1px!important;
-    border-width:1px!important;
-  }
-  .card-swatch .swatch{
-    width:9px!important;
-    height:9px!important;
-  }
-  .card-swatch.active{
-    border-color:var(--keus-gold)!important;
-    box-shadow:0 0 0 1px rgba(178,135,70,.20)!important;
-  }
-
-  /* Give the user a subtle swipe cue without adding bulky text */
-  .card-image{
-    touch-action:pan-y;
-  }
-}
-
-@media(max-width:390px){
-  .category-tabs{
-    gap:4px!important;
-    padding-left:8px!important;
-    padding-right:8px!important;
-  }
-  .category-tab{
-    height:32px!important;
-    padding:0 8px!important;
-    font-size:7.5px!important;
-  }
-  .category-tab .cat-icon{
-    width:13px!important;
-    height:13px!important;
-  }
-  .finish-chip{
-    height:27px!important;
-    padding-right:8px!important;
-    font-size:7px!important;
-  }
-  .finish-chip .swatch{
-    width:15px!important;
-    height:15px!important;
-  }
-}
-
-
-/* =========================================================
-   KEUS PRODUCT SELECTOR — polished "All Products" dropdown
-   ========================================================= */
-.product-main{
-  appearance:none;
-  -webkit-appearance:none;
-  min-height:44px;
-  padding:0 44px 0 15px!important;
-  border:1px solid #d7d0c6!important;
-  border-radius:14px!important;
-  background:
-    linear-gradient(45deg,transparent 50%,#8f6932 50%) calc(100% - 20px) 50%/5px 5px no-repeat,
-    linear-gradient(135deg,#8f6932 50%,transparent 50%) calc(100% - 15px) 50%/5px 5px no-repeat,
-    linear-gradient(to right,rgba(178,135,70,.10),rgba(178,135,70,0)) 0 0/46px 100% no-repeat,
-    #fffdfa!important;
-  color:#181512!important;
-  font-family:Inter,Arial,sans-serif!important;
-  font-size:11px!important;
-  font-weight:700!important;
-  letter-spacing:.01em!important;
-  box-shadow:0 5px 16px rgba(35,28,20,.045)!important;
-  transition:border-color .18s ease,box-shadow .18s ease!important;
-}
-.product-main:hover{
-  border-color:#bfae91!important;
-}
-.product-main:focus{
-  outline:none!important;
-  border-color:#b28746!important;
-  box-shadow:0 0 0 3px rgba(178,135,70,.10),0 6px 18px rgba(35,28,20,.05)!important;
-}
-.product-main option{
-  background:#fffdfa;
-  color:#191714;
-  font-family:Inter,Arial,sans-serif;
-  font-size:12px;
-}
-.mobile-product-label{
-  color:#8f6932!important;
-  font-size:7px!important;
-  font-weight:750!important;
-  letter-spacing:.14em!important;
-  text-transform:uppercase!important;
-}
-@media(max-width:780px){
-  .toolbar .product-main{
-    height:38px!important;
-    min-height:38px!important;
-    padding:0 38px 0 12px!important;
-    border-radius:12px!important;
-    font-size:9.5px!important;
-    background:
-      linear-gradient(45deg,transparent 50%,#8f6932 50%) calc(100% - 18px) 50%/4px 4px no-repeat,
-      linear-gradient(135deg,#8f6932 50%,transparent 50%) calc(100% - 14px) 50%/4px 4px no-repeat,
-      linear-gradient(to right,rgba(178,135,70,.10),rgba(178,135,70,0)) 0 0/38px 100% no-repeat,
-      #fffdfa!important;
-    box-shadow:0 3px 10px rgba(35,28,20,.035)!important;
-  }
-  .mobile-product-label{
-    display:block!important;
-    margin:0 0 -1px 3px!important;
-    font-size:6.5px!important;
-    color:#8f6932!important;
-  }
-}
-@media(max-width:390px){
-  .toolbar .product-main{
-    height:36px!important;
-    min-height:36px!important;
-    font-size:9px!important;
-    border-radius:11px!important;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -1419,7 +1236,7 @@ body.profiles-mode .profile-card .card-title{
     const indexOf=field=>{for(const a of headerAliases[field]||[]){const k=cleanKey(a);if(k in headerMap)return headerMap[k]}return-1};const idx={};Object.keys(headerAliases).forEach(k=>idx[k]=indexOf(k));if(idx.name<0)throw new Error('CSV must contain a “Name” column.');
     return rows.slice(1).map((r,i)=>{const get=k=>idx[k]>=0?String(r[idx[k]]??'').trim():'';const rec={_row:i+2,name:get('name'),itemNo:get('itemNo'),vf:get('vf'),imax:get('imax'),cct:get('cct'),cri:get('cri'),cutout:get('cutout'),beam:get('beam'),wattage:get('wattage'),batchCode:get('batchCode'),stockCode:get('stockCode'),bisNo:get('bisNo'),bisSpec:get('bisSpec'),mrp:get('mrp'),mfgBy:get('mfgBy'),newDescription:get('newDescription'),image:get('image'),finish:get('finish')};rec.finish=normalizeFinishText(rec.finish)||inferFinish(rec);return rec}).filter(r=>r.name);
   }
-  function groupProducts(rows){const map=new Map();for(const r of rows){const k=cleanKey(r.name);if(!map.has(k))map.set(k,{name:r.name,variants:[]});map.get(k).variants.push(r)}return[...map.values()]}
+  function groupProducts(rows){const map=new Map();for(const r of rows){const k=cleanKey(r.name);if(!map.has(k))map.set(k,{name:r.name,variants:[]});map.get(k).variants.push(r)}return[...map.values()].sort((a,b)=>naturalSort(a.name,b.name))}
   function finishSort(a,b){const ia=finishOrder.indexOf(a),ib=finishOrder.indexOf(b);if(ia>=0||ib>=0)return(ia<0?999:ia)-(ib<0?999:ib);return naturalSort(a,b)}
   function summarize(values,joiner=' / '){const vals=unique(values);if(!vals.length)return'—';if(vals.length<=3)return vals.join(joiner);return vals.slice(0,2).join(joiner)+` +${vals.length-2}`}
   function summarizeAll(values,joiner=' / '){const vals=unique(values).sort(numericSort);return vals.length?vals.join(joiner):'—'}
@@ -1427,10 +1244,7 @@ body.profiles-mode .profile-card .card-title{
   function searchMatches(r,q){if(!q)return true;const hay=[r.name,r.itemNo,r.vf,r.imax,r.cct,r.cri,r.cutout,r.beam,r.wattage,r.batchCode,r.stockCode,r.bisNo,r.bisSpec,r.mrp,r.mfgBy,r.newDescription,r.finish,r.image].join(' ').toLowerCase();return hay.includes(q)}
   function rowMatches(r,ignore=''){if(!searchMatches(r,state.q))return false;if(ignore!=='finish'&&state.finish&&r.finish!==state.finish)return false;for(const f of filterFields){if(f===ignore)continue;if(state[f]&&r[f]!==state[f])return false}return true}
 
-  function optionSortFor(field,vals){
-    if(field==='name') return vals.sort(naturalSort);
-    return vals.sort(['cct','wattage','beam','cri','imax','mrp'].includes(field)?numericSort:naturalSort);
-  }
+  function optionSortFor(field,vals){return vals.sort(['cct','wattage','beam','cri','imax','mrp'].includes(field)?numericSort:naturalSort)}
   function refreshSelectOptions(){
     for(const field of filterFields){const select=filterEls[field];if(!select)continue;const current=state[field];const optionSource=field==='beam'?records:records.filter(r=>rowMatches(r,field));const vals=optionSortFor(field,unique(optionSource.map(r=>r[field])));select.innerHTML=`<option value="">${escapeHtml(optionLabels[field])}</option>`+vals.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');if(current&&vals.includes(current))select.value=current;else if(current){state[field]='';select.value=''}}
   }
@@ -1478,50 +1292,9 @@ body.profiles-mode .profile-card .card-title{
     }
     const rate=card.querySelector('[data-card-rate]');
     if(rate) rate.textContent=visual&&visual.mrp?`MRP ${visual.mrp}`:'Price on request';
-
-    let activeDot=null;
     card.querySelectorAll('[data-card-finish]').forEach(btn=>{
-      const active=btn.dataset.cardFinish===finish;
-      btn.classList.toggle('active',active);
-      if(active) activeDot=btn;
+      btn.classList.toggle('active',btn.dataset.cardFinish===finish);
     });
-
-    if(activeDot && window.matchMedia('(max-width:780px)').matches){
-      activeDot.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-    }
-  }
-
-  function bindMobileFinishSwipe(card,group,finishes){
-    const imageArea=card.querySelector('.card-image');
-    if(!imageArea || !finishes || finishes.length<2) return;
-
-    let startX=0,startY=0;
-    imageArea.addEventListener('touchstart',e=>{
-      const t=e.touches&&e.touches[0];
-      if(!t)return;
-      startX=t.clientX;
-      startY=t.clientY;
-    },{passive:true});
-
-    imageArea.addEventListener('touchend',e=>{
-      if(!window.matchMedia('(max-width:780px)').matches)return;
-      const t=e.changedTouches&&e.changedTouches[0];
-      if(!t)return;
-
-      const dx=t.clientX-startX;
-      const dy=t.clientY-startY;
-
-      // Ignore vertical page scrolling and very small accidental movement.
-      if(Math.abs(dx)<34 || Math.abs(dx)<=Math.abs(dy))return;
-
-      const current=cardFinishSelections.get(cardFinishKey(group))||state.finish||finishes[0];
-      let i=finishes.indexOf(current);
-      if(i<0)i=0;
-
-      // Swipe left -> next finish; swipe right -> previous finish.
-      i=dx<0 ? (i+1)%finishes.length : (i-1+finishes.length)%finishes.length;
-      changeOnlyThisCardFinish(card,group,finishes[i]);
-    },{passive:true});
   }
   function renderProfileCatalogue(){
     const total=viewGroups.length;
@@ -1612,7 +1385,7 @@ body.profiles-mode .profile-card .card-title{
     const pages=Math.ceil(total/getPageSize());currentPage=Math.min(currentPage,pages-1);const pageStart=currentPage*getPageSize();viewGroups.slice(pageStart,pageStart+getPageSize()).forEach(g=>{
       const rows=g.matchedVariants,allFinishes=unique(g.variants.map(v=>v.finish)).sort(finishSort),matchedFinishes=unique(rows.map(v=>v.finish)).sort(finishSort);const card=document.createElement('article');card.className='card';const localFinish=cardFinishSelections.get(cardFinishKey(g))||state.finish||'';const rep=representativeVariant(g,g.variants,localFinish);const img=rep&&rep.image;
       card.innerHTML=`${rows.length<g.variants.length?`<div class="match-tag">${rows.length} match${rows.length===1?'':'es'}</div>`:''}<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" data-fallback="${escapeHtml(imageFallbackUrl(img))}" onerror="imageErrorFallback(this)" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(g.name)}</h3><div class="card-price" data-card-rate>${rep&&rep.mrp?`MRP ${escapeHtml(rep.mrp)}`:'Price on request'}</div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div></div></button><div class="card-body" style="padding-top:0"><div class="card-finishes"><span class="card-finish-label">Finishes</span>${allFinishes.map(f=>`<button class="card-swatch ${localFinish===f?'active':''}" type="button" data-card-finish="${escapeHtml(f)}" title="${escapeHtml(f)}">${swatchHtml(f)}</button>`).join('')}</div><div class="card-foot"><span>${rows.length}${rows.length!==g.variants.length?` / ${g.variants.length}`:''} variant${g.variants.length===1?'':'s'}</span><button class="view-detail-cta" type="button">View Details <b>→</b></button></div></div>`;
-      card.querySelector('.card-open').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelector('.view-detail-cta').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelectorAll('[data-card-finish]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();changeOnlyThisCardFinish(card,g,btn.dataset.cardFinish)}));bindMobileFinishSwipe(card,g,allFinishes);els.grid.appendChild(card)
+      card.querySelector('.card-open').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelector('.view-detail-cta').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelectorAll('[data-card-finish]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();changeOnlyThisCardFinish(card,g,btn.dataset.cardFinish)}));els.grid.appendChild(card)
     });
     els.pagination.hidden=pages<=1;els.pageInfo.textContent=`Page ${currentPage+1} / ${pages}`;els.prevBtn.disabled=currentPage===0;els.nextBtn.disabled=currentPage>=pages-1;
   }
