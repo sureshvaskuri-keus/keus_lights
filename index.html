@@ -1286,6 +1286,83 @@ body.profiles-mode .profile-variation-btn.active{
   }
 }
 
+
+/* =========================================================
+   PROFILE PAGE ONLY — exact Stock Code + Description images
+   ========================================================= */
+body.profiles-mode .profile-exact-selector{
+  border-top:1px solid var(--line2);
+  padding-top:8px!important;
+}
+body.profiles-mode .profile-selector-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:7px;
+  color:#7d746b;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+body.profiles-mode .profile-row-options{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+body.profiles-mode .profile-row-option{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-height:27px;
+  padding:3px 7px 3px 4px;
+  border:1px solid #d7d0c6;
+  border-radius:999px;
+  background:#fff;
+  color:#5b524a;
+  font-size:7px;
+  font-weight:700;
+}
+body.profiles-mode .profile-row-option.active{
+  border-color:#5b524a;
+  box-shadow:inset 0 0 0 1px #5b524a;
+}
+body.profiles-mode .profile-row-option .profile-variation-dot{
+  width:13px;
+  height:13px;
+}
+body.profiles-mode .profile-image-unavailable{
+  color:#8f877e;
+  font-size:10px;
+  font-weight:600;
+}
+@media(max-width:780px){
+  body.profiles-mode .profile-row-options{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding-bottom:3px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  body.profiles-mode .profile-row-options::-webkit-scrollbar{display:none}
+  body.profiles-mode .profile-row-option{
+    flex:0 0 auto;
+    min-height:23px;
+    padding:2px 5px 2px 3px;
+    gap:3px;
+    font-size:6px;
+  }
+  body.profiles-mode .profile-row-option .profile-variation-dot{
+    width:11px;
+    height:11px;
+  }
+  body.profiles-mode .exact-profile-card .card-image{
+    touch-action:pan-y;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1554,6 +1631,112 @@ body.profiles-mode .profile-variation-btn.active{
     return white||rows.find(r=>r.image)||rows[0]||null;
   }
 
+
+  // =========================================================
+  // PROFILE PAGE ONLY
+  // Every displayed image is bound to one exact CSV row:
+  // Stock Code + New Description + colour variation + Image.
+  // Other lighting categories do not use these helpers.
+  // =========================================================
+  function profileDescriptionHead(value){
+    const parts=String(value||'')
+      .replace(/<br\s*\/?>/gi,'\n')
+      .split(/\r?\n/)
+      .map(s=>s.trim())
+      .filter(Boolean);
+    return parts[0]||'';
+  }
+  function profileFamilyName(row){
+    const head=profileDescriptionHead(row.newDescription);
+    const s=cleanKey(head);
+
+    if(s.startsWith('under cabinet')) return 'Under Cabinet';
+    if(s.startsWith('cove profile flexible')) return 'Cove Flexible';
+    if(s.startsWith('cove profile')) return 'Cove';
+    if(s.startsWith('wide recessed')) return 'Wide Recessed';
+    if(s.startsWith('slim recessed')) return 'Slim Recessed';
+    if(s.startsWith('slim trimless')) return 'Slim Trimless';
+    if(s.startsWith('thin recessed')) return 'Thin Recessed';
+    if(s.startsWith('thin surface')) return 'Thin Surface';
+    if(s.startsWith('wide surface')) return 'Wide Surface';
+    if(s.startsWith('ceiling recessed')||s.startsWith('ceiling trimless')) return 'Ceiling';
+    if(s.startsWith('curtain grazer')) return 'Grazer';
+    if(s.startsWith('wall mounted')) return 'Wall Mounted UP/DOWN Profile';
+    if(s.startsWith('wall grazer')) return 'Wall Grazer Profile';
+    if(s.startsWith('lumen fly')) return 'Lumen';
+    if(s.startsWith('bendable curve')) return 'Bendable';
+    if(s.startsWith('thin trimless')||s.startsWith('wide trimless')||s.startsWith('deep trimless')) return 'Trimless';
+    if(s.startsWith('deep surface')) return 'Surface';
+    if(s.startsWith('deep recessed')) return 'Recessed';
+    if(/^suspended\b/.test(s)) return 'Suspended';
+    if(s.startsWith('water proof')) return 'Water Proof Profile';
+    if(s.startsWith('surface indirect')) return 'Wall Mounted Profile';
+
+    return String(row.name||head||'Profile').trim();
+  }
+  function profileFamilyKey(row){return cleanKey(profileFamilyName(row))}
+  function groupProfileProducts(rows){
+    const map=new Map();
+    for(const r of rows){
+      const k=profileFamilyKey(r);
+      if(!map.has(k))map.set(k,{name:profileFamilyName(r),profileKey:k,variants:[]});
+      map.get(k).variants.push(r);
+    }
+    return [...map.values()];
+  }
+  function profileRowKey(row){
+    return `${String(row.stockCode||'').trim()}::${String(row.newDescription||'').trim()}`;
+  }
+  function profileOptionLabel(row){
+    const variation=profileVariationFromDescription(row.newDescription);
+    const code=profileVariationCode(variation);
+    const stock=String(row.stockCode||'').trim();
+    return `${code}${stock?` · ${stock}`:''}`;
+  }
+  function profileImageMarkup(row,width=520,extra=''){
+    if(!row||!row.image)return `<span class="profile-image-unavailable">Image unavailable</span>`;
+    const fast=optimizeImageUrl(row.image,width);
+    const original=sourceImageUrl(row.image);
+    return `<img src="${escapeHtml(fast)}" data-profile-fallback="${escapeHtml(original)}" ${extra} onerror="window.__keusProfileImageFallback&&window.__keusProfileImageFallback(this)" alt="">`;
+  }
+  window.__keusProfileImageFallback=function(img){
+    const fallback=img.dataset.profileFallback||'';
+    if(fallback && img.src!==fallback && img.dataset.profileFallbackUsed!=='1'){
+      img.dataset.profileFallbackUsed='1';
+      img.src=fallback;
+      return;
+    }
+    img.style.display='none';
+    const parent=img.parentElement;
+    if(parent&&!parent.querySelector('.profile-image-unavailable')){
+      const span=document.createElement('span');
+      span.className='profile-image-unavailable';
+      span.textContent='Image unavailable';
+      parent.appendChild(span);
+    }
+  };
+  function bindProfileCardSwipe(card,rows,onSelect){
+    const imageArea=card.querySelector('.card-image');
+    if(!imageArea||rows.length<2)return;
+    let sx=0,sy=0;
+    imageArea.addEventListener('touchstart',e=>{
+      const t=e.touches&&e.touches[0];
+      if(!t)return;
+      sx=t.clientX;sy=t.clientY;
+    },{passive:true});
+    imageArea.addEventListener('touchend',e=>{
+      if(!window.matchMedia('(max-width:780px)').matches)return;
+      const t=e.changedTouches&&e.changedTouches[0];
+      if(!t)return;
+      const dx=t.clientX-sx,dy=t.clientY-sy;
+      if(Math.abs(dx)<34||Math.abs(dx)<=Math.abs(dy))return;
+      const active=card.querySelector('[data-profile-row].active');
+      let idx=active?Number(active.dataset.profileIndex||0):0;
+      idx=dx<0?(idx+1)%rows.length:(idx-1+rows.length)%rows.length;
+      onSelect(idx);
+    },{passive:true});
+  }
+
   function groupProducts(rows){const map=new Map();for(const r of rows){const k=cleanKey(r.name);if(!map.has(k))map.set(k,{name:r.name,variants:[]});map.get(k).variants.push(r)}return[...map.values()]}
   function finishSort(a,b){const ia=finishOrder.indexOf(a),ib=finishOrder.indexOf(b);if(ia>=0||ib>=0)return(ia<0?999:ia)-(ib<0?999:ib);return naturalSort(a,b)}
   function summarize(values,joiner=' / '){const vals=unique(values);if(!vals.length)return'—';if(vals.length<=3)return vals.join(joiner);return vals.slice(0,2).join(joiner)+` +${vals.length-2}`}
@@ -1684,10 +1867,11 @@ body.profiles-mode .profile-variation-btn.active{
   function renderProfileCatalogue(){
     const total=viewGroups.length;
     const totalMatched=viewGroups.reduce((n,g)=>n+g.matchedVariants.length,0);
-    els.catalogueCount.textContent=`${total} profile${total===1?'':'s'} · ${totalMatched} matching item${totalMatched===1?'':'s'}`;
+    els.catalogueCount.textContent=`${total} profile${total===1?'':'s'} · ${totalMatched} stock-code variant${totalMatched===1?'':'s'}`;
     els.grid.innerHTML='';
+
     if(!records.length){
-      els.grid.innerHTML=`<div class="empty"><h3>Profile catalogue unavailable</h3><p>The Profiles CSV needs only Name, Stock Code, Cutout, New Description and Image.</p><span class="btn" style="cursor:default">CSV file not found</span></div>`;
+      els.grid.innerHTML=`<div class="empty"><h3>Profile catalogue unavailable</h3><p>The Profiles CSV needs Name, Stock Code, Cutout, New Description and Image.</p></div>`;
       els.pagination.hidden=true;
       return;
     }
@@ -1703,81 +1887,94 @@ body.profiles-mode .profile-variation-btn.active{
     const pageStart=currentPage*getPageSize();
 
     viewGroups.slice(pageStart,pageStart+getPageSize()).forEach(g=>{
-      const rows=g.matchedVariants;
-      const variations=unique(rows.map(r=>profileVariationFromDescription(r.newDescription)).filter(Boolean));
-      const selectionKey=`profile::${cleanKey(g.name)}`;
-      let selected=profileVariationSelections.get(selectionKey)||'';
-      if(!selected||!variations.includes(selected)){
-        selected=variations.includes('White')?'White':(variations[0]||'');
-        profileVariationSelections.set(selectionKey,selected);
+      const rows=g.matchedVariants.length?g.matchedVariants:g.variants;
+      const card=document.createElement('article');
+      card.className='card profile-card exact-profile-card';
+
+      let selectedIndex=0;
+      const stored=profileVariationSelections.get(`profile-row::${g.profileKey||cleanKey(g.name)}`);
+      if(stored){
+        const found=rows.findIndex(r=>profileRowKey(r)===stored);
+        if(found>=0)selectedIndex=found;
       }
 
-      let rep=preferredProfileVariant(rows,selected);
-      const card=document.createElement('article');
-      card.className='card profile-card';
-      const img=rep&&rep.image;
+      const renderSelection=(idx)=>{
+        selectedIndex=Math.max(0,Math.min(rows.length-1,idx));
+        const row=rows[selectedIndex];
+        profileVariationSelections.set(`profile-row::${g.profileKey||cleanKey(g.name)}`,profileRowKey(row));
 
-      const renderCurrentProfileData=()=>{
-        rep=preferredProfileVariant(rows,selected);
-        const currentImg=card.querySelector('.card-image img');
-        if(currentImg&&rep&&rep.image){
-          currentImg.src=optimizeImageUrl(rep.image,520);
-          currentImg.alt=`${g.name} · ${selected}`;
+        const imageBox=card.querySelector('.card-image');
+        if(imageBox){
+          imageBox.innerHTML=profileImageMarkup(row,520,`loading="lazy" decoding="async" fetchpriority="low"`);
+          const img=imageBox.querySelector('img');
+          if(img)img.alt=`${g.name} · ${row.stockCode||''}`;
         }
-        const stocks=card.querySelectorAll('[data-profile-stock]');
+        const stock=card.querySelector('[data-profile-stock]');
         const cutout=card.querySelector('[data-profile-cutout]');
         const desc=card.querySelector('[data-profile-description]');
-        stocks.forEach(stock=>stock.textContent=(rep&&rep.stockCode)||'—');
-        if(cutout)cutout.textContent=(rep&&rep.cutout)||'—';
-        if(desc)desc.textContent=(rep&&rep.newDescription)||'—';
-        card.querySelectorAll('[data-profile-variation]').forEach(btn=>{
-          btn.classList.toggle('active',btn.dataset.profileVariation===selected);
+        const counter=card.querySelector('[data-profile-counter]');
+        if(stock)stock.textContent=row.stockCode||'—';
+        if(cutout)cutout.textContent=row.cutout||'—';
+        if(desc)desc.textContent=row.newDescription||'—';
+        if(counter)counter.textContent=`${selectedIndex+1} / ${rows.length}`;
+
+        card.querySelectorAll('[data-profile-row]').forEach((btn,i)=>{
+          btn.classList.toggle('active',i===selectedIndex);
         });
       };
 
-      card.innerHTML=`<button class="card-open" type="button">
-        <div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" alt="${escapeHtml(g.name)} · ${escapeHtml(selected)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div>
-        <div class="card-body">
-          <div class="card-kicker" data-profile-stock>${escapeHtml((rep&&rep.stockCode)||'—')}</div>
-          <h3 class="card-title">${escapeHtml(g.name)}</h3>
-          <div class="profile-specs">
-            <div class="profile-spec"><div class="profile-spec-label">Stock Code</div><div class="profile-spec-value" data-profile-stock>${escapeHtml((rep&&rep.stockCode)||'—')}</div></div>
-            <div class="profile-spec"><div class="profile-spec-label">Cutout</div><div class="profile-spec-value" data-profile-cutout>${escapeHtml((rep&&rep.cutout)||'—')}</div></div>
-          </div>
-          <div class="profile-description" data-profile-description>${escapeHtml((rep&&rep.newDescription)||'—')}</div>
-        </div>
-      </button>
-      ${variations.length?`<div class="card-body profile-variation-area" style="padding-top:0">
-        <div class="profile-variation-label">Colour Variation</div>
-        <div class="profile-variation-dots">
-          ${variations.map(v=>`<button class="profile-variation-btn ${v===selected?'active':''}" type="button" data-profile-variation="${escapeHtml(v)}" title="${escapeHtml(v)}" aria-label="${escapeHtml(v)}">${profileVariationSwatch(v)}<span>${escapeHtml(profileVariationCode(v))}</span></button>`).join('')}
-        </div>
-      </div>`:''}
-      <div class="card-body" style="padding-top:0">
-        <div class="card-foot"><span></span><button class="profile-details-btn" type="button">View Details <b>→</b></button></div>
-      </div>`;
+      const first=rows[selectedIndex]||rows[0];
 
-      card.querySelector('.card-open').addEventListener('click',()=>{
-        const params=new URLSearchParams();
-        params.set('category','profiles');
-        params.set('product',g.name);
-        if(selected)params.set('variation',selected);
-        window.location.href=`light-details.html?${params.toString()}`;
-      });
-      card.querySelector('.profile-details-btn').addEventListener('click',()=>{
-        const params=new URLSearchParams();
-        params.set('category','profiles');
-        params.set('product',g.name);
-        if(selected)params.set('variation',selected);
-        window.location.href=`light-details.html?${params.toString()}`;
-      });
-      card.querySelectorAll('[data-profile-variation]').forEach(btn=>btn.addEventListener('click',e=>{
+      card.innerHTML=`
+        <div class="series-variant-badge">${rows.length} variant${rows.length===1?'':'s'}</div>
+        <button class="card-open" type="button">
+          <div class="card-image">${profileImageMarkup(first,520,`loading="lazy" decoding="async" fetchpriority="low"`)}</div>
+          <div class="card-body">
+            <div class="card-kicker" data-profile-stock>${escapeHtml(first&&first.stockCode||'—')}</div>
+            <h3 class="card-title">${escapeHtml(g.name)}</h3>
+            <div class="profile-specs">
+              <div class="profile-spec"><div class="profile-spec-label">Stock Code</div><div class="profile-spec-value" data-profile-stock>${escapeHtml(first&&first.stockCode||'—')}</div></div>
+              <div class="profile-spec"><div class="profile-spec-label">Cutout</div><div class="profile-spec-value" data-profile-cutout>${escapeHtml(first&&first.cutout||'—')}</div></div>
+            </div>
+            <div class="profile-description" data-profile-description>${escapeHtml(first&&first.newDescription||'—')}</div>
+          </div>
+        </button>
+        <div class="card-body profile-exact-selector" style="padding-top:0">
+          <div class="profile-selector-head"><span>Variants & Colours</span><span data-profile-counter>${selectedIndex+1} / ${rows.length}</span></div>
+          <div class="profile-row-options">
+            ${rows.map((r,i)=>{
+              const variation=profileVariationFromDescription(r.newDescription);
+              return `<button class="profile-row-option ${i===selectedIndex?'active':''}" type="button" data-profile-row="${escapeHtml(profileRowKey(r))}" data-profile-index="${i}" title="${escapeHtml((r.stockCode||'')+' · '+(r.newDescription||''))}">
+                ${profileVariationSwatch(variation)}
+                <span>${escapeHtml(profileOptionLabel(r))}</span>
+              </button>`;
+            }).join('')}
+          </div>
+        </div>
+        <div class="card-body" style="padding-top:0">
+          <div class="card-foot"><span></span><button class="profile-details-btn" type="button">View Details <b>→</b></button></div>
+        </div>`;
+
+      card.querySelectorAll('[data-profile-row]').forEach((btn,i)=>btn.addEventListener('click',e=>{
         e.preventDefault();
         e.stopPropagation();
-        selected=btn.dataset.profileVariation;
-        profileVariationSelections.set(selectionKey,selected);
-        renderCurrentProfileData();
+        renderSelection(i);
       }));
+
+      const goProfileDetail=()=>{
+        const row=rows[selectedIndex]||rows[0];
+        const params=new URLSearchParams();
+        params.set('category','profiles');
+        params.set('product',g.name);
+        params.set('profileKey',g.profileKey||cleanKey(g.name));
+        if(row&&row.stockCode)params.set('stockCode',row.stockCode);
+        if(row&&row.newDescription)params.set('description',row.newDescription);
+        window.location.href=`light-details.html?${params.toString()}`;
+      };
+
+      card.querySelector('.card-open').addEventListener('click',goProfileDetail);
+      card.querySelector('.profile-details-btn').addEventListener('click',goProfileDetail);
+      bindProfileCardSwipe(card,rows,renderSelection);
 
       els.grid.appendChild(card);
     });
@@ -1847,7 +2044,7 @@ body.profiles-mode .profile-variation-btn.active{
   function syncStateFromUI(){state.q=els.searchBox.value.trim().toLowerCase();for(const f of filterFields)state[f]=filterEls[f].value}
   function resetAll(){Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;updateAll()}
   function loadCSVText(text,label='CSV file'){
-    try{const rows=parseCSV(text);records=normalizeRows(rows);if(!records.length)throw new Error('No product rows were found in the CSV.');groups=groupProducts(records);Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;const finishes=unique(records.map(r=>r.finish));const unknown=finishes.filter(f=>!finishOrder.includes(f));els.status.innerHTML=`<strong>${escapeHtml(label)}</strong> · ${groups.length} products · ${records.length} variants · ${finishes.length} finishes${unknown.length?` · ${unknown.length} custom finish${unknown.length===1?'':'es'}`:''}`;updateAll()}catch(err){console.error(err);els.status.innerHTML=`<strong>Could not load CSV.</strong> ${escapeHtml(err.message||String(err))}`;records=[];groups=[];viewGroups=[];renderCatalogue()}
+    try{const rows=parseCSV(text);records=normalizeRows(rows);if(!records.length)throw new Error('No product rows were found in the CSV.');groups=activeCategory==='profiles'?groupProfileProducts(records):groupProducts(records);Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;const finishes=unique(records.map(r=>r.finish));const unknown=finishes.filter(f=>!finishOrder.includes(f));els.status.innerHTML=`<strong>${escapeHtml(label)}</strong> · ${groups.length} products · ${records.length} variants · ${finishes.length} finishes${unknown.length?` · ${unknown.length} custom finish${unknown.length===1?'':'es'}`:''}`;updateAll()}catch(err){console.error(err);els.status.innerHTML=`<strong>Could not load CSV.</strong> ${escapeHtml(err.message||String(err))}`;records=[];groups=[];viewGroups=[];renderCatalogue()}
   }
   async function loadCategory(key){
     const cfg=CATEGORIES[key];

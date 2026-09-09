@@ -68,3 +68,16 @@ No changes were made to the data schema; `data/profiles.csv` still uses:
 - All four CSV data files now store WebP delivery URLs through `https://wsrv.nl/`.
 - The original ImgBB image remains embedded inside each wsrv URL as the source, so the catalogue can continue using the same product artwork while loading WebP.
 - `scripts/optimize_csv_images.py` remains included so future raw ImgBB links can be converted to the same WebP format.
+
+
+## Profile-only exact image mapping
+
+This change is isolated to the Profiles category.
+
+- Every Profile image is selected from the exact CSV row containing that `Stock Code` + `New Description`.
+- Profile families are built from the description so naming inconsistencies such as black-finish variants do not split the same profile family.
+- Each Profile card exposes all stock-code variants and colour variations available in that family.
+- Selecting or swiping a Profile variant updates only that Profile card's image, Stock Code, Cutout and New Description.
+- The Profile details page shows every Stock Code / colour combination as a selectable image option.
+- WebP is used first. If the WebP delivery URL fails, the page automatically falls back to the original ImgBB source from the same CSV row.
+- Downlights, Tracklights and Outdoor Lights keep their existing logic and data unchanged.
