@@ -81,3 +81,29 @@ This change is isolated to the Profiles category.
 - The Profile details page shows every Stock Code / colour combination as a selectable image option.
 - WebP is used first. If the WebP delivery URL fails, the page automatically falls back to the original ImgBB source from the same CSV row.
 - Downlights, Tracklights and Outdoor Lights keep their existing logic and data unchanged.
+
+
+## Profile desktop/web refinement
+
+- Only the desktop/web presentation of the Profiles category was refined.
+- Profile landing cards now use a cleaner three-column layout.
+- Product images are larger.
+- Variant/colour controls have a clearer two-column layout.
+- The selected variant is easier to identify.
+- The Profile details page has a larger visual and cleaner information hierarchy.
+- Mobile Profile styling is preserved.
+- Downlights, Tracklights and Outdoor Lights are unchanged.
+
+
+## Desktop/web colour switching
+
+For Downlights, Tracklights and Outdoor Lights on desktop/web:
+
+- Click any finish dot to change that card's colour.
+- The active finish dot highlights automatically.
+- Previous/next arrows appear subtly when the product card is hovered.
+- Horizontal trackpad gestures over the product image switch colours.
+- Mouse/pen drag left or right on the product image also switches colours.
+- Only the selected product card's image and MRP update.
+- Mobile swipe behaviour remains unchanged.
+- Profile cards keep their separate Stock Code + New Description variant logic.

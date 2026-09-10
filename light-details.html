@@ -528,6 +528,131 @@ html,body{
   .profile-combo-copy small{font-size:7px}
 }
 
+
+/* =========================================================
+   PROFILE DETAILS ONLY — DESKTOP / WEB REFINEMENT
+   Mobile details and lighting-product details remain unchanged.
+   ========================================================= */
+@media(min-width:781px){
+  .exact-profile-detail{
+    grid-template-columns:minmax(480px,1.05fr) minmax(0,.95fr);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 16px 44px rgba(7,4,4,.06);
+  }
+
+  .exact-profile-detail .visual{
+    padding:30px;
+    background:#faf8f4;
+  }
+
+  .exact-profile-detail .image-box{
+    min-height:470px;
+    border-radius:14px;
+    border:1px solid #e7e1d9;
+    background:
+      radial-gradient(circle at 50% 44%,#fff 0 42%,#fbfaf7 70%,#f3efe9 100%);
+  }
+
+  .exact-profile-detail .image-box img{
+    width:86%;
+    height:86%;
+  }
+
+  .exact-profile-detail .profile-combo-wrap{
+    margin-top:18px;
+  }
+
+  .exact-profile-detail .profile-combo-options{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+  }
+
+  .exact-profile-detail .profile-combo-option{
+    min-height:66px;
+    padding:7px;
+    border-radius:12px;
+    background:#fff;
+    border:1px solid #ddd6cc;
+    transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease;
+  }
+
+  .exact-profile-detail .profile-combo-option:hover{
+    transform:translateY(-1px);
+    border-color:#aaa099;
+  }
+
+  .exact-profile-detail .profile-combo-option.active{
+    border-color:#5b524a;
+    box-shadow:inset 0 0 0 1px #5b524a,0 5px 14px rgba(91,82,74,.08);
+  }
+
+  .exact-profile-detail .profile-combo-thumb{
+    width:54px;
+    height:54px;
+    flex-basis:54px;
+    border-radius:9px;
+    background:#f7f4ef;
+  }
+
+  .exact-profile-detail .profile-combo-copy b{
+    font-size:12px;
+  }
+
+  .exact-profile-detail .profile-combo-copy small{
+    margin-top:4px;
+    font-size:9px;
+  }
+
+  .exact-profile-detail .info{
+    padding:42px 38px;
+    background:#fffdfa;
+  }
+
+  .exact-profile-detail .kicker{
+    margin-bottom:10px;
+    color:#5b524a;
+  }
+
+  .exact-profile-detail h1{
+    font-size:44px;
+    line-height:1.02;
+    letter-spacing:-.025em;
+  }
+
+  .exact-profile-detail .description{
+    margin-top:16px;
+    margin-bottom:24px;
+    padding-bottom:20px;
+    border-bottom:1px solid #e5dfd7;
+    font-size:13px;
+    line-height:1.75;
+    color:#655e56;
+  }
+
+  .exact-profile-detail .spec-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    border-radius:12px;
+    overflow:hidden;
+  }
+
+  .exact-profile-detail .spec{
+    min-height:86px;
+    padding:14px;
+    background:#fff;
+  }
+
+  .exact-profile-detail .spec-label{
+    margin-bottom:8px;
+    font-size:9px;
+  }
+
+  .exact-profile-detail .spec-value{
+    font-size:13px;
+    line-height:1.5;
+  }
+}
+
 </style>
 </head>
 <body>
