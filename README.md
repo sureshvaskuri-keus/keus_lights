@@ -119,3 +119,11 @@ Only the following desktop/web presentation changes were made:
 - Refined `View Details` into a lighter KEUS text CTA with a subtle hover underline.
 
 Everything else remains unchanged, including mobile behaviour, Profile logic, data, filters, image logic and existing interactions.
+
+
+## Plain finish active/inactive states
+
+- Removed shadows from finish and colour selectors.
+- Active state is shown only with a clean `#5b524a` border.
+- Inactive states remain plain with no shadow.
+- No other page styling or functionality was changed.

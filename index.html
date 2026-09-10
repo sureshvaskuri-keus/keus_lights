@@ -1677,6 +1677,41 @@ body.profiles-mode .profile-image-unavailable{
   }
 }
 
+
+/* =========================================================
+   FINISH / COLOUR STATES — PLAIN ACTIVE / INACTIVE
+   No shadows on colour selectors.
+   ========================================================= */
+.finish-chip,
+.finish-chip.active,
+.card-swatch,
+.card-swatch.active,
+.finish-option,
+.finish-option.active,
+.profile-variation-btn,
+.profile-variation-btn.active,
+.profile-row-option,
+.profile-row-option.active{
+  box-shadow:none!important;
+}
+
+.finish-chip.active,
+.card-swatch.active,
+.finish-option.active,
+.profile-variation-btn.active,
+.profile-row-option.active{
+  border-color:#5b524a!important;
+}
+
+.card-swatch:not(.active){
+  border-color:transparent!important;
+}
+
+.profile-variation-btn:not(.active),
+.profile-row-option:not(.active){
+  border-color:#d8d1c8!important;
+}
+
 </style>
 </head>
 <body>
