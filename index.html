@@ -1619,6 +1619,64 @@ body.profiles-mode .profile-image-unavailable{
   }
 }
 
+
+/* =========================================================
+   WEB/DESKTOP — CLEAN KEUS FINISHES + CTA
+   ========================================================= */
+@media(min-width:781px){
+  body:not(.profiles-mode) .desktop-finish-nav{display:none!important}
+
+  body:not(.profiles-mode) .card-finishes{
+    display:flex!important;
+    align-items:center!important;
+    flex-wrap:wrap!important;
+    overflow:visible!important;
+    gap:5px!important;
+    padding-bottom:0!important;
+    scrollbar-width:none!important;
+  }
+  body:not(.profiles-mode) .card-finishes::-webkit-scrollbar{
+    display:none!important;width:0!important;height:0!important;
+  }
+  body:not(.profiles-mode) .card-swatch{flex:0 0 auto!important}
+  body:not(.profiles-mode) .more-finishes{display:none!important}
+
+  body:not(.profiles-mode) .view-detail-cta{
+    min-height:auto!important;
+    height:auto!important;
+    padding:4px 0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    color:#5b524a!important;
+    box-shadow:none!important;
+    font-weight:700!important;
+    letter-spacing:.015em!important;
+    text-decoration:none!important;
+    position:relative;
+  }
+  body:not(.profiles-mode) .view-detail-cta::after{
+    content:'';
+    position:absolute;
+    left:0;right:0;bottom:1px;
+    height:1px;
+    background:#c6beb6;
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform .18s ease;
+  }
+  body:not(.profiles-mode) .view-detail-cta:hover{
+    background:transparent!important;
+    color:#403a35!important;
+    transform:none!important;
+  }
+  body:not(.profiles-mode) .view-detail-cta:hover::after{transform:scaleX(1)}
+  body:not(.profiles-mode) .view-detail-cta b{
+    font-weight:500!important;
+    margin-left:4px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2352,7 +2410,7 @@ body.profiles-mode .profile-image-unavailable{
     if(!total){els.grid.innerHTML=`<div class="empty"><h3>No matching variants</h3><p>The filters work at variant level, not only product level. Remove one or more filters to widen the result.</p><button class="btn" id="emptyReset" type="button">Reset All Filters</button></div>`;els.pagination.hidden=true;$('emptyReset').addEventListener('click',resetAll);return}
     const pages=Math.ceil(total/getPageSize());currentPage=Math.min(currentPage,pages-1);const pageStart=currentPage*getPageSize();viewGroups.slice(pageStart,pageStart+getPageSize()).forEach(g=>{
       const rows=g.matchedVariants,allFinishes=unique(g.variants.map(v=>v.finish)).sort(finishSort),matchedFinishes=unique(rows.map(v=>v.finish)).sort(finishSort);const card=document.createElement('article');card.className='card';const localFinish=cardFinishSelections.get(cardFinishKey(g))||state.finish||'';const rep=representativeVariant(g,g.variants,localFinish);const img=rep&&rep.image;
-      card.innerHTML=`<div class="series-variant-badge">${g.variants.length} variant${g.variants.length===1?'':'s'}</div>${rows.length<g.variants.length?`<div class="match-tag">${rows.length} match${rows.length===1?'':'es'}</div>`:''}${allFinishes.length>1?`<button class="desktop-finish-nav desktop-finish-prev" type="button" data-finish-prev aria-label="Previous colour">‹</button><button class="desktop-finish-nav desktop-finish-next" type="button" data-finish-next aria-label="Next colour">›</button>`:''}<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(g.name)}</h3><div class="card-price" data-card-rate>${rep&&rep.mrp?`MRP ${escapeHtml(rep.mrp)}`:'Price on request'}</div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div></div></button><div class="card-body" style="padding-top:0"><div class="card-finishes"><span class="card-finish-label">Finishes</span>${allFinishes.map(f=>`<button class="card-swatch ${localFinish===f?'active':''}" type="button" data-card-finish="${escapeHtml(f)}" title="${escapeHtml(f)}">${swatchHtml(f)}</button>`).join('')}</div><div class="card-foot"><span>${rows.length}${rows.length!==g.variants.length?` / ${g.variants.length}`:''} variant${g.variants.length===1?'':'s'}</span><button class="view-detail-cta" type="button">View Details <b>→</b></button></div></div>`;
+      card.innerHTML=`<div class="series-variant-badge">${g.variants.length} variant${g.variants.length===1?'':'s'}</div>${rows.length<g.variants.length?`<div class="match-tag">${rows.length} match${rows.length===1?'':'es'}</div>`:''}<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,520))}" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(g.name)}</h3><div class="card-price" data-card-rate>${rep&&rep.mrp?`MRP ${escapeHtml(rep.mrp)}`:'Price on request'}</div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div></div></button><div class="card-body" style="padding-top:0"><div class="card-finishes"><span class="card-finish-label">Finishes</span>${allFinishes.map(f=>`<button class="card-swatch ${localFinish===f?'active':''}" type="button" data-card-finish="${escapeHtml(f)}" title="${escapeHtml(f)}">${swatchHtml(f)}</button>`).join('')}</div><div class="card-foot"><span>${rows.length}${rows.length!==g.variants.length?` / ${g.variants.length}`:''} variant${g.variants.length===1?'':'s'}</span><button class="view-detail-cta" type="button">View Details <b>→</b></button></div></div>`;
       card.querySelector('.card-open').addEventListener('click',e=>{if(card.dataset.suppressOpen==='1'){e.preventDefault();e.stopPropagation();card.dataset.suppressOpen='0';return}goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||'')});card.querySelector('.view-detail-cta').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelectorAll('[data-card-finish]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();changeOnlyThisCardFinish(card,g,btn.dataset.cardFinish)}));bindMobileFinishSwipe(card,g,allFinishes);bindDesktopFinishControls(card,g,allFinishes);els.grid.appendChild(card)
     });
     els.pagination.hidden=pages<=1;els.pageInfo.textContent=`Page ${currentPage+1} / ${pages}`;els.prevBtn.disabled=currentPage===0;els.nextBtn.disabled=currentPage>=pages-1;

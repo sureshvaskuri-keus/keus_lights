@@ -107,3 +107,15 @@ For Downlights, Tracklights and Outdoor Lights on desktop/web:
 - Only the selected product card's image and MRP update.
 - Mobile swipe behaviour remains unchanged.
 - Profile cards keep their separate Stock Code + New Description variant logic.
+
+
+## Desktop finish-area cleanup
+
+Only the following desktop/web presentation changes were made:
+
+- Removed visible finish scrollbar.
+- Removed visible previous/next colour buttons.
+- All finish dots are shown directly and wrap naturally when required.
+- Refined `View Details` into a lighter KEUS text CTA with a subtle hover underline.
+
+Everything else remains unchanged, including mobile behaviour, Profile logic, data, filters, image logic and existing interactions.
