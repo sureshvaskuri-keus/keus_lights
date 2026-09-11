@@ -127,3 +127,14 @@ Everything else remains unchanged, including mobile behaviour, Profile logic, da
 - Active state is shown only with a clean `#5b524a` border.
 - Inactive states remain plain with no shadow.
 - No other page styling or functionality was changed.
+
+
+## Three requested changes
+
+Only these changes were added:
+
+1. Profile landing page: beside each colour circle, only the colour code is displayed. The Stock Code is no longer shown beside that circle.
+2. Mobile View Details: swipe left/right on the main product image to move through available colours/variants.
+3. Mobile + Web landing cards: the default displayed product image now automatically highlights its corresponding finish/colour dot.
+
+Everything else is preserved from the previous version.

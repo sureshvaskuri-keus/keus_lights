@@ -672,6 +672,16 @@ html,body{
   border-color:#5b524a!important;
 }
 
+
+/* =========================================================
+   REQUESTED CHANGE ONLY — MOBILE DETAILS IMAGE SWIPE
+   ========================================================= */
+@media(max-width:780px){
+  .layout .image-box{
+    touch-action:pan-y;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -909,6 +919,36 @@ function render(rows){
         history.replaceState(null,'',url);
         renderProfileDetail(next);
       }));
+
+      const profileImageBox=document.querySelector('.exact-profile-detail .image-box');
+      if(profileImageBox&&rows.length>1){
+        let startX=0,startY=0;
+        profileImageBox.addEventListener('touchstart',e=>{
+          const t=e.touches&&e.touches[0];
+          if(!t)return;
+          startX=t.clientX;
+          startY=t.clientY;
+        },{passive:true});
+        profileImageBox.addEventListener('touchend',e=>{
+          if(!window.matchMedia('(max-width:780px)').matches)return;
+          const t=e.changedTouches&&e.changedTouches[0];
+          if(!t)return;
+          const dx=t.clientX-startX;
+          const dy=t.clientY-startY;
+          if(Math.abs(dx)<34||Math.abs(dx)<=Math.abs(dy))return;
+
+          const next=dx<0
+            ? (selectedIndex+1)%rows.length
+            : (selectedIndex-1+rows.length)%rows.length;
+
+          const chosen=rows[next];
+          const url=new URL(location.href);
+          url.searchParams.set('stockCode',chosen.stockCode||'');
+          url.searchParams.set('description',chosen.newDescription||'');
+          history.replaceState(null,'',url);
+          renderProfileDetail(next);
+        },{passive:true});
+      }
     };
 
     renderProfileDetail(selectedIndex);
@@ -988,6 +1028,37 @@ function render(rows){
     history.replaceState(null,'',url);
     render(rows);
   }));
+
+  const detailImageBox=document.querySelector('.layout:not(.profile-only) .image-box');
+  if(detailImageBox&&finishes.length>1){
+    let startX=0,startY=0;
+    detailImageBox.addEventListener('touchstart',e=>{
+      const t=e.touches&&e.touches[0];
+      if(!t)return;
+      startX=t.clientX;
+      startY=t.clientY;
+    },{passive:true});
+    detailImageBox.addEventListener('touchend',e=>{
+      if(!window.matchMedia('(max-width:780px)').matches)return;
+      const t=e.changedTouches&&e.changedTouches[0];
+      if(!t)return;
+      const dx=t.clientX-startX;
+      const dy=t.clientY-startY;
+      if(Math.abs(dx)<34||Math.abs(dx)<=Math.abs(dy))return;
+
+      let idx=finishes.indexOf(selectedFinish);
+      if(idx<0)idx=0;
+      idx=dx<0
+        ? (idx+1)%finishes.length
+        : (idx-1+finishes.length)%finishes.length;
+
+      selectedFinish=finishes[idx];
+      const url=new URL(location.href);
+      url.searchParams.set('finish',selectedFinish);
+      history.replaceState(null,'',url);
+      render(rows);
+    },{passive:true});
+  }
 }
 
 })();
