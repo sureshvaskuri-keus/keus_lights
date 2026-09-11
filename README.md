@@ -138,3 +138,12 @@ Only these changes were added:
 3. Mobile + Web landing cards: the default displayed product image now automatically highlights its corresponding finish/colour dot.
 
 Everything else is preserved from the previous version.
+
+
+## Details page Stock Code cleanup
+
+Only one change was made:
+- Removed Stock Code from the main lighting-product specification summary on the View Details page.
+- Stock Code remains in the Available Variants table.
+
+Everything else is unchanged.

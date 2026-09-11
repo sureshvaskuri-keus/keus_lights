@@ -966,7 +966,6 @@ function render(rows){
   const description=summary(rows.map(r=>r.newDescription),' ');
 
   const specs=[
-    ['Stock Code',selectedStockCode],
     ['Item No.',summary(selectedRows.map(r=>r.itemNo))],
     ['Wattage',summary(selectedRows.map(r=>r.wattage))],
     ['CCT',summary(selectedRows.map(r=>r.cct))],
