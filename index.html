@@ -2217,6 +2217,123 @@ body.profiles-mode .card-image img{
   backface-visibility:hidden;
 }
 
+
+/* =========================================================
+   GLOBAL CATALOGUE SEARCH
+   Search spans Downlights, Tracklights, Profiles and Outdoor.
+   Category-specific filters are temporarily hidden while a
+   global search is active, then restored when search is cleared.
+   ========================================================= */
+body.global-search-mode .toolbar{
+  grid-template-columns:1fr!important;
+}
+body.global-search-mode .toolbar > :not(.search),
+body.global-search-mode .advanced,
+body.global-search-mode .finish-panel,
+body.global-search-mode .active-filters{
+  display:none!important;
+}
+body.global-search-mode .toolbar .search{
+  display:block!important;
+  grid-column:1/-1!important;
+  width:100%!important;
+}
+body.global-search-mode .category-tab{
+  opacity:.62;
+}
+body.global-search-mode .category-tab.active{
+  opacity:.82;
+}
+
+.global-result-card{
+  position:relative;
+}
+.global-category-badge{
+  position:absolute;
+  top:9px;
+  left:9px;
+  z-index:5;
+  padding:5px 8px;
+  border-radius:999px;
+  background:rgba(251,250,247,.94);
+  border:1px solid #d8d1c8;
+  color:#5b524a;
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.global-match-badge{
+  position:absolute;
+  top:9px;
+  right:9px;
+  z-index:5;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#5b524a;
+  color:#fff;
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:.04em;
+  pointer-events:none;
+}
+.global-result-meta{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0;
+  margin-top:11px;
+  border-top:1px solid #ece7e0;
+}
+.global-result-meta > div{
+  min-width:0;
+  padding-top:9px;
+}
+.global-result-meta > div+div{
+  padding-left:10px;
+  border-left:1px solid #ece7e0;
+}
+.global-meta-label{
+  display:block;
+  margin-bottom:4px;
+  color:#9a9188;
+  font-size:7px;
+  font-weight:500;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.global-meta-value{
+  display:block;
+  color:#4f4943;
+  font-size:10px;
+  font-weight:400;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+.global-search-empty{
+  grid-column:1/-1;
+}
+
+@media(max-width:780px){
+  .global-category-badge,
+  .global-match-badge{
+    top:6px;
+    padding:4px 6px;
+    font-size:6px;
+  }
+  .global-category-badge{left:6px}
+  .global-match-badge{right:6px}
+  .global-result-meta{
+    margin-top:8px;
+  }
+  .global-meta-label{
+    font-size:6px;
+  }
+  .global-meta-value{
+    font-size:9px;
+  }
+}
+
 </style>
   <link rel="preconnect" href="https://wsrv.nl" crossorigin>
   <link rel="dns-prefetch" href="//wsrv.nl">
@@ -2385,6 +2502,11 @@ body.profiles-mode .card-image img{
   const cardFinishSelections=new Map();
   const profileVariationSelections=new Map();
   const state={q:'',name:'',cct:'',wattage:'',itemNo:'',vf:'',imax:'',cri:'',cutout:'',beam:'',batchCode:'',stockCode:'',bisNo:'',bisSpec:'',mrp:'',mfgBy:'',finish:''};
+  const globalCatalogueCache={};
+  let globalCataloguePromise=null;
+  let globalSearchResults=[];
+  let globalSearchToken=0;
+  let globalSearchTimer=null;
   const $=id=>document.getElementById(id);
   const els={csvInput:$('csvInput'),status:$('status'),searchBox:$('searchBox'),nameFilter:$('nameFilter'),cctFilter:$('cctFilter'),wattageFilter:$('wattageFilter'),itemNoFilter:$('itemNoFilter'),vfFilter:$('vfFilter'),imaxFilter:$('imaxFilter'),criFilter:$('criFilter'),cutoutFilter:$('cutoutFilter'),beamFilter:$('beamFilter'),batchCodeFilter:$('batchCodeFilter'),stockCodeFilter:$('stockCodeFilter'),bisNoFilter:$('bisNoFilter'),bisSpecFilter:$('bisSpecFilter'),mrpFilter:$('mrpFilter'),mfgByFilter:$('mfgByFilter'),moreBtn:$('moreBtn'),advancedFilters:$('advancedFilters'),resetBtn:$('resetBtn'),finishChips:$('finishChips'),activeFilters:$('activeFilters'),grid:$('grid'),catalogueCount:$('catalogueCount'),pagination:$('pagination'),prevBtn:$('prevBtn'),nextBtn:$('nextBtn'),pageInfo:$('pageInfo'),modal:$('modal'),closeBtn:$('closeBtn'),detailImage:$('detailImage'),detailFinishOptions:$('detailFinishOptions'),thumbs:$('thumbs'),finishNote:$('finishNote'),detailKicker:$('detailKicker'),detailTitle:$('detailTitle'),detailSub:$('detailSub'),specGrid:$('specGrid'),variantBody:$('variantBody'),variantFilterNote:$('variantFilterNote'),categoryTabs:$('categoryTabs'),categoryTitle:$('categoryTitle')};
 
@@ -2726,6 +2848,216 @@ body.profiles-mode .card-image img{
     if(!wrap||!menu||!trigger)return;
     menu.hidden=true;wrap.classList.remove('open');trigger.setAttribute('aria-expanded','false');
   }
+
+  function categoryStatusHtml(key){
+    const cfg=CATEGORIES[key];
+    const data=globalCatalogueCache[key];
+    const recs=data?data.records:records;
+    const gps=data?data.groups:groups;
+    const finishes=unique(recs.map(r=>r.finish));
+    const unknown=finishes.filter(f=>!finishOrder.includes(f));
+    return `<strong>${escapeHtml(cfg.label)}</strong> · ${gps.length} products · ${recs.length} variants · ${finishes.length} finishes${unknown.length?` · ${unknown.length} custom finish${unknown.length===1?'':'es'}`:''}`;
+  }
+
+  async function getCatalogueForSearch(key){
+    if(globalCatalogueCache[key])return globalCatalogueCache[key];
+    const cfg=CATEGORIES[key];
+    const res=await fetch(encodeURI(cfg.file),{cache:'no-store'});
+    if(!res.ok)throw new Error(`${cfg.file}: ${res.status} ${res.statusText}`);
+    const text=await res.text();
+    const recs=normalizeRows(parseCSV(text));
+    const gps=key==='profiles'?groupProfileProducts(recs):groupProducts(recs);
+    const data={records:recs,groups:gps};
+    globalCatalogueCache[key]=data;
+    return data;
+  }
+
+  function ensureAllCataloguesForSearch(){
+    if(globalCataloguePromise)return globalCataloguePromise;
+    globalCataloguePromise=Promise.all(
+      Object.keys(CATEGORIES).map(async key=>{
+        const data=await getCatalogueForSearch(key);
+        return {key,...data};
+      })
+    ).catch(err=>{
+      globalCataloguePromise=null;
+      throw err;
+    });
+    return globalCataloguePromise;
+  }
+
+  function globalResultDetailUrl(result){
+    const row=result.row;
+    const params=new URLSearchParams();
+    params.set('category',result.category);
+
+    if(result.category==='profiles'){
+      const product=profileFamilyName(row);
+      params.set('product',product);
+      params.set('profileKey',profileFamilyKey(row));
+      if(row.stockCode)params.set('stockCode',row.stockCode);
+      if(row.newDescription)params.set('description',row.newDescription);
+    }else{
+      params.set('product',row.name);
+      if(row.finish)params.set('finish',row.finish);
+    }
+    return `light-details.html?${params.toString()}`;
+  }
+
+  function buildGlobalSearchResults(q,datasets){
+    const results=[];
+    const seen=new Set();
+
+    for(const data of datasets){
+      for(const row of data.records){
+        if(!searchMatches(row,q))continue;
+
+        // Search results are image-level, not just product-level.
+        // This allows different colour/product images to appear independently,
+        // while duplicate technical rows using the same image are suppressed.
+        const imageKey=String(row.image||'').trim();
+        const key=[
+          data.key,
+          cleanKey(row.name),
+          cleanKey(row.finish),
+          imageKey||cleanKey(row.stockCode)||String(row._row)
+        ].join('::');
+
+        if(seen.has(key))continue;
+        seen.add(key);
+        results.push({category:data.key,row});
+      }
+    }
+    return results;
+  }
+
+  function renderGlobalSearchResults(q){
+    els.grid.innerHTML='';
+    const total=globalSearchResults.length;
+    const categoryCounts={};
+    globalSearchResults.forEach(r=>categoryCounts[r.category]=(categoryCounts[r.category]||0)+1);
+
+    const categoriesFound=Object.keys(categoryCounts).length;
+    els.categoryTitle.textContent='Search Results';
+
+    const summary=Object.keys(CATEGORIES)
+      .filter(k=>categoryCounts[k])
+      .map(k=>`${CATEGORIES[k].label} ${categoryCounts[k]}`)
+      .join(' · ');
+
+    els.catalogueCount.textContent=total
+      ? `${total} image${total===1?'':'s'} · ${categoriesFound} categor${categoriesFound===1?'y':'ies'}`
+      : '0 results';
+
+    els.status.innerHTML=total
+      ? `<strong>All catalogue search</strong> · “${escapeHtml(q)}” · ${escapeHtml(summary)}`
+      : `<strong>All catalogue search</strong> · No result for “${escapeHtml(q)}”`;
+
+    if(!total){
+      els.grid.innerHTML=`<div class="empty global-search-empty">
+        <h3>No matching products</h3>
+        <p>Search checks all four catalogue sections, including product name, stock code, description, finish and image filename.</p>
+      </div>`;
+      els.pagination.hidden=true;
+      return;
+    }
+
+    const pageSize=getPageSize();
+    const pages=Math.ceil(total/pageSize);
+    currentPage=Math.min(currentPage,pages-1);
+    const start=currentPage*pageSize;
+
+    globalSearchResults.slice(start,start+pageSize).forEach(result=>{
+      const row=result.row;
+      const cfg=CATEGORIES[result.category];
+      const card=document.createElement('article');
+      card.className='card global-result-card';
+
+      const image=row.image;
+      const isProfile=result.category==='profiles';
+      const title=isProfile?profileFamilyName(row):row.name;
+      const variation=isProfile?profileVariationFromDescription(row.newDescription):row.finish;
+      const code=isProfile?profileVariationCode(variation):variation;
+      const rate=!isProfile&&row.mrp?`MRP ${row.mrp}`:'';
+      const kicker=row.itemNo||row.stockCode||'';
+      const secondaryLabel=isProfile?'Colour':'Finish';
+      const secondaryValue=code||variation||'—';
+
+      card.innerHTML=`
+        <div class="global-category-badge">${escapeHtml(cfg.label)}</div>
+        <div class="global-match-badge">Match</div>
+        <button class="card-open" type="button">
+          <div class="card-image">
+            ${image?`<img src="${escapeHtml(optimizeImageUrl(image,420))}" alt="${escapeHtml(title)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}
+          </div>
+          <div class="card-body">
+            ${kicker?`<div class="card-kicker">${escapeHtml(kicker)}</div>`:''}
+            <h3 class="card-title">${escapeHtml(title)}</h3>
+            ${rate?`<div class="card-price">${escapeHtml(rate)}</div>`:''}
+            <div class="global-result-meta">
+              <div>
+                <span class="global-meta-label">${escapeHtml(secondaryLabel)}</span>
+                <span class="global-meta-value">${escapeHtml(secondaryValue)}</span>
+              </div>
+              <div>
+                <span class="global-meta-label">Stock Code</span>
+                <span class="global-meta-value">${escapeHtml(row.stockCode||'—')}</span>
+              </div>
+            </div>
+          </div>
+        </button>`;
+
+      card.querySelector('.card-open').addEventListener('click',()=>{
+        window.location.href=globalResultDetailUrl(result);
+      });
+
+      els.grid.appendChild(card);
+    });
+
+    els.pagination.hidden=pages<=1;
+    els.pageInfo.textContent=`Page ${currentPage+1} / ${pages}`;
+    els.prevBtn.disabled=currentPage===0;
+    els.nextBtn.disabled=currentPage>=pages-1;
+  }
+
+  async function runGlobalSearch(q){
+    const query=String(q||'').trim().toLowerCase();
+    const token=++globalSearchToken;
+
+    if(!query){
+      document.body.classList.remove('global-search-mode');
+      document.body.classList.toggle('profiles-mode',activeCategory==='profiles');
+      els.categoryTitle.textContent=CATEGORIES[activeCategory].label;
+      els.status.innerHTML=categoryStatusHtml(activeCategory);
+      globalSearchResults=[];
+      currentPage=0;
+      updateAll();
+      return;
+    }
+
+    document.body.classList.add('global-search-mode');
+    document.body.classList.remove('profiles-mode');
+    els.categoryTitle.textContent='Search Results';
+    els.status.innerHTML=`Searching <strong>all catalogue sections</strong> for “${escapeHtml(query)}”…`;
+    els.catalogueCount.textContent='Searching…';
+    els.grid.innerHTML=`<div class="empty global-search-empty"><p>Searching Downlights, Tracklights, Profiles and Outdoor Lights…</p></div>`;
+    els.pagination.hidden=true;
+
+    try{
+      const datasets=await ensureAllCataloguesForSearch();
+      if(token!==globalSearchToken)return;
+      globalSearchResults=buildGlobalSearchResults(query,datasets);
+      currentPage=0;
+      renderGlobalSearchResults(query);
+    }catch(err){
+      console.error(err);
+      if(token!==globalSearchToken)return;
+      els.status.innerHTML=`<strong>Global search could not load all catalogue files.</strong>`;
+      els.grid.innerHTML=`<div class="empty global-search-empty"><p>${escapeHtml(err.message||String(err))}</p></div>`;
+      els.pagination.hidden=true;
+    }
+  }
+
   function refreshSelectOptions(){
     for(const field of filterFields){const select=filterEls[field];if(!select)continue;const current=state[field];const optionSource=field==='beam'?records:records.filter(r=>rowMatches(r,field));const vals=optionSortFor(field,unique(optionSource.map(r=>r[field])));select.innerHTML=`<option value="">${escapeHtml(optionLabels[field])}</option>`+vals.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');if(current&&vals.includes(current))select.value=current;else if(current){state[field]='';select.value=''}}
     syncKeusProductMenu();
@@ -3237,11 +3569,15 @@ body.profiles-mode .card-image img{
   function syncStateFromUI(){state.q=els.searchBox.value.trim().toLowerCase();for(const f of filterFields)state[f]=filterEls[f].value}
   function resetAll(){Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;updateAll()}
   function loadCSVText(text,label='CSV file'){
-    try{const rows=parseCSV(text);records=normalizeRows(rows);if(!records.length)throw new Error('No product rows were found in the CSV.');groups=activeCategory==='profiles'?groupProfileProducts(records):groupProducts(records);Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;const finishes=unique(records.map(r=>r.finish));const unknown=finishes.filter(f=>!finishOrder.includes(f));els.status.innerHTML=`<strong>${escapeHtml(label)}</strong> · ${groups.length} products · ${records.length} variants · ${finishes.length} finishes${unknown.length?` · ${unknown.length} custom finish${unknown.length===1?'':'es'}`:''}`;updateAll()}catch(err){console.error(err);els.status.innerHTML=`<strong>Could not load CSV.</strong> ${escapeHtml(err.message||String(err))}`;records=[];groups=[];viewGroups=[];renderCatalogue()}
+    try{const rows=parseCSV(text);records=normalizeRows(rows);if(!records.length)throw new Error('No product rows were found in the CSV.');groups=activeCategory==='profiles'?groupProfileProducts(records):groupProducts(records);globalCatalogueCache[activeCategory]={records:[...records],groups:[...groups]};Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;const finishes=unique(records.map(r=>r.finish));const unknown=finishes.filter(f=>!finishOrder.includes(f));els.status.innerHTML=`<strong>${escapeHtml(label)}</strong> · ${groups.length} products · ${records.length} variants · ${finishes.length} finishes${unknown.length?` · ${unknown.length} custom finish${unknown.length===1?'':'es'}`:''}`;updateAll()}catch(err){console.error(err);els.status.innerHTML=`<strong>Could not load CSV.</strong> ${escapeHtml(err.message||String(err))}`;records=[];groups=[];viewGroups=[];renderCatalogue()}
   }
   async function loadCategory(key){
     const cfg=CATEGORIES[key];
     if(!cfg)return;
+    ++globalSearchToken;
+    clearTimeout(globalSearchTimer);
+    document.body.classList.remove('global-search-mode');
+    globalSearchResults=[];
     activeCategory=key;
     document.body.classList.toggle('profiles-mode',key==='profiles');
     cardFinishSelections.clear();
@@ -3266,11 +3602,32 @@ body.profiles-mode .card-image img{
   }
 
   if(els.csvInput) els.csvInput.addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>loadCSVText(reader.result,file.name);reader.onerror=()=>els.status.innerHTML='<strong>Could not read the selected CSV file.</strong>';reader.readAsText(file,'utf-8')});
-  els.searchBox.addEventListener('input',()=>{syncStateFromUI();currentPage=0;updateAll()});for(const f of filterFields)filterEls[f].addEventListener('change',()=>{syncStateFromUI();currentPage=0;updateAll()});els.moreBtn.addEventListener('click',()=>{const open=els.advancedFilters.classList.toggle('open');els.moreBtn.textContent=open?'Fewer Filters':'More Filters'});els.resetBtn.addEventListener('click',resetAll);
-  els.prevBtn.addEventListener('click',()=>{if(currentPage>0){currentPage--;renderCatalogue();window.scrollTo({top:0,behavior:'smooth'})}});els.nextBtn.addEventListener('click',()=>{const pages=Math.ceil(viewGroups.length/getPageSize());if(currentPage<pages-1){currentPage++;renderCatalogue();window.scrollTo({top:0,behavior:'smooth'})}});els.closeBtn.addEventListener('click',closeDetail);els.modal.addEventListener('click',e=>{if(e.target===els.modal)closeDetail()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modal.classList.contains('open'))closeDetail()});
+  els.searchBox.addEventListener('input',()=>{
+    state.q=els.searchBox.value.trim().toLowerCase();
+    currentPage=0;
+    clearTimeout(globalSearchTimer);
+    globalSearchTimer=setTimeout(()=>runGlobalSearch(state.q),140);
+  });
+  for(const f of filterFields)filterEls[f].addEventListener('change',()=>{syncStateFromUI();currentPage=0;updateAll()});els.moreBtn.addEventListener('click',()=>{const open=els.advancedFilters.classList.toggle('open');els.moreBtn.textContent=open?'Fewer Filters':'More Filters'});els.resetBtn.addEventListener('click',resetAll);
+  els.prevBtn.addEventListener('click',()=>{
+    if(currentPage>0){
+      currentPage--;
+      if(document.body.classList.contains('global-search-mode'))renderGlobalSearchResults(state.q);else renderCatalogue();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+  });
+  els.nextBtn.addEventListener('click',()=>{
+    const total=document.body.classList.contains('global-search-mode')?globalSearchResults.length:viewGroups.length;
+    const pages=Math.ceil(total/getPageSize());
+    if(currentPage<pages-1){
+      currentPage++;
+      if(document.body.classList.contains('global-search-mode'))renderGlobalSearchResults(state.q);else renderCatalogue();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+  });els.closeBtn.addEventListener('click',closeDetail);els.modal.addEventListener('click',e=>{if(e.target===els.modal)closeDetail()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modal.classList.contains('open'))closeDetail()});
   window.addEventListener('resize',()=>{
     currentPage=0;
-    renderCatalogue();
+    if(document.body.classList.contains('global-search-mode'))renderGlobalSearchResults(state.q);else renderCatalogue();
   });
   window.addEventListener('dragover',e=>{e.preventDefault();document.body.classList.add('drop-highlight')});window.addEventListener('dragleave',e=>{if(e.clientX===0&&e.clientY===0)document.body.classList.remove('drop-highlight')});window.addEventListener('drop',e=>{e.preventDefault();document.body.classList.remove('drop-highlight');const file=[...(e.dataTransfer?.files||[])].find(f=>/\.csv$/i.test(f.name));if(!file)return;const reader=new FileReader();reader.onload=()=>loadCSVText(reader.result,file.name);reader.readAsText(file,'utf-8')});
   els.categoryTabs.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>loadCategory(btn.dataset.category)));
