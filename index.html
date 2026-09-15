@@ -2197,6 +2197,19 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
   }
 }
 
+
+/* =========================================================
+   SMOOTH PRODUCT FINISH CHANGE — MOBILE + WEB
+   ========================================================= */
+.card-image{
+  overflow:hidden!important;
+}
+.card-image img{
+  will-change:transform,opacity;
+  backface-visibility:hidden;
+  transform:translateZ(0);
+}
+
 </style>
   <link rel="preconnect" href="https://wsrv.nl" crossorigin>
   <link rel="dns-prefetch" href="//wsrv.nl">
@@ -2766,13 +2779,119 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
   }
 
 
+
+  function preloadCardFinish(group,finish){
+    return new Promise(resolve=>{
+      const visual=representativeVariant(group,group.variants,finish);
+      if(!visual||!visual.image){resolve('');return}
+      const src=optimizeImageUrl(visual.image,420);
+      const pre=new Image();
+      pre.decoding='async';
+      pre.onload=()=>resolve(src);
+      pre.onerror=()=>resolve(src);
+      pre.src=src;
+      if(pre.complete)resolve(src);
+    });
+  }
+
+  function preloadAdjacentCardFinishes(group,finishes,currentFinish){
+    if(!finishes||finishes.length<2)return;
+    let idx=finishes.indexOf(currentFinish);
+    if(idx<0)idx=0;
+    [
+      finishes[(idx+1)%finishes.length],
+      finishes[(idx-1+finishes.length)%finishes.length]
+    ].forEach(f=>{
+      const visual=representativeVariant(group,group.variants,f);
+      if(visual&&visual.image){
+        const pre=new Image();
+        pre.decoding='async';
+        pre.src=optimizeImageUrl(visual.image,420);
+      }
+    });
+  }
+
+  async function smoothChangeCardFinish(card,group,finishes,nextFinish,direction=0){
+    if(!nextFinish||card.dataset.finishAnimating==='1')return;
+
+    const current=cardFinishSelections.get(cardFinishKey(group))||state.finish||finishes[0]||'';
+    if(current===nextFinish){
+      changeOnlyThisCardFinish(card,group,nextFinish);
+      return;
+    }
+
+    let currentIndex=finishes.indexOf(current);
+    let nextIndex=finishes.indexOf(nextFinish);
+    if(currentIndex<0)currentIndex=0;
+    if(nextIndex<0)nextIndex=currentIndex;
+
+    if(!direction){
+      direction=nextIndex>=currentIndex?1:-1;
+    }
+
+    const img=card.querySelector('.card-image img');
+    if(!img||typeof img.animate!=='function'){
+      changeOnlyThisCardFinish(card,group,nextFinish);
+      preloadAdjacentCardFinishes(group,finishes,nextFinish);
+      return;
+    }
+
+    card.dataset.finishAnimating='1';
+
+    // Load the incoming finish before the current image starts leaving.
+    await preloadCardFinish(group,nextFinish);
+
+    const mobile=window.matchMedia('(max-width:780px)').matches;
+    const distance=mobile?16:10;
+    const exitDuration=mobile?105:80;
+    const enterDuration=mobile?115:90;
+    const lowOpacity=mobile?.64:.76;
+
+    const exitX=direction>0?-distance:distance;
+    const enterX=direction>0?distance:-distance;
+
+    try{
+      const exit=img.animate(
+        [
+          {transform:'translateX(0)',opacity:1},
+          {transform:`translateX(${exitX}px)`,opacity:lowOpacity}
+        ],
+        {duration:exitDuration,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}
+      );
+      await exit.finished.catch(()=>{});
+
+      // Image, MRP and active colour dot change together at the midpoint.
+      changeOnlyThisCardFinish(card,group,nextFinish);
+
+      const currentImg=card.querySelector('.card-image img');
+      if(currentImg){
+        currentImg.style.transform=`translateX(${enterX}px)`;
+        currentImg.style.opacity=String(lowOpacity);
+
+        const enter=currentImg.animate(
+          [
+            {transform:`translateX(${enterX}px)`,opacity:lowOpacity},
+            {transform:'translateX(0)',opacity:1}
+          ],
+          {duration:enterDuration,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}
+        );
+        await enter.finished.catch(()=>{});
+        currentImg.style.transform='';
+        currentImg.style.opacity='';
+      }
+    }finally{
+      card.dataset.finishAnimating='0';
+      preloadAdjacentCardFinishes(group,finishes,nextFinish);
+    }
+  }
+
   function changeCardFinishByStep(card,group,finishes,step){
     if(!finishes||finishes.length<2)return;
     const current=cardFinishSelections.get(cardFinishKey(group))||state.finish||finishes[0];
     let idx=finishes.indexOf(current);
     if(idx<0)idx=0;
     idx=(idx+step+finishes.length)%finishes.length;
-    changeOnlyThisCardFinish(card,group,finishes[idx]);
+    smoothChangeCardFinish(card,group,finishes,finishes[idx],step>0?1:-1);
   }
 
   function bindDesktopFinishControls(card,group,finishes){
@@ -2864,8 +2983,11 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
       let idx=finishes.indexOf(current);
       if(idx<0) idx=0;
       idx = dx<0 ? (idx+1)%finishes.length : (idx-1+finishes.length)%finishes.length;
-      changeOnlyThisCardFinish(card,group,finishes[idx]);
+      smoothChangeCardFinish(card,group,finishes,finishes[idx],dx<0?1:-1);
     },{passive:true});
+
+    const initialFinish=cardFinishSelections.get(cardFinishKey(group))||state.finish||finishes[0];
+    preloadAdjacentCardFinishes(group,finishes,initialFinish);
   }
   function renderProfileCatalogue(){
     const total=viewGroups.length;
@@ -3026,7 +3148,7 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
     const pages=Math.ceil(total/getPageSize());currentPage=Math.min(currentPage,pages-1);const pageStart=currentPage*getPageSize();viewGroups.slice(pageStart,pageStart+getPageSize()).forEach(g=>{
       const rows=g.matchedVariants,allFinishes=unique(g.variants.map(v=>v.finish)).sort(finishSort),matchedFinishes=unique(rows.map(v=>v.finish)).sort(finishSort);const card=document.createElement('article');card.className='card';let localFinish=cardFinishSelections.get(cardFinishKey(g))||state.finish||'';const rep=representativeVariant(g,g.variants,localFinish);if(!localFinish&&rep&&rep.finish){localFinish=rep.finish;cardFinishSelections.set(cardFinishKey(g),localFinish)}const img=rep&&rep.image;
       card.innerHTML=`<div class="series-variant-badge">${g.variants.length} variant${g.variants.length===1?'':'s'}</div>${rows.length<g.variants.length?`<div class="match-tag">${rows.length} match${rows.length===1?'':'es'}</div>`:''}<button class="card-open" type="button"><div class="card-image">${img?`<img src="${escapeHtml(optimizeImageUrl(img,420))}" alt="${escapeHtml(g.name)}" loading="lazy" decoding="async" fetchpriority="low">`:'<span style="font-size:11px;color:#aaa">No image</span>'}</div><div class="card-body"><div class="card-kicker">${escapeHtml(summarize(rows.map(v=>v.itemNo)))}</div><h3 class="card-title">${escapeHtml(g.name)}</h3><div class="card-price" data-card-rate>${rep&&rep.mrp?`MRP ${escapeHtml(rep.mrp)}`:'Price on request'}</div><div class="spec-row"><div class="mini-spec"><div class="mini-label">Wattage</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.wattage)))}</div></div><div class="mini-spec"><div class="mini-label">CCT</div><div class="mini-value">${escapeHtml(summarizeCCT(rows.map(v=>v.cct)))}</div></div><div class="mini-spec"><div class="mini-label">Beam</div><div class="mini-value beam-values">${escapeHtml(summarizeAll(rows.map(v=>v.beam)))}</div></div><div class="mini-spec"><div class="mini-label">CRI</div><div class="mini-value">${escapeHtml(summarize(rows.map(v=>v.cri)))}</div></div></div></div></button><div class="card-body" style="padding-top:0"><div class="card-finishes"><span class="card-finish-label">Finishes</span>${allFinishes.map(f=>`<button class="card-swatch ${localFinish===f?'active':''}" type="button" data-card-finish="${escapeHtml(f)}" title="${escapeHtml(f)}">${swatchHtml(f)}</button>`).join('')}</div><div class="card-foot"><span>${rows.length}${rows.length!==g.variants.length?` / ${g.variants.length}`:''} variant${g.variants.length===1?'':'s'}</span><button class="view-detail-cta" type="button">View Details <b>→</b></button></div></div>`;
-      card.querySelector('.card-open').addEventListener('click',e=>{if(card.dataset.suppressOpen==='1'){e.preventDefault();e.stopPropagation();card.dataset.suppressOpen='0';return}goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||'')});card.querySelector('.view-detail-cta').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelectorAll('[data-card-finish]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();changeOnlyThisCardFinish(card,g,btn.dataset.cardFinish)}));bindMobileFinishSwipe(card,g,allFinishes);bindDesktopFinishControls(card,g,allFinishes);els.grid.appendChild(card)
+      card.querySelector('.card-open').addEventListener('click',e=>{if(card.dataset.suppressOpen==='1'){e.preventDefault();e.stopPropagation();card.dataset.suppressOpen='0';return}goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||'')});card.querySelector('.view-detail-cta').addEventListener('click',()=>goToDetail(g,cardFinishSelections.get(cardFinishKey(g))||state.finish||''));card.querySelectorAll('[data-card-finish]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();const next=btn.dataset.cardFinish;const current=cardFinishSelections.get(cardFinishKey(g))||state.finish||allFinishes[0];const from=allFinishes.indexOf(current),to=allFinishes.indexOf(next);smoothChangeCardFinish(card,g,allFinishes,next,to>=from?1:-1)}));bindMobileFinishSwipe(card,g,allFinishes);bindDesktopFinishControls(card,g,allFinishes);preloadAdjacentCardFinishes(g,allFinishes,cardFinishSelections.get(cardFinishKey(g))||state.finish||allFinishes[0]);els.grid.appendChild(card)
     });
     els.pagination.hidden=pages<=1;els.pageInfo.textContent=`Page ${currentPage+1} / ${pages}`;els.prevBtn.disabled=currentPage===0;els.nextBtn.disabled=currentPage>=pages-1;
   }
