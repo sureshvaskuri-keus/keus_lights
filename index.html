@@ -2199,15 +2199,22 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
 
 
 /* =========================================================
-   SMOOTH PRODUCT FINISH CHANGE — MOBILE + WEB
+   SOFT PRODUCT FINISH CROSSFADE — MOBILE + WEB
+   No slide/movement; preload prevents blinking.
    ========================================================= */
 .card-image{
   overflow:hidden!important;
 }
 .card-image img{
-  will-change:transform,opacity;
+  will-change:opacity;
   backface-visibility:hidden;
-  transform:translateZ(0);
+}
+
+
+/* Profile colour/variant image crossfade uses the same restrained treatment. */
+body.profiles-mode .card-image img{
+  will-change:opacity;
+  backface-visibility:hidden;
 }
 
 </style>
@@ -2820,15 +2827,6 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
       return;
     }
 
-    let currentIndex=finishes.indexOf(current);
-    let nextIndex=finishes.indexOf(nextFinish);
-    if(currentIndex<0)currentIndex=0;
-    if(nextIndex<0)nextIndex=currentIndex;
-
-    if(!direction){
-      direction=nextIndex>=currentIndex?1:-1;
-    }
-
     const img=card.querySelector('.card-image img');
     if(!img||typeof img.animate!=='function'){
       changeOnlyThisCardFinish(card,group,nextFinish);
@@ -2838,45 +2836,39 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
 
     card.dataset.finishAnimating='1';
 
-    // Load the incoming finish before the current image starts leaving.
+    // Preload the next finish first to avoid a white flash.
     await preloadCardFinish(group,nextFinish);
 
     const mobile=window.matchMedia('(max-width:780px)').matches;
-    const distance=mobile?16:10;
-    const exitDuration=mobile?105:80;
-    const enterDuration=mobile?115:90;
-    const lowOpacity=mobile?.64:.76;
-
-    const exitX=direction>0?-distance:distance;
-    const enterX=direction>0?distance:-distance;
+    const fadeOut=mobile?90:75;
+    const fadeIn=mobile?125:95;
+    const lowOpacity=mobile?.18:.28;
 
     try{
       const exit=img.animate(
         [
-          {transform:'translateX(0)',opacity:1},
-          {transform:`translateX(${exitX}px)`,opacity:lowOpacity}
+          {opacity:1},
+          {opacity:lowOpacity}
         ],
-        {duration:exitDuration,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}
+        {duration:fadeOut,easing:'ease-out',fill:'forwards'}
       );
       await exit.finished.catch(()=>{});
 
-      // Image, MRP and active colour dot change together at the midpoint.
+      // Image, MRP and selected finish dot update together.
       changeOnlyThisCardFinish(card,group,nextFinish);
 
       const currentImg=card.querySelector('.card-image img');
       if(currentImg){
-        currentImg.style.transform=`translateX(${enterX}px)`;
         currentImg.style.opacity=String(lowOpacity);
 
         const enter=currentImg.animate(
           [
-            {transform:`translateX(${enterX}px)`,opacity:lowOpacity},
-            {transform:'translateX(0)',opacity:1}
+            {opacity:lowOpacity},
+            {opacity:1}
           ],
-          {duration:enterDuration,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}
+          {duration:fadeIn,easing:'ease-out',fill:'forwards'}
         );
         await enter.finished.catch(()=>{});
-        currentImg.style.transform='';
         currentImg.style.opacity='';
       }
     }finally{
@@ -3023,29 +3015,104 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
         if(found>=0)selectedIndex=found;
       }
 
-      const renderSelection=(idx)=>{
-        selectedIndex=Math.max(0,Math.min(rows.length-1,idx));
-        const row=rows[selectedIndex];
-        profileVariationSelections.set(`profile-row::${g.profileKey||cleanKey(g.name)}`,profileRowKey(row));
+      const preloadProfileRow=(row)=>{
+        return new Promise(resolve=>{
+          if(!row||!row.image){resolve();return}
+          const pre=new Image();
+          pre.decoding='async';
+          pre.onload=resolve;
+          pre.onerror=resolve;
+          pre.src=optimizeImageUrl(row.image,420);
+          if(pre.complete)resolve();
+        });
+      };
+
+      const preloadAdjacentProfileRows=(idx)=>{
+        if(rows.length<2)return;
+        const next=rows[(idx+1)%rows.length];
+        const prev=rows[(idx-1+rows.length)%rows.length];
+        [next,prev].forEach(r=>{
+          if(r&&r.image){
+            const pre=new Image();
+            pre.decoding='async';
+            pre.src=optimizeImageUrl(r.image,420);
+          }
+        });
+      };
+
+      const renderSelection=async(idx,useFade=true)=>{
+        const nextIndex=Math.max(0,Math.min(rows.length-1,idx));
+        const row=rows[nextIndex];
+
+        const applySelection=()=>{
+          selectedIndex=nextIndex;
+          profileVariationSelections.set(`profile-row::${g.profileKey||cleanKey(g.name)}`,profileRowKey(row));
+
+          const imageBox=card.querySelector('.card-image');
+          if(imageBox){
+            imageBox.innerHTML=profileImageMarkup(row,420,`loading="lazy" decoding="async" fetchpriority="low"`);
+            const img=imageBox.querySelector('img');
+            if(img)img.alt=`${g.name} · ${row.stockCode||''}`;
+          }
+
+          const stock=card.querySelector('[data-profile-stock]');
+          const cutout=card.querySelector('[data-profile-cutout]');
+          const desc=card.querySelector('[data-profile-description]');
+          const counter=card.querySelector('[data-profile-counter]');
+          if(stock)stock.textContent=row.stockCode||'—';
+          if(cutout)cutout.textContent=row.cutout||'—';
+          if(desc)desc.textContent=row.newDescription||'—';
+          if(counter)counter.textContent=`${selectedIndex+1} / ${rows.length}`;
+
+          card.querySelectorAll('[data-profile-row]').forEach((btn,i)=>{
+            btn.classList.toggle('active',i===selectedIndex);
+          });
+        };
+
+        if(!useFade||card.dataset.profileAnimating==='1'){
+          if(card.dataset.profileAnimating!=='1')applySelection();
+          return;
+        }
 
         const imageBox=card.querySelector('.card-image');
-        if(imageBox){
-          imageBox.innerHTML=profileImageMarkup(row,420,`loading="lazy" decoding="async" fetchpriority="low"`);
-          const img=imageBox.querySelector('img');
-          if(img)img.alt=`${g.name} · ${row.stockCode||''}`;
+        const currentImg=imageBox&&imageBox.querySelector('img');
+        if(!currentImg||typeof currentImg.animate!=='function'){
+          applySelection();
+          preloadAdjacentProfileRows(nextIndex);
+          return;
         }
-        const stock=card.querySelector('[data-profile-stock]');
-        const cutout=card.querySelector('[data-profile-cutout]');
-        const desc=card.querySelector('[data-profile-description]');
-        const counter=card.querySelector('[data-profile-counter]');
-        if(stock)stock.textContent=row.stockCode||'—';
-        if(cutout)cutout.textContent=row.cutout||'—';
-        if(desc)desc.textContent=row.newDescription||'—';
-        if(counter)counter.textContent=`${selectedIndex+1} / ${rows.length}`;
 
-        card.querySelectorAll('[data-profile-row]').forEach((btn,i)=>{
-          btn.classList.toggle('active',i===selectedIndex);
-        });
+        card.dataset.profileAnimating='1';
+        await preloadProfileRow(row);
+
+        const mobile=window.matchMedia('(max-width:780px)').matches;
+        const fadeOut=mobile?90:75;
+        const fadeIn=mobile?125:95;
+        const lowOpacity=mobile?.18:.28;
+
+        try{
+          const exit=currentImg.animate(
+            [{opacity:1},{opacity:lowOpacity}],
+            {duration:fadeOut,easing:'ease-out',fill:'forwards'}
+          );
+          await exit.finished.catch(()=>{});
+
+          applySelection();
+
+          const incoming=card.querySelector('.card-image img');
+          if(incoming&&typeof incoming.animate==='function'){
+            incoming.style.opacity=String(lowOpacity);
+            const enter=incoming.animate(
+              [{opacity:lowOpacity},{opacity:1}],
+              {duration:fadeIn,easing:'ease-out',fill:'forwards'}
+            );
+            await enter.finished.catch(()=>{});
+            incoming.style.opacity='';
+          }
+        }finally{
+          card.dataset.profileAnimating='0';
+          preloadAdjacentProfileRows(selectedIndex);
+        }
       };
 
       const first=rows[selectedIndex]||rows[0];
@@ -3102,6 +3169,7 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
       bindProfileCardSwipe(card,rows,renderSelection);
 
       els.grid.appendChild(card);
+      preloadAdjacentProfileRows(selectedIndex);
     });
 
     els.pagination.hidden=pages<=1;
