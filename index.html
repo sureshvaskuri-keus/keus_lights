@@ -1972,6 +1972,70 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
   }
 }
 
+
+/* =========================================================
+   MOBILE ONLY — CLASSIC / LIGHTER TYPOGRAPHY
+   Desktop/web remains unchanged.
+   ========================================================= */
+@media(max-width:780px){
+  /* Product cards already open details when the card/image is tapped. */
+  .view-detail-cta,
+  .profile-details-btn{
+    display:none!important;
+  }
+
+  /* Remove the now-empty footer only on Profile cards. */
+  body.profiles-mode .profile-card .card-foot{
+    display:none!important;
+  }
+
+  /* Normal, lighter typography throughout the mobile catalogue. */
+  body,
+  button,
+  select,
+  input,
+  .card-title,
+  .card-price,
+  .card-kicker,
+  .mini-label,
+  .mini-value,
+  .catalogue-count,
+  .finish-title,
+  .finish-chip,
+  .card-finish-label,
+  .card-foot,
+  .series-variant-badge,
+  .match-tag,
+  .profile-spec-label,
+  .profile-spec-value,
+  .profile-description,
+  .profile-selector-head,
+  .profile-row-option,
+  .keus-product-trigger,
+  .keus-product-option,
+  .keus-filter-trigger,
+  .keus-filter-option{
+    font-weight:400!important;
+  }
+
+  /* Product name + price specifically kept elegant and light. */
+  .card-title{
+    font-weight:400!important;
+  }
+  .card-price{
+    font-weight:400!important;
+  }
+
+  /* Selected states use border/background, not heavier type. */
+  .finish-chip.active,
+  .card-swatch.active,
+  .profile-row-option.active,
+  .keus-product-option.active,
+  .keus-filter-option.active{
+    font-weight:400!important;
+  }
+}
+
 </style>
   <link rel="preconnect" href="https://wsrv.nl" crossorigin>
   <link rel="dns-prefetch" href="//wsrv.nl">
