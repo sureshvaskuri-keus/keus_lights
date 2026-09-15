@@ -682,6 +682,29 @@ html,body{
   }
 }
 
+
+/* Requested details refinements only */
+.spec.spec-full{
+  grid-column:1/-1!important;
+  min-height:auto;
+}
+
+/* Lighter product-name and rate weight */
+h1{
+  font-weight:400;
+}
+.price{
+  font-weight:500;
+}
+@media(max-width:780px){
+  h1{
+    font-weight:500!important;
+  }
+  .price{
+    font-weight:500!important;
+  }
+}
+
 </style>
   <link rel="preconnect" href="https://wsrv.nl" crossorigin>
   <link rel="dns-prefetch" href="//wsrv.nl">
@@ -779,6 +802,7 @@ function profileVariationSwatch(v){
 }
 
 function spec(l,v){const id=l==='Stock Code'?' id="selectedStockCode"':'';return `<div class="spec"><div class="spec-label">${esc(l)}</div><div class="spec-value"${id}>${esc(v||'—')}</div></div>`}
+function specFull(l,v){return `<div class="spec spec-full"><div class="spec-label">${esc(l)}</div><div class="spec-value">${esc(v||'—')}</div></div>`}
 function summary(vals,join=' / '){const a=unique(vals);return a.length?a.join(join):'—'}
 
 
@@ -981,9 +1005,8 @@ function render(rows){
     ['Cutout',summary(selectedRows.map(r=>r.cutout))],
     ['Batch Code',summary(selectedRows.map(r=>r.batchCode))],
     ['BIS No',summary(selectedRows.map(r=>r.bisNo))],
-    ['BIS SEC',summary(selectedRows.map(r=>r.bisSpec))],
-    ['MFG BY',summary(selectedRows.map(r=>r.mfgBy))]
-  ].map(([l,v])=>spec(l,v)).join('');
+    ['BIS SEC',summary(selectedRows.map(r=>r.bisSpec))]
+  ].map(([l,v])=>spec(l,v)).join('') + specFull('MFG BY',summary(selectedRows.map(r=>r.mfgBy)));
 
   $('app').innerHTML=`<section class="layout">
     <div class="visual">

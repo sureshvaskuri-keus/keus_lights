@@ -1897,6 +1897,81 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
   }
 }
 
+
+/* =========================================================
+   FILTER FORM LAYOUT FIX
+   Restores the original toolbar / advanced-filter geometry
+   after wrapping native selects with KEUS custom dropdowns.
+   ========================================================= */
+.toolbar .keus-filter-select{
+  min-width:0!important;
+  width:100%!important;
+}
+
+.toolbar .keus-filter-select[data-native-id="cctFilter"]{
+  grid-column:1/3!important;
+  order:3!important;
+}
+
+.toolbar .keus-filter-select.watt-main{
+  display:block!important;
+  grid-column:3/5!important;
+  order:4!important;
+}
+
+.toolbar .keus-filter-select[data-native-id="cctFilter"] .keus-filter-trigger,
+.toolbar .keus-filter-select.watt-main .keus-filter-trigger{
+  height:42px!important;
+  border-radius:999px!important;
+  background:#fff!important;
+  border-color:#d8d1c7!important;
+  padding-left:11px!important;
+  padding-right:12px!important;
+}
+
+.advanced .keus-filter-select{
+  width:100%!important;
+  min-width:0!important;
+}
+
+.advanced .keus-filter-trigger{
+  height:40px!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  border-color:#d8d1c7!important;
+  padding-left:11px!important;
+  padding-right:11px!important;
+}
+
+.advanced.open{
+  overflow:visible!important;
+}
+
+@media(max-width:1120px) and (min-width:781px){
+  .toolbar .keus-filter-select.watt-main{
+    display:none!important;
+  }
+}
+
+@media(max-width:780px){
+  .toolbar .keus-filter-select[data-native-id="cctFilter"]{
+    grid-column:1/2!important;
+    order:4!important;
+  }
+  .toolbar .keus-filter-select.watt-main{
+    display:block!important;
+    grid-column:2/3!important;
+    order:5!important;
+  }
+}
+
+@media(max-width:520px){
+  .toolbar .keus-filter-select[data-native-id="cctFilter"],
+  .toolbar .keus-filter-select.watt-main{
+    grid-column:1/-1!important;
+  }
+}
+
 </style>
   <link rel="preconnect" href="https://wsrv.nl" crossorigin>
   <link rel="dns-prefetch" href="//wsrv.nl">
