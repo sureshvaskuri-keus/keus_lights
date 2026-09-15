@@ -2036,6 +2036,167 @@ body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
   }
 }
 
+
+/* =========================================================
+   MOBILE LANDING PAGE — MINIMAL FILTER ROW
+   Mobile only:
+   - All Products + More Filters on one line
+   - Search, CCT and Wattage removed from the top row
+   - Native browser selects used instead of custom dropdown UI
+   Desktop/web is unchanged.
+   ========================================================= */
+@media(max-width:780px){
+  .toolbar{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    gap:8px!important;
+    align-items:center!important;
+  }
+
+  /* Mobile top row: only All Products + More Filters */
+  .toolbar .search,
+  .toolbar #searchBox,
+  .mobile-product-label,
+  .toolbar #cctFilter,
+  .toolbar #wattageFilter,
+  .toolbar .keus-filter-select[data-native-id="cctFilter"],
+  .toolbar .keus-filter-select[data-native-id="wattageFilter"],
+  .toolbar .keus-filter-select.watt-main{
+    display:none!important;
+  }
+
+  /* Remove the custom All Products dropdown on mobile. */
+  #keusProductSelect{
+    display:none!important;
+  }
+
+  /* Restore the original native All Products select. */
+  #nameFilter.native-product-select{
+    position:static!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    display:block!important;
+    width:100%!important;
+    height:38px!important;
+    grid-column:1/2!important;
+    order:1!important;
+    appearance:auto!important;
+    -webkit-appearance:menulist!important;
+    padding:0 6px!important;
+    margin:0!important;
+    border:1px solid #c6beb6!important;
+    border-radius:4px!important;
+    background:#fff!important;
+    color:#070404!important;
+    box-shadow:none!important;
+    font-weight:400!important;
+    font-size:12px!important;
+  }
+
+  .toolbar .more-btn{
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    grid-column:2/3!important;
+    order:2!important;
+    width:auto!important;
+    min-width:106px!important;
+    height:38px!important;
+    padding:0 12px!important;
+    margin:0!important;
+    border-radius:4px!important;
+    box-shadow:none!important;
+    white-space:nowrap!important;
+    font-weight:400!important;
+    font-size:11px!important;
+  }
+
+  /* Advanced filters: use native selects, not custom dropdown menus. */
+  .advanced .keus-filter-trigger,
+  .advanced .keus-filter-menu{
+    display:none!important;
+  }
+
+  .advanced .keus-filter-select{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+
+  .advanced .keus-filter-native{
+    position:static!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    display:block!important;
+    width:100%!important;
+    height:38px!important;
+    appearance:auto!important;
+    -webkit-appearance:menulist!important;
+    padding:0 6px!important;
+    margin:0!important;
+    border:1px solid #c6beb6!important;
+    border-radius:4px!important;
+    background:#fff!important;
+    color:#070404!important;
+    box-shadow:none!important;
+    font-weight:400!important;
+    font-size:11px!important;
+  }
+
+  .advanced.open{
+    overflow:visible!important;
+  }
+}
+
+@media(max-width:520px){
+  .toolbar{
+    grid-template-columns:minmax(0,1fr) auto!important;
+  }
+}
+
+
+/* =========================================================
+   MOBILE LANDING PAGE — SEARCH + COMPACT FILTER ROW
+   Search: full width
+   Second row: All Products + More Filters
+   CCT and Wattage remain hidden
+   ========================================================= */
+@media(max-width:780px){
+  .toolbar .search,
+  .toolbar #searchBox{
+    display:block!important;
+    grid-column:1/-1!important;
+    order:1!important;
+    width:100%!important;
+    height:38px!important;
+    margin:0!important;
+    padding:0 10px!important;
+    border:1px solid #c6beb6!important;
+    border-radius:4px!important;
+    background:#fff!important;
+    box-shadow:none!important;
+    color:#070404!important;
+    font-size:11px!important;
+    font-weight:400!important;
+  }
+
+  .toolbar .search::placeholder,
+  .toolbar #searchBox::placeholder{
+    color:#8b837a!important;
+    opacity:1!important;
+  }
+
+  #nameFilter.native-product-select{
+    grid-column:1/2!important;
+    order:2!important;
+  }
+
+  .toolbar .more-btn{
+    grid-column:2/3!important;
+    order:3!important;
+  }
+}
+
 </style>
   <link rel="preconnect" href="https://wsrv.nl" crossorigin>
   <link rel="dns-prefetch" href="//wsrv.nl">
