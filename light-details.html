@@ -683,6 +683,9 @@ html,body{
 }
 
 </style>
+  <link rel="preconnect" href="https://wsrv.nl" crossorigin>
+  <link rel="dns-prefetch" href="//wsrv.nl">
+  <link rel="preconnect" href="https://i.ibb.co" crossorigin>
 </head>
 <body>
 <header class="top"><div class="top-inner"><div class="brand">KEUS</div><div class="sep"></div><div class="top-title">Lighting · Product Details</div><button class="back" id="backBtn" type="button">← Back to Catalogue</button></div></header>
@@ -875,13 +878,13 @@ function render(rows){
       selectedIndex=Math.max(0,Math.min(rows.length-1,idx));
       const row=rows[selectedIndex];
       const variation=profileVariationFromDescription(row.newDescription);
-      const main=profileFastImage(row,1200);
+      const main=profileFastImage(row,900);
       const fallback=profileFallbackImage(row);
 
       const optionMarkup=rows.map((r,i)=>{
         const v=profileVariationFromDescription(r.newDescription);
         return `<button class="profile-combo-option ${i===selectedIndex?'active':''}" type="button" data-profile-combo="${i}">
-          <span class="profile-combo-thumb">${r.image?`<img src="${esc(profileFastImage(r,180))}" data-fallback="${esc(profileFallbackImage(r))}" onerror="profileImageError(this)" alt="">`:''}</span>
+          <span class="profile-combo-thumb">${r.image?`<img src="${esc(profileFastImage(r,120))}" data-fallback="${esc(profileFallbackImage(r))}" loading="lazy" decoding="async" fetchpriority="low" onerror="profileImageError(this)" alt="">`:''}</span>
           <span class="profile-combo-copy">
             <b>${esc(r.stockCode||'—')}</b>
             <small>${esc(profileVariationCode(v))} · ${esc(v||'Standard')}</small>
@@ -891,7 +894,7 @@ function render(rows){
 
       $('app').innerHTML=`<section class="layout profile-only exact-profile-detail">
         <div class="visual">
-          <div class="image-box">${main?`<img id="mainImage" src="${esc(main)}" data-fallback="${esc(fallback)}" onerror="profileImageError(this)" alt="${esc(name)} · ${esc(row.stockCode||'')}">`:'<span class="profile-image-unavailable">Image unavailable</span>'}</div>
+          <div class="image-box">${main?`<img id="mainImage" src="${esc(main)}" data-fallback="${esc(fallback)}" decoding="async" fetchpriority="high" onerror="profileImageError(this)" alt="${esc(name)} · ${esc(row.stockCode||'')}">`:'<span class="profile-image-unavailable">Image unavailable</span>'}</div>
           <div class="profile-combo-wrap">
             <div class="label">Available Variants & Colours</div>
             <div class="profile-combo-options">${optionMarkup}</div>
@@ -961,11 +964,13 @@ function render(rows){
   const selectedVariant=selectedRows.find(r=>r.image)||selectedRows[0]||rows[0];
   const images=unique(selectedRows.map(r=>r.image));
   const main=(selectedVariant&&selectedVariant.image)||images[0]||'';
-  const mrp=selectedVariant&&selectedVariant.mrp?selectedVariant.mrp:'—';
-  const selectedStockCode=selectedVariant&&selectedVariant.stockCode?selectedVariant.stockCode:'—';
+  const displayedVariant=selectedRows.find(r=>r.image===main)||selectedVariant||selectedRows[0]||rows[0];
+  const mrp=displayedVariant&&displayedVariant.mrp?displayedVariant.mrp:'—';
+  const selectedStockCode=displayedVariant&&displayedVariant.stockCode?displayedVariant.stockCode:'—';
   const description=summary(rows.map(r=>r.newDescription),' ');
 
   const specs=[
+    ['Stock Code',selectedStockCode],
     ['Item No.',summary(selectedRows.map(r=>r.itemNo))],
     ['Wattage',summary(selectedRows.map(r=>r.wattage))],
     ['CCT',summary(selectedRows.map(r=>r.cct))],
@@ -982,8 +987,8 @@ function render(rows){
 
   $('app').innerHTML=`<section class="layout">
     <div class="visual">
-      <div class="image-box">${main?`<img id="mainImage" src="${esc(optimized(main,1200))}" alt="${esc(name)}">`:'<span>No image</span>'}</div>
-      <div class="thumbs" id="thumbs">${images.map((u,i)=>`<button class="thumb ${i===0?'active':''}" type="button" data-img="${esc(u)}"><img src="${esc(optimized(u,160))}" alt=""></button>`).join('')}</div>
+      <div class="image-box">${main?`<img id="mainImage" src="${esc(optimized(main,900))}" alt="${esc(name)}" decoding="async" fetchpriority="high">`:'<span>No image</span>'}</div>
+      <div class="thumbs" id="thumbs">${images.map((u,i)=>`<button class="thumb ${i===0?'active':''}" type="button" data-img="${esc(u)}"><img src="${esc(optimized(u,120))}" alt="" loading="lazy" decoding="async" fetchpriority="low"></button>`).join('')}</div>
       <div class="finish-wrap">
         <div class="label">Available Finishes</div>
         <div class="finishes" id="finishes">${finishes.map(f=>`<button class="finish-btn ${f===selectedFinish?'active':''}" type="button" data-finish="${esc(f)}">${swatch(f)}<span>${esc(f)}</span></button>`).join('')}</div>
@@ -1009,7 +1014,7 @@ function render(rows){
     document.querySelectorAll('[data-img]').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const im=$('mainImage');
-    if(im)im.src=optimized(btn.dataset.img,1200);
+    if(im)im.src=optimized(btn.dataset.img,900);
 
     const row=selectedRows.find(r=>r.image===btn.dataset.img);
     if(row){
