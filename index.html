@@ -2334,19 +2334,348 @@ body.global-search-mode .category-tab.active{
   }
 }
 
+
+/* =========================================================
+   KEUS BLACK THEME OPTION
+   Core palette: #070404 / #c6beb6 / #5b524a
+   Product image wells stay light for colour accuracy.
+   ========================================================= */
+.top-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:6px;
+  margin-left:auto;
+}
+.theme-toggle{
+  min-height:34px;
+  padding:0 10px 0 8px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid #49433e;
+  border-radius:999px;
+  background:transparent;
+  color:#c6beb6;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+.theme-toggle:hover{
+  border-color:#c6beb6;
+  color:#fff;
+}
+.theme-toggle-icon{
+  width:15px;
+  height:15px;
+  border:1px solid currentColor;
+  border-radius:50%;
+  position:relative;
+  overflow:hidden;
+  flex:0 0 auto;
+}
+.theme-toggle-icon:after{
+  content:"";
+  position:absolute;
+  inset:2px 2px 2px 7px;
+  border-radius:0 999px 999px 0;
+  background:currentColor;
+}
+.theme-toggle[aria-pressed="true"]{
+  background:#c6beb6;
+  border-color:#c6beb6;
+  color:#070404;
+}
+
+/* Black theme variables */
+body.keus-black{
+  --bg:#070404;
+  --paper:#11100f;
+  --card:#11100f;
+  --ink:#f5f2ee;
+  --muted:#b8b0a8;
+  --line:#2d2925;
+  --line2:#24211f;
+  --black:#070404;
+  --shadow:0 18px 50px rgba(0,0,0,.34);
+  background:#070404;
+  color:#f5f2ee;
+}
+body.keus-black .topbar{
+  background:#070404;
+  border-bottom:1px solid #292522;
+}
+body.keus-black .shell{
+  background:#070404;
+}
+body.keus-black .hero,
+body.keus-black .data-strip,
+body.keus-black .category-tabs,
+body.keus-black .catalogue-head{
+  border-color:#2d2925;
+}
+body.keus-black .eyebrow,
+body.keus-black .hero-side p,
+body.keus-black .status,
+body.keus-black .hint,
+body.keus-black .catalogue-count,
+body.keus-black .finish-title{
+  color:#aaa198;
+}
+body.keus-black .status strong{
+  color:#f5f2ee;
+}
+
+/* Tabs */
+body.keus-black .category-tabs{
+  background:#070404;
+}
+body.keus-black .category-tab{
+  background:#100f0e;
+  border-color:#302c28;
+  color:#c6beb6;
+}
+body.keus-black .category-tab:hover,
+body.keus-black .category-tab.active{
+  background:#c6beb6;
+  border-color:#c6beb6;
+  color:#070404;
+}
+
+/* Filters / search */
+body.keus-black .filter-shell{
+  background:rgba(7,4,4,.96);
+  border-color:#2d2925;
+}
+body.keus-black .field,
+body.keus-black select,
+body.keus-black input{
+  background:#11100f;
+  border-color:#34302c;
+  color:#f5f2ee;
+}
+body.keus-black .field:focus,
+body.keus-black select:focus,
+body.keus-black input:focus{
+  background:#151311;
+  border-color:#c6beb6;
+}
+body.keus-black input::placeholder{
+  color:#817970;
+}
+body.keus-black .more-btn,
+body.keus-black .reset-btn,
+body.keus-black .btn{
+  background:transparent;
+  border-color:#4a443f;
+  color:#d8d2cc;
+}
+body.keus-black .more-btn:hover,
+body.keus-black .reset-btn:hover,
+body.keus-black .btn:hover:not(:disabled){
+  background:#c6beb6;
+  border-color:#c6beb6;
+  color:#070404;
+}
+
+/* Custom dropdowns on desktop */
+body.keus-black .keus-product-trigger,
+body.keus-black .keus-filter-trigger,
+body.keus-black .keus-product-menu,
+body.keus-black .keus-filter-menu{
+  background:#11100f!important;
+  border-color:#34302c!important;
+  color:#f5f2ee!important;
+}
+body.keus-black .keus-product-option,
+body.keus-black .keus-filter-option{
+  background:#11100f!important;
+  color:#d8d2cc!important;
+}
+body.keus-black .keus-product-option:hover,
+body.keus-black .keus-filter-option:hover,
+body.keus-black .keus-product-option.active,
+body.keus-black .keus-filter-option.active{
+  background:#5b524a!important;
+  color:#fff!important;
+}
+
+/* Finish filters */
+body.keus-black .finish-chip{
+  background:#11100f;
+  border-color:#34302c;
+  color:#c6beb6;
+}
+body.keus-black .finish-chip:hover,
+body.keus-black .finish-chip.active{
+  background:#181512;
+  border-color:#c6beb6;
+  color:#fff;
+}
+body.keus-black .finish-chip.active{
+  box-shadow:none;
+}
+body.keus-black .filter-pill{
+  background:#24201d;
+  color:#d8d2cc;
+}
+body.keus-black .filter-pill span{
+  color:#a59d94;
+}
+
+/* Product cards */
+body.keus-black .card{
+  background:#11100f;
+  border-color:#27231f;
+  color:#f5f2ee;
+}
+body.keus-black .card:hover{
+  border-color:#5b524a;
+  box-shadow:0 18px 45px rgba(0,0,0,.38);
+}
+body.keus-black .card-image{
+  background:#f7f6f2;
+  border-color:#2b2723;
+}
+body.keus-black .card-kicker,
+body.keus-black .mini-label,
+body.keus-black .global-meta-label{
+  color:#918980;
+}
+body.keus-black .mini-value,
+body.keus-black .global-meta-value,
+body.keus-black .finish-gallery-card .finish-name{
+  color:#d7d0c9;
+}
+body.keus-black .spec-row,
+body.keus-black .mini-spec:nth-child(even),
+body.keus-black .global-result-meta,
+body.keus-black .global-result-meta > div+div{
+  border-color:#292522;
+}
+body.keus-black .card-price{
+  color:#c6beb6;
+}
+body.keus-black .series-variant-badge,
+body.keus-black .global-match-badge{
+  background:#5b524a;
+  color:#fff;
+}
+body.keus-black .global-category-badge{
+  background:#161310;
+  border-color:#3b3530;
+  color:#c6beb6;
+}
+
+/* Card finish dots / profile selectors */
+body.keus-black .card-swatch,
+body.keus-black .profile-row-option,
+body.keus-black .profile-variation-btn{
+  border-color:#46403a!important;
+}
+body.keus-black .card-swatch.active,
+body.keus-black .profile-row-option.active,
+body.keus-black .profile-variation-btn.active{
+  border-color:#c6beb6!important;
+  box-shadow:none!important;
+}
+body.keus-black .profile-description,
+body.keus-black .profile-spec-value{
+  color:#d5cec7!important;
+}
+body.keus-black .profile-spec-label,
+body.keus-black .profile-selector-head{
+  color:#989087!important;
+}
+
+/* Pagination / empty states */
+body.keus-black .pagination button,
+body.keus-black .page-btn{
+  background:#11100f;
+  border-color:#34302c;
+  color:#d8d2cc;
+}
+body.keus-black .pagination button:hover:not(:disabled),
+body.keus-black .page-btn:hover:not(:disabled){
+  background:#c6beb6;
+  border-color:#c6beb6;
+  color:#070404;
+}
+body.keus-black .empty{
+  background:#11100f!important;
+  border-color:#34302c!important;
+  color:#aaa198!important;
+}
+
+/* Keep native controls readable on mobile */
+@media(max-width:780px){
+  .theme-toggle{
+    width:34px;
+    height:34px;
+    min-height:34px;
+    padding:0;
+    justify-content:center;
+  }
+  .theme-toggle-text{display:none}
+  body.keus-black .category-tabs{
+    background:rgba(7,4,4,.98)!important;
+  }
+  body.keus-black #nameFilter.native-product-select,
+  body.keus-black .advanced .keus-filter-native,
+  body.keus-black .toolbar .search,
+  body.keus-black .toolbar #searchBox{
+    background:#11100f!important;
+    border-color:#34302c!important;
+    color:#f5f2ee!important;
+  }
+}
+
+
+/* KEUS header logo */
+.brand-logo-link{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;text-decoration:none}
+.brand-logo{display:block;width:auto;height:25px;max-width:96px}
+@media(max-width:780px){.brand-logo{height:21px;max-width:82px}}
+
+
+/* KEUS page-loading animation */
+.keus-page-loader{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#070404;opacity:1;visibility:visible;transition:opacity .28s ease,visibility .28s ease}
+.keus-page-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.keus-loader-inner{width:min(180px,50vw);display:flex;flex-direction:column;align-items:center;gap:20px}
+.keus-loader-logo{display:block;width:min(110px,34vw);height:auto;animation:keusLogoBreath 1.15s ease-in-out infinite}
+.keus-loader-line{position:relative;width:100%;height:1px;overflow:hidden;background:rgba(198,190,182,.18)}
+.keus-loader-line span{position:absolute;top:0;left:-42%;width:42%;height:100%;background:#c6beb6;animation:keusLoaderSweep 1.05s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes keusLoaderSweep{0%{left:-42%}55%{left:38%}100%{left:100%}}
+@keyframes keusLogoBreath{0%,100%{opacity:.58}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.keus-loader-logo,.keus-loader-line span{animation:none}}
+
 </style>
   <link rel="preconnect" href="https://wsrv.nl" crossorigin>
   <link rel="dns-prefetch" href="//wsrv.nl">
   <link rel="preconnect" href="https://i.ibb.co" crossorigin>
 </head>
 <body>
+<div class="keus-page-loader" id="keusPageLoader" aria-hidden="true">
+  <div class="keus-loader-inner">
+    <img class="keus-loader-logo" src="./assets/keus-logo.svg" alt="">
+    <div class="keus-loader-line"><span></span></div>
+  </div>
+</div>
+
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">KEUS</div>
+    <a class="brand brand-logo-link" href="./index.html" aria-label="Go to catalogue home"><img class="brand-logo" src="./assets/keus-logo.svg" alt="KEUS"></a>
     <div class="top-meta"><span>Lighting</span><i></i><span>Product Catalogue</span></div>
-    <button class="header-search-btn" id="headerSearchBtn" type="button" aria-label="Search catalogue">
-      <span class="header-search-icon" aria-hidden="true"></span>
-    </button>
+    <div class="top-actions">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to KEUS Black theme" aria-pressed="false">
+        <span class="theme-toggle-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-text">Black</span>
+      </button>
+      <button class="header-search-btn" id="headerSearchBtn" type="button" aria-label="Search catalogue">
+        <span class="header-search-icon" aria-hidden="true"></span>
+      </button>
+    </div>
   </div>
 </header>
 <main class="shell">
@@ -2447,6 +2776,30 @@ body.global-search-mode .category-tab.active{
 <script>
 (() => {
   'use strict';
+
+  const KEUS_THEME_KEY='keusCatalogueTheme';
+  function applyKeusTheme(theme){
+    const isBlack=theme==='black';
+    document.body.classList.toggle('keus-black',isBlack);
+    const btn=document.getElementById('themeToggle');
+    if(btn){
+      btn.setAttribute('aria-pressed',isBlack?'true':'false');
+      btn.setAttribute('aria-label',isBlack?'Switch to Light theme':'Switch to KEUS Black theme');
+      const label=btn.querySelector('.theme-toggle-text');
+      if(label)label.textContent=isBlack?'Light':'Black';
+    }
+  }
+  let savedKeusTheme='light';
+  try{savedKeusTheme=localStorage.getItem(KEUS_THEME_KEY)||'light'}catch(_){}
+  applyKeusTheme(savedKeusTheme);
+  const themeToggle=document.getElementById('themeToggle');
+  if(themeToggle){
+    themeToggle.addEventListener('click',()=>{
+      const next=document.body.classList.contains('keus-black')?'light':'black';
+      try{localStorage.setItem(KEUS_THEME_KEY,next)}catch(_){}
+      applyKeusTheme(next);
+    });
+  }
 
   const IMAGE_QUALITY=64;
   function sourceImageUrl(value){
@@ -3658,6 +4011,24 @@ body.global-search-mode .category-tab.active{
     setTimeout(()=>els.searchBox.focus(),260);
   });
   renderCatalogue();loadCategory('downlights');
+})();
+</script>
+<script>
+(function(){
+  const loader=document.getElementById('keusPageLoader');
+  if(!loader)return;
+  let hidden=false;
+  const hideLoader=()=>{
+    if(hidden)return;
+    hidden=true;
+    requestAnimationFrame(()=>{
+      loader.classList.add('is-hidden');
+      setTimeout(()=>loader.remove(),320);
+    });
+  };
+  if(document.readyState==='complete')setTimeout(hideLoader,120);
+  else window.addEventListener('load',()=>setTimeout(hideLoader,120),{once:true});
+  setTimeout(hideLoader,3500);
 })();
 </script>
 </body>
