@@ -1331,113 +1331,31 @@ body.profiles-detail .image-box,
 }
 
 
-/* =========================================================
-   KEUS CATALOGUE LOADING STATE
-   Used while CSV data is still being fetched.
-   ========================================================= */
-.catalogue-loading{
+/* KEUS slow-network catalogue loader */
+.keus-data-loader{
   grid-column:1/-1;
-  width:100%;
-}
-.catalogue-loading-head{
+  min-height:260px;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:10px;
-  min-height:42px;
-  margin-bottom:16px;
-  color:#6f675f;
+  gap:14px;
+  color:#5b524a;
   font-size:11px;
   letter-spacing:.08em;
   text-transform:uppercase;
 }
-.catalogue-loading-mark{
-  width:15px;
-  height:15px;
-  border:1px solid #c6beb6;
+.keus-data-loader-ring{
+  width:24px;
+  height:24px;
+  border:1.5px solid #c6beb6;
   border-top-color:#5b524a;
   border-radius:50%;
-  animation:keusCatalogueSpin .8s linear infinite;
-  flex:0 0 auto;
+  animation:keusDataSpin .8s linear infinite;
 }
-.catalogue-loading-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:20px;
-}
-.catalogue-skeleton{
-  overflow:hidden;
-  border:1px solid #ddd7cf;
-  border-radius:18px;
-  background:#fffdfa;
-}
-.catalogue-skeleton-image{
-  position:relative;
-  aspect-ratio:1.15/1;
-  overflow:hidden;
-  background:#e0e1e0;
-}
-.catalogue-skeleton-body{
-  padding:16px;
-}
-.catalogue-skeleton-line{
-  position:relative;
-  overflow:hidden;
-  height:8px;
-  margin-bottom:10px;
-  border-radius:999px;
-  background:#ece9e5;
-}
-.catalogue-skeleton-line.short{width:34%}
-.catalogue-skeleton-line.medium{width:58%;height:11px}
-.catalogue-skeleton-line.long{width:82%}
-.catalogue-skeleton-image:after,
-.catalogue-skeleton-line:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  transform:translateX(-100%);
-  background:linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,255,255,.56) 48%,
-    transparent 100%
-  );
-  animation:keusCatalogueShimmer 1.25s ease-in-out infinite;
-}
-@keyframes keusCatalogueSpin{
-  to{transform:rotate(360deg)}
-}
-@keyframes keusCatalogueShimmer{
-  100%{transform:translateX(100%)}
-}
-@media(max-width:780px){
-  .catalogue-loading-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:10px;
-  }
-  .catalogue-skeleton{
-    border-radius:12px;
-  }
-  .catalogue-skeleton-body{
-    padding:10px;
-  }
-  .catalogue-loading-head{
-    margin-bottom:10px;
-    font-size:9px;
-  }
-}
-@media(max-width:520px){
-  .catalogue-loading-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-}
+@keyframes keusDataSpin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){
-  .catalogue-loading-mark,
-  .catalogue-skeleton-image:after,
-  .catalogue-skeleton-line:after{
-    animation:none!important;
-  }
+  .keus-data-loader-ring{animation:none}
 }
 
 </style>
@@ -1613,7 +1531,7 @@ body.profiles-detail .image-box,
     return window.matchMedia('(max-width:780px)').matches ? Number.MAX_SAFE_INTEGER : DESKTOP_PAGE_SIZE;
   }
   let records=[],groups=[],viewGroups=[],currentPage=0,activeGroup=null,activeFinish='',activeImage='';
-  let categoryLoading=false;
+  let isCatalogueLoading=false;
   const cardFinishSelections=new Map();
   const profileVariationSelections=new Map();
   const state={q:'',name:'',cct:'',wattage:'',itemNo:'',vf:'',imax:'',cri:'',cutout:'',beam:'',batchCode:'',stockCode:'',bisNo:'',bisSpec:'',mrp:'',mfgBy:'',finish:''};
@@ -2429,34 +2347,18 @@ body.profiles-detail .image-box,
     preloadAdjacentCardFinishes(group,finishes,initialFinish);
   }
 
-  function renderCatalogueLoading(label='Catalogue'){
+  function renderDataLoader(label){
+    els.grid.innerHTML=`<div class="keus-data-loader" role="status" aria-live="polite">
+      <span class="keus-data-loader-ring" aria-hidden="true"></span>
+      <span>Loading ${escapeHtml(label||'catalogue')}…</span>
+    </div>`;
     els.catalogueCount.textContent='Loading…';
     els.pagination.hidden=true;
-    const cards=window.matchMedia('(max-width:780px)').matches?6:6;
-    els.grid.innerHTML=`
-      <div class="catalogue-loading" role="status" aria-live="polite">
-        <div class="catalogue-loading-head">
-          <span class="catalogue-loading-mark" aria-hidden="true"></span>
-          <span>Loading ${escapeHtml(label)}</span>
-        </div>
-        <div class="catalogue-loading-grid">
-          ${Array.from({length:cards},()=>`
-            <div class="catalogue-skeleton" aria-hidden="true">
-              <div class="catalogue-skeleton-image"></div>
-              <div class="catalogue-skeleton-body">
-                <div class="catalogue-skeleton-line short"></div>
-                <div class="catalogue-skeleton-line medium"></div>
-                <div class="catalogue-skeleton-line long"></div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>`;
   }
 
   function renderProfileCatalogue(){
-    if(categoryLoading){
-      renderCatalogueLoading(CATEGORIES[activeCategory]?.label||'Profiles');
+    if(isCatalogueLoading){
+      renderDataLoader(CATEGORIES[activeCategory]?.label||'Profiles');
       return;
     }
     const total=viewGroups.length;
@@ -2657,8 +2559,8 @@ body.profiles-detail .image-box,
 
   function renderCatalogue(){
     els.grid.innerHTML='';
-    if(categoryLoading){
-      renderCatalogueLoading(CATEGORIES[activeCategory]?.label||'Catalogue');
+    if(isCatalogueLoading){
+      renderDataLoader(CATEGORIES[activeCategory]?.label||'Catalogue');
       return;
     }
     if(activeCategory==='profiles'){
@@ -2718,7 +2620,7 @@ body.profiles-detail .image-box,
   function syncStateFromUI(){state.q=els.searchBox.value.trim().toLowerCase();for(const f of filterFields)state[f]=filterEls[f].value}
   function resetAll(){Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;updateAll()}
   function loadCSVText(text,label='CSV file'){
-    categoryLoading=false;
+    isCatalogueLoading=false;
     try{const rows=parseCSV(text);records=normalizeRows(rows);if(!records.length)throw new Error('No product rows were found in the CSV.');groups=activeCategory==='profiles'?groupProfileProducts(records):groupProducts(records);globalCatalogueCache[activeCategory]={records:[...records],groups:[...groups]};Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;const finishes=unique(records.map(r=>r.finish));const unknown=finishes.filter(f=>!finishOrder.includes(f));els.status.innerHTML=`<strong>${escapeHtml(label)}</strong> · ${groups.length} products · ${records.length} variants · ${finishes.length} finishes${unknown.length?` · ${unknown.length} custom finish${unknown.length===1?'':'es'}`:''}`;updateAll()}catch(err){console.error(err);els.status.innerHTML=`<strong>Could not load CSV.</strong> ${escapeHtml(err.message||String(err))}`;records=[];groups=[];viewGroups=[];renderCatalogue()}
   }
   async function loadCategory(key){
@@ -2734,7 +2636,7 @@ body.profiles-detail .image-box,
     els.categoryTitle.textContent=cfg.label;
     els.categoryTabs.querySelectorAll('[data-category]').forEach(btn=>btn.classList.toggle('active',btn.dataset.category===key));
     els.status.innerHTML=`Loading <strong>${escapeHtml(cfg.label)}</strong> catalogue…`;
-    categoryLoading=true;
+    isCatalogueLoading=true;
     records=[];groups=[];viewGroups=[];currentPage=0;
     Object.keys(state).forEach(k=>state[k]='');
     els.searchBox.value='';
@@ -2744,12 +2646,12 @@ body.profiles-detail .image-box,
       const res=await fetch(encodeURI(cfg.file),{cache:'no-store'});
       if(!res.ok) throw new Error(`${res.status} ${res.statusText}`);
       const text=await res.text();
-      categoryLoading=false;
+      isCatalogueLoading=false;
       loadCSVText(text,cfg.file);
     }catch(err){
-      categoryLoading=false;
+      isCatalogueLoading=false;
       console.error(err);
-      els.status.innerHTML=`<strong>Could not load ${escapeHtml(cfg.file)}.</strong> Please check your connection and try again.`;
+      els.status.innerHTML=`<strong>Could not load ${escapeHtml(cfg.file)}.</strong> Make sure this CSV exists inside the data folder.`;
       records=[];groups=[];viewGroups=[];renderCatalogue();
     }
   }
