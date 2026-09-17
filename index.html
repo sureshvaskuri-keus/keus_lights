@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>KEUS · Down Lights Catalogue</title>
+<title>KEUS · LIGHTING-CATALOGUE</title>
 <style>
   *{box-sizing:border-box}
   :root{
@@ -397,16 +397,16 @@
 }
 
 .header-search-btn{
-  width:40px;height:40px;border:0;background:transparent;color:#fff;
+  width:32px;height:32px;border:0;background:transparent;color:#fff;
   display:flex;align-items:center;justify-content:center;padding:0;
 }
 .header-search-icon{
-  width:19px;height:19px;border:2px solid currentColor;border-radius:50%;
+  width:15px;height:15px;border:1.5px solid currentColor;border-radius:50%;
   position:relative;display:block;
 }
 .header-search-icon:after{
-  content:"";position:absolute;width:8px;height:2px;background:currentColor;
-  right:-6px;bottom:-3px;transform:rotate(48deg);transform-origin:left center;border-radius:2px;
+  content:"";position:absolute;width:6px;height:1.5px;background:currentColor;
+  right:-5px;bottom:-2px;transform:rotate(48deg);transform-origin:left center;border-radius:2px;
 }
 .top-meta{display:flex;align-items:center;gap:12px}
 .top-meta i{width:3px;height:3px;border-radius:50%;background:var(--keus-gold);display:block}
@@ -443,13 +443,7 @@
     line-height:1;
     padding-right:0;
   }
-  .brand:after{
-    content:"";
-    position:absolute;
-    left:0;bottom:-12px;
-    width:38px;height:2px;
-    background:var(--keus-gold);
-  }
+  .brand:after{content:none!important}
   .top-meta{
     justify-self:center;
     font-size:11.7px;
@@ -2681,12 +2675,8 @@ body.keus-black .empty{
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand brand-logo-link" href="./index.html" aria-label="Go to catalogue home"><img class="brand-logo" src="./assets/keus-logo.svg" alt="KEUS"></a>
-    <div class="top-meta"><span>Lighting</span><i></i><span>Product Catalogue</span></div>
+    <div class="top-meta"><span>LIGHTING-CATALOGUE</span></div>
     <div class="top-actions">
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to KEUS Black theme" aria-pressed="false">
-        <span class="theme-toggle-icon" aria-hidden="true"></span>
-        <span class="theme-toggle-text">Black</span>
-      </button>
       <button class="header-search-btn" id="headerSearchBtn" type="button" aria-label="Search catalogue">
         <span class="header-search-icon" aria-hidden="true"></span>
       </button>
@@ -2791,30 +2781,6 @@ body.keus-black .empty{
 <script>
 (() => {
   'use strict';
-
-  const KEUS_THEME_KEY='keusCatalogueTheme';
-  function applyKeusTheme(theme){
-    const isBlack=theme==='black';
-    document.body.classList.toggle('keus-black',isBlack);
-    const btn=document.getElementById('themeToggle');
-    if(btn){
-      btn.setAttribute('aria-pressed',isBlack?'true':'false');
-      btn.setAttribute('aria-label',isBlack?'Switch to Light theme':'Switch to KEUS Black theme');
-      const label=btn.querySelector('.theme-toggle-text');
-      if(label)label.textContent=isBlack?'Light':'Black';
-    }
-  }
-  let savedKeusTheme='light';
-  try{savedKeusTheme=localStorage.getItem(KEUS_THEME_KEY)||'light'}catch(_){}
-  applyKeusTheme(savedKeusTheme);
-  const themeToggle=document.getElementById('themeToggle');
-  if(themeToggle){
-    themeToggle.addEventListener('click',()=>{
-      const next=document.body.classList.contains('keus-black')?'light':'black';
-      try{localStorage.setItem(KEUS_THEME_KEY,next)}catch(_){}
-      applyKeusTheme(next);
-    });
-  }
 
   const IMAGE_QUALITY=64;
   function sourceImageUrl(value){

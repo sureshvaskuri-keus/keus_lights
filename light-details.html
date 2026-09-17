@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KEUS · Light Details</title>
+<title>KEUS · LIGHTING-CATALOGUE · Product Details</title>
 <style>
 *{box-sizing:border-box}
 :root{
@@ -15,7 +15,7 @@ button{font:inherit;cursor:pointer}
 .top{position:sticky;top:0;z-index:20;background:var(--black);color:#fff}
 .top-inner{max-width:1280px;margin:auto;min-height:66px;padding:0 24px;display:flex;align-items:center;gap:18px}
 .brand{font-weight:700;letter-spacing:.38em;font-size:22.1px}
-.sep{width:1px;height:18px;background:#444}
+.sep{display:none}
 .top-title{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#c7c2bb}
 .back{margin-left:auto;border:1px solid #555;background:transparent;color:#fff;border-radius:999px;padding:8px 13px;font-size:13px}
 .back:hover{background:#fff;color:#111}
@@ -896,7 +896,7 @@ body.keus-black .back:hover{
   </div>
 </div>
 
-<header class="top"><div class="top-inner"><a class="brand brand-logo-link" href="./index.html" aria-label="Go to catalogue home"><img class="brand-logo" src="./assets/keus-logo.svg" alt="KEUS"></a><div class="sep"></div><div class="top-title">Lighting · Product Details</div><button class="detail-theme-toggle" id="themeToggle" type="button" aria-label="Switch to KEUS Black theme" aria-pressed="false"><span class="detail-theme-icon" aria-hidden="true"></span><span class="detail-theme-text">Black</span></button><button class="back" id="backBtn" type="button">← Back to Catalogue</button></div></header>
+<header class="top"><div class="top-inner"><a class="brand brand-logo-link" href="./index.html" aria-label="Go to catalogue home"><img class="brand-logo" src="./assets/keus-logo.svg" alt="KEUS"></a><div class="top-title">LIGHTING-CATALOGUE · Product Details</div><button class="back" id="backBtn" type="button">← Back to Catalogue</button></div></header>
 <main class="shell">
   <div class="breadcrumb" id="breadcrumb">Product details</div>
   <div id="app"><div class="status"><h2>Loading product…</h2></div></div>
@@ -904,30 +904,6 @@ body.keus-black .back:hover{
 <script>
 (() => {
 'use strict';
-const KEUS_THEME_KEY='keusCatalogueTheme';
-function applyKeusTheme(theme){
-  const isBlack=theme==='black';
-  document.body.classList.toggle('keus-black',isBlack);
-  const btn=document.getElementById('themeToggle');
-  if(btn){
-    btn.setAttribute('aria-pressed',isBlack?'true':'false');
-    btn.setAttribute('aria-label',isBlack?'Switch to Light theme':'Switch to KEUS Black theme');
-    const label=btn.querySelector('.detail-theme-text');
-    if(label)label.textContent=isBlack?'Light':'Black';
-  }
-}
-let savedKeusTheme='light';
-try{savedKeusTheme=localStorage.getItem(KEUS_THEME_KEY)||'light'}catch(_){}
-applyKeusTheme(savedKeusTheme);
-const themeToggle=document.getElementById('themeToggle');
-if(themeToggle){
-  themeToggle.addEventListener('click',()=>{
-    const next=document.body.classList.contains('keus-black')?'light':'black';
-    try{localStorage.setItem(KEUS_THEME_KEY,next)}catch(_){}
-    applyKeusTheme(next);
-  });
-}
-
 const CATEGORIES={
   downlights:{label:'Down Lights',file:'./data/downlights.csv'},
   tracklights:{label:'Track Lights',file:'./data/tracklights.csv'},
