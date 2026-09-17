@@ -1287,41 +1287,1059 @@ body.profiles-mode .profile-variation-btn.active{
 }
 
 
+/* =========================================================
+   PROFILE PAGE ONLY — exact Stock Code + Description images
+   ========================================================= */
+body.profiles-mode .profile-exact-selector{
+  border-top:1px solid var(--line2);
+  padding-top:8px!important;
+}
+body.profiles-mode .profile-selector-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:7px;
+  color:#7d746b;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+body.profiles-mode .profile-row-options{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+body.profiles-mode .profile-row-option{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-height:27px;
+  padding:3px 7px 3px 4px;
+  border:1px solid #d7d0c6;
+  border-radius:999px;
+  background:#fff;
+  color:#5b524a;
+  font-size:7px;
+  font-weight:700;
+}
+body.profiles-mode .profile-row-option.active{
+  border-color:#5b524a;
+  box-shadow:inset 0 0 0 1px #5b524a;
+}
+body.profiles-mode .profile-row-option .profile-variation-dot{
+  width:13px;
+  height:13px;
+}
+body.profiles-mode .profile-image-unavailable{
+  color:#8f877e;
+  font-size:10px;
+  font-weight:600;
+}
+@media(max-width:780px){
+  body.profiles-mode .profile-row-options{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding-bottom:3px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  body.profiles-mode .profile-row-options::-webkit-scrollbar{display:none}
+  body.profiles-mode .profile-row-option{
+    flex:0 0 auto;
+    min-height:23px;
+    padding:2px 5px 2px 3px;
+    gap:3px;
+    font-size:6px;
+  }
+  body.profiles-mode .profile-row-option .profile-variation-dot{
+    width:11px;
+    height:11px;
+  }
+  body.profiles-mode .exact-profile-card .card-image{
+    touch-action:pan-y;
+  }
 }
 
 
 /* =========================================================
-   PROFILE PAGE ONLY — PRESERVE ORIGINAL IMAGE CROP / ALIGNMENT
-   Use the uploaded image exactly as supplied.
+   PROFILES ONLY — DESKTOP / WEB REFINEMENT
+   Mobile rules and all other categories are untouched.
    ========================================================= */
-body.profiles-mode .card-image{
-  background:#f8f7f4;
+@media(min-width:781px){
+  body.profiles-mode .catalogue-head{
+    margin-top:18px;
+    margin-bottom:18px;
+    align-items:center;
+  }
+
+  body.profiles-mode .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:20px;
+  }
+
+  body.profiles-mode .exact-profile-card{
+    border-radius:18px;
+    border:1px solid #ddd7cf;
+    background:#fffdfa;
+    box-shadow:0 7px 24px rgba(7,4,4,.045);
+    overflow:hidden;
+  }
+
+  body.profiles-mode .exact-profile-card:hover{
+    transform:translateY(-3px);
+    border-color:#c6beb6;
+    box-shadow:0 16px 36px rgba(7,4,4,.075);
+  }
+
+  body.profiles-mode .exact-profile-card .card-image{
+    aspect-ratio:1.42/1;
+    min-height:250px;
+    background:
+      radial-gradient(circle at 50% 42%,#fff 0 40%,#faf8f4 74%,#f4f0ea 100%);
+    border-bottom:1px solid #ece7e0;
+  }
+
+  body.profiles-mode .exact-profile-card .card-image img{
+    width:82%;
+    height:82%;
+    object-fit:contain;
+  }
+
+  body.profiles-mode .exact-profile-card .card-body{
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  body.profiles-mode .exact-profile-card .card-kicker{
+    margin-top:2px;
+    margin-bottom:7px;
+    color:#8b837a;
+  }
+
+  body.profiles-mode .exact-profile-card .card-title{
+    margin-bottom:12px;
+    min-height:auto;
+    font-size:20px;
+    line-height:1.18;
+    letter-spacing:-.015em;
+  }
+
+  body.profiles-mode .exact-profile-card .profile-specs{
+    margin-top:0;
+    border-top:1px solid #ece7e0;
+  }
+
+  body.profiles-mode .exact-profile-card .profile-spec{
+    padding-top:11px;
+    padding-bottom:2px;
+  }
+
+  body.profiles-mode .exact-profile-card .profile-description{
+    margin-top:12px;
+    min-height:44px;
+    color:#6f675f;
+    line-height:1.55;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+
+  body.profiles-mode .profile-exact-selector{
+    margin-top:14px;
+    padding:13px 18px 14px!important;
+    background:#f5f1ec;
+    border-top:1px solid #e4ddd5;
+    border-bottom:1px solid #e4ddd5;
+  }
+
+  body.profiles-mode .profile-selector-head{
+    margin-bottom:9px;
+    font-size:9px;
+    letter-spacing:.10em;
+  }
+
+  body.profiles-mode .profile-row-options{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+
+  body.profiles-mode .profile-row-option{
+    width:100%;
+    min-height:36px;
+    justify-content:flex-start;
+    padding:5px 9px 5px 6px;
+    border-radius:10px;
+    border:1px solid #d8d1c8;
+    background:#fff;
+    font-size:8px;
+    line-height:1.15;
+    transition:border-color .16s ease,background .16s ease,box-shadow .16s ease;
+  }
+
+  body.profiles-mode .profile-row-option:hover{
+    border-color:#9f958d;
+    background:#fbfaf7;
+  }
+
+  body.profiles-mode .profile-row-option.active{
+    border-color:#5b524a;
+    background:#fff;
+    box-shadow:inset 0 0 0 1px #5b524a,0 3px 10px rgba(91,82,74,.08);
+  }
+
+  body.profiles-mode .profile-row-option .profile-variation-dot{
+    width:16px;
+    height:16px;
+  }
+
+  body.profiles-mode .exact-profile-card .card-foot{
+    margin-top:0;
+    padding:13px 0 2px;
+    border-top:0;
+  }
+
+  body.profiles-mode .exact-profile-card .profile-details-btn{
+    width:100%;
+    min-height:38px;
+    border-radius:10px;
+    background:#5b524a;
+    color:#fff!important;
+    border-color:#5b524a!important;
+    font-size:10px;
+    letter-spacing:.035em;
+  }
+
+  body.profiles-mode .exact-profile-card .profile-details-btn:hover{
+    background:#403a35;
+    border-color:#403a35!important;
+  }
+
+  body.profiles-mode .series-variant-badge{
+    top:12px;
+    right:12px;
+    padding:6px 9px;
+    font-size:8px;
+  }
 }
+
+
+/* =========================================================
+   WEB/DESKTOP — COLOUR CHANGE CONTROLS FOR LIGHTING CARDS
+   Profiles retain their separate profile-variant UI.
+   ========================================================= */
+.desktop-finish-nav{display:none}
+
+@media(min-width:781px){
+  body:not(.profiles-mode) .card{
+    position:relative;
+  }
+
+  body:not(.profiles-mode) .desktop-finish-nav{
+    position:absolute;
+    top:116px;
+    z-index:8;
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(91,82,74,.22);
+    border-radius:50%;
+    background:rgba(255,253,250,.90);
+    color:#403a35;
+    font-family:Arial,sans-serif;
+    font-size:25px;
+    font-weight:300;
+    line-height:1;
+    opacity:0;
+    transform:translateY(-50%) scale(.94);
+    transition:opacity .16s ease,transform .16s ease,background .16s ease,border-color .16s ease;
+    box-shadow:0 4px 15px rgba(7,4,4,.08);
+    backdrop-filter:blur(6px);
+  }
+
+  body:not(.profiles-mode) .desktop-finish-prev{left:10px}
+  body:not(.profiles-mode) .desktop-finish-next{right:10px}
+
+  body:not(.profiles-mode) .card:hover .desktop-finish-nav,
+  body:not(.profiles-mode) .desktop-finish-nav:focus-visible{
+    opacity:1;
+    transform:translateY(-50%) scale(1);
+  }
+
+  body:not(.profiles-mode) .desktop-finish-nav:hover{
+    background:#5b524a;
+    border-color:#5b524a;
+    color:#fff;
+  }
+
+  body:not(.profiles-mode) .desktop-finish-nav:focus-visible{
+    outline:2px solid rgba(91,82,74,.25);
+    outline-offset:2px;
+  }
+
+  body:not(.profiles-mode) .card-image{
+    cursor:grab;
+    user-select:none;
+  }
+
+  body:not(.profiles-mode) .card-image.is-dragging{
+    cursor:grabbing;
+  }
+
+  body:not(.profiles-mode) .card-image img{
+    pointer-events:none;
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+
+  body:not(.profiles-mode) .card-finishes{
+    gap:5px;
+  }
+
+  body:not(.profiles-mode) .card-swatch{
+    width:20px;
+    height:20px;
+    cursor:pointer;
+    transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;
+  }
+
+  body:not(.profiles-mode) .card-swatch:hover{
+    transform:scale(1.10);
+    border-color:#5b524a;
+  }
+
+  body:not(.profiles-mode) .card-swatch.active{
+    transform:scale(1.08);
+  }
+}
+
+
+/* =========================================================
+   WEB/DESKTOP — CLEAN KEUS FINISHES + CTA
+   ========================================================= */
+@media(min-width:781px){
+  body:not(.profiles-mode) .desktop-finish-nav{display:none!important}
+
+  body:not(.profiles-mode) .card-finishes{
+    display:flex!important;
+    align-items:center!important;
+    flex-wrap:wrap!important;
+    overflow:visible!important;
+    gap:5px!important;
+    padding-bottom:0!important;
+    scrollbar-width:none!important;
+  }
+  body:not(.profiles-mode) .card-finishes::-webkit-scrollbar{
+    display:none!important;width:0!important;height:0!important;
+  }
+  body:not(.profiles-mode) .card-swatch{flex:0 0 auto!important}
+  body:not(.profiles-mode) .more-finishes{display:none!important}
+
+  body:not(.profiles-mode) .view-detail-cta{
+    min-height:auto!important;
+    height:auto!important;
+    padding:4px 0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    color:#5b524a!important;
+    box-shadow:none!important;
+    font-weight:700!important;
+    letter-spacing:.015em!important;
+    text-decoration:none!important;
+    position:relative;
+  }
+  body:not(.profiles-mode) .view-detail-cta::after{
+    content:'';
+    position:absolute;
+    left:0;right:0;bottom:1px;
+    height:1px;
+    background:#c6beb6;
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform .18s ease;
+  }
+  body:not(.profiles-mode) .view-detail-cta:hover{
+    background:transparent!important;
+    color:#403a35!important;
+    transform:none!important;
+  }
+  body:not(.profiles-mode) .view-detail-cta:hover::after{transform:scaleX(1)}
+  body:not(.profiles-mode) .view-detail-cta b{
+    font-weight:500!important;
+    margin-left:4px;
+  }
+}
+
+
+/* =========================================================
+   FINISH / COLOUR STATES — PLAIN ACTIVE / INACTIVE
+   No shadows on colour selectors.
+   ========================================================= */
+.finish-chip,
+.finish-chip.active,
+.card-swatch,
+.card-swatch.active,
+.finish-option,
+.finish-option.active,
+.profile-variation-btn,
+.profile-variation-btn.active,
+.profile-row-option,
+.profile-row-option.active{
+  box-shadow:none!important;
+}
+
+.finish-chip.active,
+.card-swatch.active,
+.finish-option.active,
+.profile-variation-btn.active,
+.profile-row-option.active{
+  border-color:#5b524a!important;
+}
+
+.card-swatch:not(.active){
+  border-color:transparent!important;
+}
+
+.profile-variation-btn:not(.active),
+.profile-row-option:not(.active){
+  border-color:#d8d1c8!important;
+}
+
+
+/* Performance only: allow the browser to skip painting off-screen cards. */
+.card{
+  content-visibility:auto;
+  contain-intrinsic-size:520px;
+}
+
+
+/* =========================================================
+   KEUS CUSTOM FILTER DROPDOWNS
+   Same look & feel as All Products.
+   Native selects remain the source of truth for filter logic.
+   ========================================================= */
+.keus-filter-select{
+  position:relative;
+  min-width:0;
+  z-index:90;
+}
+.keus-filter-native{
+  position:absolute!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  width:1px!important;
+  height:1px!important;
+  margin:0!important;
+  padding:0!important;
+}
+.keus-filter-trigger{
+  width:100%;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:0 14px;
+  border:1px solid #c6beb6;
+  border-radius:12px;
+  background:#fbfaf7;
+  color:#070404;
+  font-size:14.3px;
+  font-weight:700;
+  text-align:left;
+  cursor:pointer;
+}
+.keus-filter-trigger:hover,
+.keus-filter-select.open .keus-filter-trigger{
+  border-color:#5b524a;
+  background:#fff;
+}
+.keus-filter-trigger-text{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.keus-filter-chevron{
+  width:8px;
+  height:8px;
+  border-right:1.5px solid #5b524a;
+  border-bottom:1.5px solid #5b524a;
+  transform:rotate(45deg) translateY(-2px);
+  transition:transform .18s ease;
+  flex:0 0 auto;
+}
+.keus-filter-select.open .keus-filter-chevron{
+  transform:rotate(225deg) translate(-1px,-1px);
+}
+.keus-filter-menu{
+  position:absolute;
+  left:0;
+  right:0;
+  top:calc(100% + 7px);
+  max-height:min(480px,65vh);
+  overflow-y:auto;
+  background:#fbfaf7;
+  border:1px solid #c6beb6;
+  border-radius:16px;
+  box-shadow:0 22px 55px rgba(7,4,4,.18);
+  padding:6px;
+  z-index:999;
+  scrollbar-width:thin;
+  scrollbar-color:#5b524a #eeeae5;
+}
+.keus-filter-option{
+  width:100%;
+  min-height:46px;
+  padding:0 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border:0;
+  border-bottom:1px solid #e8e3de;
+  border-radius:9px;
+  background:transparent;
+  color:#070404;
+  font-size:15.6px;
+  font-weight:500;
+  text-align:left;
+  cursor:pointer;
+}
+.keus-filter-option:last-child{border-bottom:0}
+.keus-filter-option:hover{background:#eeeae5;color:#070404}
+.keus-filter-option.active{
+  background:#5b524a;
+  color:#fff;
+  font-weight:700;
+}
+.keus-filter-option i{
+  width:18px;
+  height:18px;
+  border:1.5px solid #5b524a;
+  border-radius:50%;
+  position:relative;
+  flex:0 0 auto;
+}
+.keus-filter-option.active i{border-color:#fff}
+.keus-filter-option.active i:after{
+  content:"";
+  position:absolute;
+  inset:4px;
+  border-radius:50%;
+  background:#fff;
+}
+
+/* Advanced filter menus must not be clipped when open. */
+.advanced.open{overflow:visible}
+
+/* Preserve the existing Profile-page filter visibility exactly. */
+body.profiles-mode .keus-filter-select[data-native-id="cctFilter"],
+body.profiles-mode .keus-filter-select.watt-main,
+body.profiles-mode .keus-filter-select[data-native-id="itemNoFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="vfFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="imaxFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="criFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="beamFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="batchCodeFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="bisNoFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="bisSpecFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="mrpFilter"],
+body.profiles-mode .keus-filter-select[data-native-id="mfgByFilter"]{
+  display:none!important;
+}
+
+@media(max-width:780px){
+  .toolbar .keus-filter-select[data-native-id="cctFilter"]{order:4!important}
+  .toolbar .keus-filter-select.watt-main{order:5!important}
+
+  .keus-filter-trigger{
+    height:36px;
+    border-radius:11px;
+    padding:0 12px;
+    font-size:11.7px;
+    background:#fbfaf7;
+  }
+  .keus-filter-menu{
+    position:fixed;
+    left:12px;
+    right:12px;
+    top:90px;
+    max-height:72vh;
+    border-radius:18px;
+    padding:6px;
+    background:#fbfaf7;
+    box-shadow:0 28px 70px rgba(7,4,4,.28);
+  }
+  .keus-filter-option{
+    min-height:43px;
+    padding:0 11px;
+    font-size:14.3px;
+    border-radius:9px;
+  }
+  .keus-filter-option i{
+    width:17px;
+    height:17px;
+  }
+}
+
+@media(max-width:520px){
+  .toolbar .keus-filter-select[data-native-id="cctFilter"],
+  .toolbar .keus-filter-select.watt-main{
+    grid-column:1/-1!important;
+  }
+}
+
+
+/* =========================================================
+   FILTER FORM LAYOUT FIX
+   Restores the original toolbar / advanced-filter geometry
+   after wrapping native selects with KEUS custom dropdowns.
+   ========================================================= */
+.toolbar .keus-filter-select{
+  min-width:0!important;
+  width:100%!important;
+}
+
+.toolbar .keus-filter-select[data-native-id="cctFilter"]{
+  grid-column:1/3!important;
+  order:3!important;
+}
+
+.toolbar .keus-filter-select.watt-main{
+  display:block!important;
+  grid-column:3/5!important;
+  order:4!important;
+}
+
+.toolbar .keus-filter-select[data-native-id="cctFilter"] .keus-filter-trigger,
+.toolbar .keus-filter-select.watt-main .keus-filter-trigger{
+  height:42px!important;
+  border-radius:999px!important;
+  background:#fff!important;
+  border-color:#d8d1c7!important;
+  padding-left:11px!important;
+  padding-right:12px!important;
+}
+
+.advanced .keus-filter-select{
+  width:100%!important;
+  min-width:0!important;
+}
+
+.advanced .keus-filter-trigger{
+  height:40px!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  border-color:#d8d1c7!important;
+  padding-left:11px!important;
+  padding-right:11px!important;
+}
+
+.advanced.open{
+  overflow:visible!important;
+}
+
+@media(max-width:1120px) and (min-width:781px){
+  .toolbar .keus-filter-select.watt-main{
+    display:none!important;
+  }
+}
+
+@media(max-width:780px){
+  .toolbar .keus-filter-select[data-native-id="cctFilter"]{
+    grid-column:1/2!important;
+    order:4!important;
+  }
+  .toolbar .keus-filter-select.watt-main{
+    display:block!important;
+    grid-column:2/3!important;
+    order:5!important;
+  }
+}
+
+@media(max-width:520px){
+  .toolbar .keus-filter-select[data-native-id="cctFilter"],
+  .toolbar .keus-filter-select.watt-main{
+    grid-column:1/-1!important;
+  }
+}
+
+
+/* =========================================================
+   MOBILE ONLY — CLASSIC / LIGHTER TYPOGRAPHY
+   Desktop/web remains unchanged.
+   ========================================================= */
+@media(max-width:780px){
+  /* Product cards already open details when the card/image is tapped. */
+  .view-detail-cta,
+  .profile-details-btn{
+    display:none!important;
+  }
+
+  /* Remove the now-empty footer only on Profile cards. */
+  body.profiles-mode .profile-card .card-foot{
+    display:none!important;
+  }
+
+  /* Normal, lighter typography throughout the mobile catalogue. */
+  body,
+  button,
+  select,
+  input,
+  .card-title,
+  .card-price,
+  .card-kicker,
+  .mini-label,
+  .mini-value,
+  .catalogue-count,
+  .finish-title,
+  .finish-chip,
+  .card-finish-label,
+  .card-foot,
+  .series-variant-badge,
+  .match-tag,
+  .profile-spec-label,
+  .profile-spec-value,
+  .profile-description,
+  .profile-selector-head,
+  .profile-row-option,
+  .keus-product-trigger,
+  .keus-product-option,
+  .keus-filter-trigger,
+  .keus-filter-option{
+    font-weight:400!important;
+  }
+
+  /* Product name + price specifically kept elegant and light. */
+  .card-title{
+    font-weight:400!important;
+  }
+  .card-price{
+    font-weight:400!important;
+  }
+
+  /* Selected states use border/background, not heavier type. */
+  .finish-chip.active,
+  .card-swatch.active,
+  .profile-row-option.active,
+  .keus-product-option.active,
+  .keus-filter-option.active{
+    font-weight:400!important;
+  }
+}
+
+
+/* =========================================================
+   MOBILE LANDING PAGE — MINIMAL FILTER ROW
+   Mobile only:
+   - All Products + More Filters on one line
+   - Search, CCT and Wattage removed from the top row
+   - Native browser selects used instead of custom dropdown UI
+   Desktop/web is unchanged.
+   ========================================================= */
+@media(max-width:780px){
+  .toolbar{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    gap:8px!important;
+    align-items:center!important;
+  }
+
+  /* Mobile top row: only All Products + More Filters */
+  .toolbar .search,
+  .toolbar #searchBox,
+  .mobile-product-label,
+  .toolbar #cctFilter,
+  .toolbar #wattageFilter,
+  .toolbar .keus-filter-select[data-native-id="cctFilter"],
+  .toolbar .keus-filter-select[data-native-id="wattageFilter"],
+  .toolbar .keus-filter-select.watt-main{
+    display:none!important;
+  }
+
+  /* Remove the custom All Products dropdown on mobile. */
+  #keusProductSelect{
+    display:none!important;
+  }
+
+  /* Restore the original native All Products select. */
+  #nameFilter.native-product-select{
+    position:static!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    display:block!important;
+    width:100%!important;
+    height:38px!important;
+    grid-column:1/2!important;
+    order:1!important;
+    appearance:auto!important;
+    -webkit-appearance:menulist!important;
+    padding:0 6px!important;
+    margin:0!important;
+    border:1px solid #c6beb6!important;
+    border-radius:4px!important;
+    background:#fff!important;
+    color:#070404!important;
+    box-shadow:none!important;
+    font-weight:400!important;
+    font-size:12px!important;
+  }
+
+  .toolbar .more-btn{
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    grid-column:2/3!important;
+    order:2!important;
+    width:auto!important;
+    min-width:106px!important;
+    height:38px!important;
+    padding:0 12px!important;
+    margin:0!important;
+    border-radius:4px!important;
+    box-shadow:none!important;
+    white-space:nowrap!important;
+    font-weight:400!important;
+    font-size:11px!important;
+  }
+
+  /* Advanced filters: use native selects, not custom dropdown menus. */
+  .advanced .keus-filter-trigger,
+  .advanced .keus-filter-menu{
+    display:none!important;
+  }
+
+  .advanced .keus-filter-select{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+
+  .advanced .keus-filter-native{
+    position:static!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    display:block!important;
+    width:100%!important;
+    height:38px!important;
+    appearance:auto!important;
+    -webkit-appearance:menulist!important;
+    padding:0 6px!important;
+    margin:0!important;
+    border:1px solid #c6beb6!important;
+    border-radius:4px!important;
+    background:#fff!important;
+    color:#070404!important;
+    box-shadow:none!important;
+    font-weight:400!important;
+    font-size:11px!important;
+  }
+
+  .advanced.open{
+    overflow:visible!important;
+  }
+}
+
+@media(max-width:520px){
+  .toolbar{
+    grid-template-columns:minmax(0,1fr) auto!important;
+  }
+}
+
+
+/* =========================================================
+   MOBILE LANDING PAGE — SEARCH + COMPACT FILTER ROW
+   Search: full width
+   Second row: All Products + More Filters
+   CCT and Wattage remain hidden
+   ========================================================= */
+@media(max-width:780px){
+  .toolbar .search,
+  .toolbar #searchBox{
+    display:block!important;
+    grid-column:1/-1!important;
+    order:1!important;
+    width:100%!important;
+    height:38px!important;
+    margin:0!important;
+    padding:0 10px!important;
+    border:1px solid #c6beb6!important;
+    border-radius:4px!important;
+    background:#fff!important;
+    box-shadow:none!important;
+    color:#070404!important;
+    font-size:11px!important;
+    font-weight:400!important;
+  }
+
+  .toolbar .search::placeholder,
+  .toolbar #searchBox::placeholder{
+    color:#8b837a!important;
+    opacity:1!important;
+  }
+
+  #nameFilter.native-product-select{
+    grid-column:1/2!important;
+    order:2!important;
+  }
+
+  .toolbar .more-btn{
+    grid-column:2/3!important;
+    order:3!important;
+  }
+}
+
+
+/* =========================================================
+   SOFT PRODUCT FINISH CROSSFADE — MOBILE + WEB
+   No slide/movement; preload prevents blinking.
+   ========================================================= */
+.card-image{
+  overflow:hidden!important;
+}
+.card-image img{
+  will-change:opacity;
+  backface-visibility:hidden;
+}
+
+
+/* Profile colour/variant image crossfade uses the same restrained treatment. */
 body.profiles-mode .card-image img{
-  width:100% !important;
-  height:100% !important;
-  object-fit:contain !important;
-  object-position:center center !important;
-  transform:none !important;
-}
-body.profiles-mode .card:hover .card-image img{
-  transform:none !important;
+  will-change:opacity;
+  backface-visibility:hidden;
 }
 
 
 /* =========================================================
-   GLOBAL IMAGE BACKGROUND
+   GLOBAL CATALOGUE SEARCH
+   Search spans Downlights, Tracklights, Profiles and Outdoor.
+   Category-specific filters are temporarily hidden while a
+   global search is active, then restored when search is cleared.
    ========================================================= */
-.card-image,
-.image-box,
-.thumb,
-body.profiles-mode .card-image,
-body.profiles-detail .image-box,
-.finish-gallery-card{
-  background:#e0e1e0 !important;
+body.global-search-mode .toolbar{
+  grid-template-columns:1fr!important;
+}
+body.global-search-mode .toolbar > :not(.search),
+body.global-search-mode .advanced,
+body.global-search-mode .finish-panel,
+body.global-search-mode .active-filters{
+  display:none!important;
+}
+body.global-search-mode .toolbar .search{
+  display:block!important;
+  grid-column:1/-1!important;
+  width:100%!important;
+}
+body.global-search-mode .category-tab{
+  opacity:.62;
+}
+body.global-search-mode .category-tab.active{
+  opacity:.82;
+}
+
+.global-result-card{
+  position:relative;
+}
+.global-category-badge{
+  position:absolute;
+  top:9px;
+  left:9px;
+  z-index:5;
+  padding:5px 8px;
+  border-radius:999px;
+  background:rgba(251,250,247,.94);
+  border:1px solid #d8d1c8;
+  color:#5b524a;
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.global-match-badge{
+  position:absolute;
+  top:9px;
+  right:9px;
+  z-index:5;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#5b524a;
+  color:#fff;
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:.04em;
+  pointer-events:none;
+}
+.global-result-meta{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0;
+  margin-top:11px;
+  border-top:1px solid #ece7e0;
+}
+.global-result-meta > div{
+  min-width:0;
+  padding-top:9px;
+}
+.global-result-meta > div+div{
+  padding-left:10px;
+  border-left:1px solid #ece7e0;
+}
+.global-meta-label{
+  display:block;
+  margin-bottom:4px;
+  color:#9a9188;
+  font-size:7px;
+  font-weight:500;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.global-meta-value{
+  display:block;
+  color:#4f4943;
+  font-size:10px;
+  font-weight:400;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+.global-search-empty{
+  grid-column:1/-1;
+}
+
+@media(max-width:780px){
+  .global-category-badge,
+  .global-match-badge{
+    top:6px;
+    padding:4px 6px;
+    font-size:6px;
+  }
+  .global-category-badge{left:6px}
+  .global-match-badge{right:6px}
+  .global-result-meta{
+    margin-top:8px;
+  }
+  .global-meta-label{
+    font-size:6px;
+  }
+  .global-meta-value{
+    font-size:9px;
+  }
 }
 
 
+/* =========================================================
+   KEUS BLACK THEME OPTION
+   Core palette: #070404 / #c6beb6 / #5b524a
+   Product image wells stay light for colour accuracy.
+   ========================================================= */
 .top-actions{
   display:flex;
   align-items:center;
@@ -1329,34 +2347,308 @@ body.profiles-detail .image-box,
   gap:6px;
   margin-left:auto;
 }
-
-
-/* KEUS slow-network catalogue loader */
-.keus-data-loader{
-  grid-column:1/-1;
-  min-height:260px;
-  display:flex;
-  flex-direction:column;
+.theme-toggle{
+  min-height:34px;
+  padding:0 10px 0 8px;
+  display:inline-flex;
   align-items:center;
-  justify-content:center;
-  gap:14px;
-  color:#5b524a;
-  font-size:11px;
+  gap:7px;
+  border:1px solid #49433e;
+  border-radius:999px;
+  background:transparent;
+  color:#c6beb6;
+  font-size:10px;
+  font-weight:500;
   letter-spacing:.08em;
   text-transform:uppercase;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
 }
-.keus-data-loader-ring{
-  width:24px;
-  height:24px;
-  border:1.5px solid #c6beb6;
-  border-top-color:#5b524a;
+.theme-toggle:hover{
+  border-color:#c6beb6;
+  color:#fff;
+}
+.theme-toggle-icon{
+  width:15px;
+  height:15px;
+  border:1px solid currentColor;
   border-radius:50%;
-  animation:keusDataSpin .8s linear infinite;
+  position:relative;
+  overflow:hidden;
+  flex:0 0 auto;
 }
-@keyframes keusDataSpin{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){
-  .keus-data-loader-ring{animation:none}
+.theme-toggle-icon:after{
+  content:"";
+  position:absolute;
+  inset:2px 2px 2px 7px;
+  border-radius:0 999px 999px 0;
+  background:currentColor;
 }
+.theme-toggle[aria-pressed="true"]{
+  background:#c6beb6;
+  border-color:#c6beb6;
+  color:#070404;
+}
+
+/* Black theme variables */
+body.keus-black{
+  --bg:#070404;
+  --paper:#11100f;
+  --card:#11100f;
+  --ink:#f5f2ee;
+  --muted:#b8b0a8;
+  --line:#2d2925;
+  --line2:#24211f;
+  --black:#070404;
+  --shadow:0 18px 50px rgba(0,0,0,.34);
+  background:#070404;
+  color:#f5f2ee;
+}
+body.keus-black .topbar{
+  background:#070404;
+  border-bottom:1px solid #292522;
+}
+body.keus-black .shell{
+  background:#070404;
+}
+body.keus-black .hero,
+body.keus-black .data-strip,
+body.keus-black .category-tabs,
+body.keus-black .catalogue-head{
+  border-color:#2d2925;
+}
+body.keus-black .eyebrow,
+body.keus-black .hero-side p,
+body.keus-black .status,
+body.keus-black .hint,
+body.keus-black .catalogue-count,
+body.keus-black .finish-title{
+  color:#aaa198;
+}
+body.keus-black .status strong{
+  color:#f5f2ee;
+}
+
+/* Tabs */
+body.keus-black .category-tabs{
+  background:#070404;
+}
+body.keus-black .category-tab{
+  background:#100f0e;
+  border-color:#302c28;
+  color:#c6beb6;
+}
+body.keus-black .category-tab:hover,
+body.keus-black .category-tab.active{
+  background:#c6beb6;
+  border-color:#c6beb6;
+  color:#070404;
+}
+
+/* Filters / search */
+body.keus-black .filter-shell{
+  background:rgba(7,4,4,.96);
+  border-color:#2d2925;
+}
+body.keus-black .field,
+body.keus-black select,
+body.keus-black input{
+  background:#11100f;
+  border-color:#34302c;
+  color:#f5f2ee;
+}
+body.keus-black .field:focus,
+body.keus-black select:focus,
+body.keus-black input:focus{
+  background:#151311;
+  border-color:#c6beb6;
+}
+body.keus-black input::placeholder{
+  color:#817970;
+}
+body.keus-black .more-btn,
+body.keus-black .reset-btn,
+body.keus-black .btn{
+  background:transparent;
+  border-color:#4a443f;
+  color:#d8d2cc;
+}
+body.keus-black .more-btn:hover,
+body.keus-black .reset-btn:hover,
+body.keus-black .btn:hover:not(:disabled){
+  background:#c6beb6;
+  border-color:#c6beb6;
+  color:#070404;
+}
+
+/* Custom dropdowns on desktop */
+body.keus-black .keus-product-trigger,
+body.keus-black .keus-filter-trigger,
+body.keus-black .keus-product-menu,
+body.keus-black .keus-filter-menu{
+  background:#11100f!important;
+  border-color:#34302c!important;
+  color:#f5f2ee!important;
+}
+body.keus-black .keus-product-option,
+body.keus-black .keus-filter-option{
+  background:#11100f!important;
+  color:#d8d2cc!important;
+}
+body.keus-black .keus-product-option:hover,
+body.keus-black .keus-filter-option:hover,
+body.keus-black .keus-product-option.active,
+body.keus-black .keus-filter-option.active{
+  background:#5b524a!important;
+  color:#fff!important;
+}
+
+/* Finish filters */
+body.keus-black .finish-chip{
+  background:#11100f;
+  border-color:#34302c;
+  color:#c6beb6;
+}
+body.keus-black .finish-chip:hover,
+body.keus-black .finish-chip.active{
+  background:#181512;
+  border-color:#c6beb6;
+  color:#fff;
+}
+body.keus-black .finish-chip.active{
+  box-shadow:none;
+}
+body.keus-black .filter-pill{
+  background:#24201d;
+  color:#d8d2cc;
+}
+body.keus-black .filter-pill span{
+  color:#a59d94;
+}
+
+/* Product cards */
+body.keus-black .card{
+  background:#11100f;
+  border-color:#27231f;
+  color:#f5f2ee;
+}
+body.keus-black .card:hover{
+  border-color:#5b524a;
+  box-shadow:0 18px 45px rgba(0,0,0,.38);
+}
+body.keus-black .card-image{
+  background:#f7f6f2;
+  border-color:#2b2723;
+}
+body.keus-black .card-kicker,
+body.keus-black .mini-label,
+body.keus-black .global-meta-label{
+  color:#918980;
+}
+body.keus-black .mini-value,
+body.keus-black .global-meta-value,
+body.keus-black .finish-gallery-card .finish-name{
+  color:#d7d0c9;
+}
+body.keus-black .spec-row,
+body.keus-black .mini-spec:nth-child(even),
+body.keus-black .global-result-meta,
+body.keus-black .global-result-meta > div+div{
+  border-color:#292522;
+}
+body.keus-black .card-price{
+  color:#c6beb6;
+}
+body.keus-black .series-variant-badge,
+body.keus-black .global-match-badge{
+  background:#5b524a;
+  color:#fff;
+}
+body.keus-black .global-category-badge{
+  background:#161310;
+  border-color:#3b3530;
+  color:#c6beb6;
+}
+
+/* Card finish dots / profile selectors */
+body.keus-black .card-swatch,
+body.keus-black .profile-row-option,
+body.keus-black .profile-variation-btn{
+  border-color:#46403a!important;
+}
+body.keus-black .card-swatch.active,
+body.keus-black .profile-row-option.active,
+body.keus-black .profile-variation-btn.active{
+  border-color:#c6beb6!important;
+  box-shadow:none!important;
+}
+body.keus-black .profile-description,
+body.keus-black .profile-spec-value{
+  color:#d5cec7!important;
+}
+body.keus-black .profile-spec-label,
+body.keus-black .profile-selector-head{
+  color:#989087!important;
+}
+
+/* Pagination / empty states */
+body.keus-black .pagination button,
+body.keus-black .page-btn{
+  background:#11100f;
+  border-color:#34302c;
+  color:#d8d2cc;
+}
+body.keus-black .pagination button:hover:not(:disabled),
+body.keus-black .page-btn:hover:not(:disabled){
+  background:#c6beb6;
+  border-color:#c6beb6;
+  color:#070404;
+}
+body.keus-black .empty{
+  background:#11100f!important;
+  border-color:#34302c!important;
+  color:#aaa198!important;
+}
+
+/* Keep native controls readable on mobile */
+@media(max-width:780px){
+  .theme-toggle{
+    width:34px;
+    height:34px;
+    min-height:34px;
+    padding:0;
+    justify-content:center;
+  }
+  .theme-toggle-text{display:none}
+  body.keus-black .category-tabs{
+    background:rgba(7,4,4,.98)!important;
+  }
+  body.keus-black #nameFilter.native-product-select,
+  body.keus-black .advanced .keus-filter-native,
+  body.keus-black .toolbar .search,
+  body.keus-black .toolbar #searchBox{
+    background:#11100f!important;
+    border-color:#34302c!important;
+    color:#f5f2ee!important;
+  }
+}
+
+
+/* KEUS header logo */
+.brand-logo-link{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;text-decoration:none}
+.brand-logo{display:block;width:auto;height:25px;max-width:96px}
+@media(max-width:780px){.brand-logo{height:21px;max-width:82px}}
+
+
+/* KEUS page-loading animation */
+.keus-page-loader{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#070404;opacity:1;visibility:visible;transition:opacity .28s ease,visibility .28s ease}
+.keus-page-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.keus-loader-inner{width:min(180px,50vw);display:flex;flex-direction:column;align-items:center;gap:20px}
+.keus-loader-logo{display:block;width:min(110px,34vw);height:auto;animation:keusLogoBreath 1.15s ease-in-out infinite}
+.keus-loader-line{position:relative;width:100%;height:1px;overflow:hidden;background:rgba(198,190,182,.18)}
+.keus-loader-line span{position:absolute;top:0;left:-42%;width:42%;height:100%;background:#c6beb6;animation:keusLoaderSweep 1.05s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes keusLoaderSweep{0%{left:-42%}55%{left:38%}100%{left:100%}}
+@keyframes keusLogoBreath{0%,100%{opacity:.58}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.keus-loader-logo,.keus-loader-line span{animation:none}}
 
 </style>
   <link rel="preconnect" href="https://wsrv.nl" crossorigin>
@@ -1376,6 +2668,10 @@ body.profiles-detail .image-box,
     <a class="brand brand-logo-link" href="./index.html" aria-label="Go to catalogue home"><img class="brand-logo" src="./assets/keus-logo.svg" alt="KEUS"></a>
     <div class="top-meta"><span>Lighting</span><i></i><span>Product Catalogue</span></div>
     <div class="top-actions">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to KEUS Black theme" aria-pressed="false">
+        <span class="theme-toggle-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-text">Black</span>
+      </button>
       <button class="header-search-btn" id="headerSearchBtn" type="button" aria-label="Search catalogue">
         <span class="header-search-icon" aria-hidden="true"></span>
       </button>
@@ -1480,6 +2776,31 @@ body.profiles-detail .image-box,
 <script>
 (() => {
   'use strict';
+
+  const KEUS_THEME_KEY='keusCatalogueTheme';
+  function applyKeusTheme(theme){
+    const isBlack=theme==='black';
+    document.body.classList.toggle('keus-black',isBlack);
+    const btn=document.getElementById('themeToggle');
+    if(btn){
+      btn.setAttribute('aria-pressed',isBlack?'true':'false');
+      btn.setAttribute('aria-label',isBlack?'Switch to Light theme':'Switch to KEUS Black theme');
+      const label=btn.querySelector('.theme-toggle-text');
+      if(label)label.textContent=isBlack?'Light':'Black';
+    }
+  }
+  let savedKeusTheme='light';
+  try{savedKeusTheme=localStorage.getItem(KEUS_THEME_KEY)||'light'}catch(_){}
+  applyKeusTheme(savedKeusTheme);
+  const themeToggle=document.getElementById('themeToggle');
+  if(themeToggle){
+    themeToggle.addEventListener('click',()=>{
+      const next=document.body.classList.contains('keus-black')?'light':'black';
+      try{localStorage.setItem(KEUS_THEME_KEY,next)}catch(_){}
+      applyKeusTheme(next);
+    });
+  }
+
   const IMAGE_QUALITY=64;
   function sourceImageUrl(value){
     const raw=String(value||'').trim();
@@ -1531,7 +2852,6 @@ body.profiles-detail .image-box,
     return window.matchMedia('(max-width:780px)').matches ? Number.MAX_SAFE_INTEGER : DESKTOP_PAGE_SIZE;
   }
   let records=[],groups=[],viewGroups=[],currentPage=0,activeGroup=null,activeFinish='',activeImage='';
-  let isCatalogueLoading=false;
   const cardFinishSelections=new Map();
   const profileVariationSelections=new Map();
   const state={q:'',name:'',cct:'',wattage:'',itemNo:'',vf:'',imax:'',cri:'',cutout:'',beam:'',batchCode:'',stockCode:'',bisNo:'',bisSpec:'',mrp:'',mfgBy:'',finish:''};
@@ -2346,21 +3666,7 @@ body.profiles-detail .image-box,
     const initialFinish=cardFinishSelections.get(cardFinishKey(group))||state.finish||finishes[0];
     preloadAdjacentCardFinishes(group,finishes,initialFinish);
   }
-
-  function renderDataLoader(label){
-    els.grid.innerHTML=`<div class="keus-data-loader" role="status" aria-live="polite">
-      <span class="keus-data-loader-ring" aria-hidden="true"></span>
-      <span>Loading ${escapeHtml(label||'catalogue')}…</span>
-    </div>`;
-    els.catalogueCount.textContent='Loading…';
-    els.pagination.hidden=true;
-  }
-
   function renderProfileCatalogue(){
-    if(isCatalogueLoading){
-      renderDataLoader(CATEGORIES[activeCategory]?.label||'Profiles');
-      return;
-    }
     const total=viewGroups.length;
     const totalMatched=viewGroups.reduce((n,g)=>n+g.matchedVariants.length,0);
     els.catalogueCount.textContent=`${total} profile${total===1?'':'s'} · ${totalMatched} stock-code variant${totalMatched===1?'':'s'}`;
@@ -2559,10 +3865,6 @@ body.profiles-detail .image-box,
 
   function renderCatalogue(){
     els.grid.innerHTML='';
-    if(isCatalogueLoading){
-      renderDataLoader(CATEGORIES[activeCategory]?.label||'Catalogue');
-      return;
-    }
     if(activeCategory==='profiles'){
       renderProfileCatalogue();
       return;
@@ -2620,7 +3922,6 @@ body.profiles-detail .image-box,
   function syncStateFromUI(){state.q=els.searchBox.value.trim().toLowerCase();for(const f of filterFields)state[f]=filterEls[f].value}
   function resetAll(){Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;updateAll()}
   function loadCSVText(text,label='CSV file'){
-    isCatalogueLoading=false;
     try{const rows=parseCSV(text);records=normalizeRows(rows);if(!records.length)throw new Error('No product rows were found in the CSV.');groups=activeCategory==='profiles'?groupProfileProducts(records):groupProducts(records);globalCatalogueCache[activeCategory]={records:[...records],groups:[...groups]};Object.keys(state).forEach(k=>state[k]='');els.searchBox.value='';for(const f of filterFields)filterEls[f].value='';currentPage=0;const finishes=unique(records.map(r=>r.finish));const unknown=finishes.filter(f=>!finishOrder.includes(f));els.status.innerHTML=`<strong>${escapeHtml(label)}</strong> · ${groups.length} products · ${records.length} variants · ${finishes.length} finishes${unknown.length?` · ${unknown.length} custom finish${unknown.length===1?'':'es'}`:''}`;updateAll()}catch(err){console.error(err);els.status.innerHTML=`<strong>Could not load CSV.</strong> ${escapeHtml(err.message||String(err))}`;records=[];groups=[];viewGroups=[];renderCatalogue()}
   }
   async function loadCategory(key){
@@ -2636,7 +3937,6 @@ body.profiles-detail .image-box,
     els.categoryTitle.textContent=cfg.label;
     els.categoryTabs.querySelectorAll('[data-category]').forEach(btn=>btn.classList.toggle('active',btn.dataset.category===key));
     els.status.innerHTML=`Loading <strong>${escapeHtml(cfg.label)}</strong> catalogue…`;
-    isCatalogueLoading=true;
     records=[];groups=[];viewGroups=[];currentPage=0;
     Object.keys(state).forEach(k=>state[k]='');
     els.searchBox.value='';
@@ -2646,10 +3946,8 @@ body.profiles-detail .image-box,
       const res=await fetch(encodeURI(cfg.file),{cache:'no-store'});
       if(!res.ok) throw new Error(`${res.status} ${res.statusText}`);
       const text=await res.text();
-      isCatalogueLoading=false;
       loadCSVText(text,cfg.file);
     }catch(err){
-      isCatalogueLoading=false;
       console.error(err);
       els.status.innerHTML=`<strong>Could not load ${escapeHtml(cfg.file)}.</strong> Make sure this CSV exists inside the data folder.`;
       records=[];groups=[];viewGroups=[];renderCatalogue();
